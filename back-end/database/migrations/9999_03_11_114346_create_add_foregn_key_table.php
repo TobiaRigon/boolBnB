@@ -35,8 +35,8 @@ return new class extends Migration
     public function down()
     {
         // relazione 1 a molti appartamenti / utente
-        Schema::table('apartment', function (Blueprint $table){
-            $table->dropForeign('user_id');
+        Schema::table('apartments', function (Blueprint $table){
+            $table->dropForeign('apartments_user_id_foreign');
             $table->dropColumn('user_id');
         });
 
