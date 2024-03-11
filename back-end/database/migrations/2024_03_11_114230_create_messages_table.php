@@ -15,6 +15,13 @@ return new class extends Migration
     {
         Schema::create('messagges', function (Blueprint $table) {
             $table->id();
+            $table->text('sender_text');
+            $table->data('data');
+            $table->string('sender_mail');
+            $table->string('sender_name');
+            $table->string('sender_surname');
+
+
             $table->timestamps();
         });
     }

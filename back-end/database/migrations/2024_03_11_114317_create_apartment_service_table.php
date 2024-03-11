@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('apartment_service', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 
