@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('user_datas', function (Blueprint $table) {
             $table->id();
             $table->string('surname');
-            $table->data('data');
+            $table->date('data');
             $table->string('name');
 
             $table->timestamps();
