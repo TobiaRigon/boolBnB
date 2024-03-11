@@ -13,7 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('add_foregn_key', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('add_foregn_key');
     }
 };
