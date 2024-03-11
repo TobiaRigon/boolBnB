@@ -13,6 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
+        // relazione 1-1 user / user_datas
+        // v1
+        // Schema::table('user', function (Blueprint $table){
+        //     $table->foreignId('user_data_id')->constrained();
+        //    });
+
+
+        // v2
+        // Schema::table('user_datas', function (Blueprint $table){
+        //     $table->foreignId('user_id')->constrained();
+        //    });
         // relazione 1 a molti appartamenti / utente
         Schema::table('apartments', function (Blueprint $table){
             $table->foreignId('user_id')->constrained();
@@ -48,6 +59,17 @@ return new class extends Migration
      */
     public function down()
     {
+        // relazione 1-1 user / user_datas
+        // v1
+        // Schema::table('user', function (Blueprint $table){
+        //     $table->dropForeign('user_user_data_id_foreign');
+        //     $table->dropColumn('user_data_id');
+        // });
+        // v2
+        // Schema::table('user_data', function (Blueprint $table){
+        //     $table->dropForeign('user_data_user_id_foreign');
+        //     $table->dropColumn('user_id');
+        // });
         // relazione 1 a molti appartamenti / utente
         Schema::table('apartments', function (Blueprint $table){
             $table->dropForeign('apartments_user_id_foreign');

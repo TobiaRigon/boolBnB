@@ -47,6 +47,10 @@ class User extends Authenticatable
         {
             return $this -> hasMany(Apartment::class);
         }
+        public function user_datas()
+        {
+            return $this ->hasOne(User_data::class, 'user_data_id');
+        }
 }
 
 
