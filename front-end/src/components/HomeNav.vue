@@ -8,13 +8,14 @@
       <li>
         <router-link to="/apartments">Appartamenti</router-link>
       </li>
-      <!-- se unloggato -->
+
       <li>
-        <a :href="loginUrl">Login</a>
-      </li>
-      <!-- else -->
-      <li>
-        <a :href="dashboardUrl">Dashboard</a>
+        <a :href="loginUrl">
+          <!-- se non loggato  -->
+          Loginn /
+          <!-- se loggato -->
+          Dashboard
+        </a>
       </li>
     </ul>
   </div>
@@ -25,7 +26,6 @@ export default {
   data() {
     return {
       loginUrl: "http://localhost:8000/login", // Memorizzazione dell'URL di login in una variabile
-      dashboardUrl: "http://localhost:8000/dashboard", // Memorizzazione dell'URL di login in una variabile
     };
   },
 };

@@ -18,6 +18,11 @@
                 </div>
             </div>
 
+            <!-- Torna Alla Home -->
+            <div>
+                <a href="http://127.0.0.1:5173/">pulsante Home</a>
+            </div>
+
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
@@ -41,8 +46,8 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
+
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
