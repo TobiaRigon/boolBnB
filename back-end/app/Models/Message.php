@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     use HasFactory;
-    public function apartments ()
+    public function apartment ()
     {
         return $this -> belongsTo(Apartment::class);
     }

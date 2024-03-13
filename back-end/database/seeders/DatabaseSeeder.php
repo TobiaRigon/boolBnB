@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this -> call([
             ApartmentTableSeeder::class,
             GalleryTableSeeder::class,
+            MessageTableSeeder::class,
         ]);
     }
 }
