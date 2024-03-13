@@ -9,7 +9,7 @@ class Gallery extends Model
 {
     use HasFactory;
 
-    public function apartments ()
+    public function apartment ()
         {
             return $this -> belongsTo(Apartment::class);
         }

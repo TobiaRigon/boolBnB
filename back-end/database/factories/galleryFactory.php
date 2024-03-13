@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class galleryFactory extends Factory
+class GalleryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class galleryFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'path_image' => $this-> faker-> image(),
         ];
     }
 }
