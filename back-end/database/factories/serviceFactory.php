@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class serviceFactory extends Factory
+class ServiceFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,9 @@ class serviceFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this -> faker -> name(),
+            'icon' => $this -> faker -> text(),
+            
         ];
     }
 }
