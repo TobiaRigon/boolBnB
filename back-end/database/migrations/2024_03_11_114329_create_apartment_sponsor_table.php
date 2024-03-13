@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('apartment_sponsor', function (Blueprint $table) {
             $table->id();
             $table->date('data_scadenza');
+            $table->string('type');
             // $table->timestamps();
         });
     }
