@@ -18,7 +18,7 @@ class MessageFactory extends Factory
     {
         return [
            'sender_text' => $this -> faker -> text(),
-           'data' => $this -> faker -> date(),
+           'date' => $this -> faker -> date(),
            'sender_mail' => $this -> faker -> email(),
            'sender_name' => $this -> faker -> name(),
            'sender_surname' => $this -> faker -> name(),

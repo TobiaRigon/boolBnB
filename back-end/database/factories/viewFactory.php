@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class viewFactory extends Factory
+class ViewFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,10 @@ class viewFactory extends Factory
     public function definition()
     {
         return [
-            //
+           
+                'ip_address' => $this -> faker -> text(),
+                'date' => $this -> faker -> date(),
+                
         ];
     }
 }
