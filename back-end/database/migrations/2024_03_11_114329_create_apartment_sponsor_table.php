@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('apartment_sponsor', function (Blueprint $table) {
             $table->id();
-            $table->date('expiration');
-            $table->string('type');
+            // $table->date('expiration');
+            
             // $table->timestamps();
         });
     }

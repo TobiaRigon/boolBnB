@@ -17,7 +17,11 @@ class sponsorFactory extends Factory
     public function definition()
     {
         return [
-            //
+            
+                'title' => $this -> faker -> title(),
+                'description' => $this -> faker -> sentence(),
+                'duration' => $this -> faker -> numberBetween(1, 5),
+                'price' => $this -> faker -> randomFloat(2, 0, 9999)    
         ];
     }
 }

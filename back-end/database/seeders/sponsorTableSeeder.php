@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class sponsorTableSeeder extends Seeder
+use App\Models\Sponsor;
+
+class SponsorTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +16,6 @@ class sponsorTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Sponsor:: factory() -> count(10) -> create();
     }
 }
