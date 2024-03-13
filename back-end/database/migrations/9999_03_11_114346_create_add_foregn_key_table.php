@@ -89,10 +89,6 @@ return new class extends Migration
             $table->dropForeign('apartment_sponsor_sponsor_id_foreign');
             $table->dropColumn('sponsor_id');
         });
-         // relazione 1-1 user / user_datas
-        Schema::table('user_datas', function (Blueprint $table){
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
-        });
+
     }
 };
