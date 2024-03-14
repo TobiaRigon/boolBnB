@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ApartmentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/apartment', [ApartmentController:: class , 'index'])
+-> name('apartment.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
