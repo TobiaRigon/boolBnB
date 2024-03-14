@@ -1,9 +1,8 @@
 <template>
-  <h5>HomeNav Component</h5>
-  <div>
-    <ul>
-      <li>
-        <router-link to="/">Home</router-link>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <router-link class="nav-link" to="/">Home</router-link>
       </li>
 
       <!-- <li>
@@ -13,17 +12,17 @@
         <router-link to="/apartments">Sponsored Apartments</router-link>
       </li> -->
 
-      <li>
-        <a :href="apartmentsUrl">Apartments </a>
+      <li class="nav-item">
+        <a class="nav-link" :href="apartmentsUrl">Apartments </a>
       </li>
-      <li>
-        <a :href="loginUrl">Login/Dashboard</a>
+      <li class="nav-item">
+        <a class="nav-link" :href="loginUrl">Login/Dashboard</a>
       </li>
       <!-- <li>
         <a :href="singinUrl">Singin</a>
       </li> -->
     </ul>
-  </div>
+  </nav>
 </template>
 
 <script>
