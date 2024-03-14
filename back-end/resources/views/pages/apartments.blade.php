@@ -14,16 +14,19 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $apartment->title }}</h5>
 
-                        <form action="{{ route('apartment.delete', $apartment->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="DELETE">
-                        </form>
+                       
                             <p class="card-text">{{ Str::limit($apartment->description) }}</p>
                             <div class="d-flex justify-content-between">
                                 <a href="#" class="btn btn-primary">View</a>
                                 <a href="#" class="btn btn-secondary">Edit</a>
-                                <button class="btn btn-danger" disabled>Delete</button>
+
+                                <!-- css da sistemare -->
+                                <form action="{{ route('apartment.delete', $apartment->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input class="btn btn-danger" type="submit" value="DELETE">
+                                </form>
+
                             </div>
                         </div>
                     </div>
