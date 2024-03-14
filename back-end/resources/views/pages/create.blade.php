@@ -54,7 +54,7 @@
                             <label for="address" class="form-label">Address</label>
                             <input type="text" class="form-control" id="address" name="address" required>
                         </div>
-                        <!-- Longitudine e latitudine per la mappa -->
+                        Longitudine e latitudine per la mappa
                         <div class="mb-3">
                             <label for="longitude" class="form-label">Longitude</label>
                             <input type="text" class="form-control" id="longitude" name="longitude" required>
@@ -62,8 +62,8 @@
                         <div class="mb-3">
                             <label for="latitude" class="form-label">Latitude</label>
                             <input type="text" class="form-control" id="latitude" name="latitude" required>
-                        </div>
-                        <!-- Bottone per inviare il form -->
+                        </div> 
+                         Bottone per inviare il form
                         <button type="submit" class="btn btn-success">Submit</button>
                     </form>
                 </div>
@@ -72,4 +72,4 @@
 
         
     </div>
-@endsection
+@endsection 

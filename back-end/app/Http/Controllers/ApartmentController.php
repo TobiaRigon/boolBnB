@@ -37,10 +37,10 @@ class ApartmentController extends Controller
      */
     public function create()
     {
-        
+        $user = Auth::user(); // Recupera l'utente autenticato
         $apartments = Apartment::all();
-        
-        return view('pages.create',compact('apartments'));
+    
+        return view('pages.create', compact('apartments', 'user'));
     }
 
     /**
@@ -53,29 +53,37 @@ class ApartmentController extends Controller
     {
         $data = $request->all();
 
-
+        
+        $user = Auth::user();
+        
         $apartment = new Apartment();
-        $apartment->title = $data['tile'];
-        $event->description = $data['description'];
-        $event->max_guests = $data['max_guests'];
-        $event->rooms = $data['rooms'];
-        $event->beds = $data['beds'];
-        $event->baths = $data['baths'];
-        $event->main_img = $data['main_img'];
-        $event->address = $data['address'];
-        $event->longitude = $data['longitude'];
-        $event->latitude = $data['latitude'];
+        
+
+        $apartment->title = $data['title'];
+        $apartment->description = $data['description'];
+        $apartment->max_guests = $data['max_guests'];
+        $apartment->rooms = $data['rooms'];
+        $apartment->beds = $data['beds'];
+        $apartment->baths = $data['baths'];
+        $apartment->main_img = $data['main_img'];
+        $apartment->address = $data['address'];
+        $apartment->longitude = $data['longitude'];
+        $apartment->latitude = $data['latitude'];
         
 
 
-        $service = Service::find($id);
-        $service->apartment()->save($apartment);
+        // $service = Service::find($id);
+        // $service->apartment()->save($apartment);
         
 
-        $apartment->services()->attach($data['service_id']);
+        // $apartment->services()->attach($data['service_id']);
+        $user_id = User::find($id);
+        $user->apartments()->save($apartment);
 
+        // $apartment-> user() -> associate($user);
+       
         
-        return redirect()->route('apartments.index');
+        return redirect()->route('apartments.index' , $apartment->id);
     }
 
     /**
