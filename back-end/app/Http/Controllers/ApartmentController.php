@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 // importa modelli collegati
 use App\Models\Apartment;
@@ -55,7 +56,7 @@ class ApartmentController extends Controller
 
         
         $user = Auth::user();
-        
+
         $apartment = new Apartment();
         
 
@@ -77,7 +78,7 @@ class ApartmentController extends Controller
         
 
         // $apartment->services()->attach($data['service_id']);
-        $user_id = User::find($id);
+        // $user_id = User::find($id);
         $user->apartments()->save($apartment);
 
         // $apartment-> user() -> associate($user);
