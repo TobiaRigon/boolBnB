@@ -5,6 +5,7 @@
 
     <div class="container mt-4">
         <h1 class="text-center mb-5">Apartments List</h1>
+        <a href="{{route('apartment.create')}}">CREATE</a>
 
         <div class=" row ">
             @foreach ($apartments as $apartment)

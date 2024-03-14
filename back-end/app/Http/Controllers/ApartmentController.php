@@ -37,7 +37,10 @@ class ApartmentController extends Controller
      */
     public function create()
     {
-        //
+        
+        $apartments = Apartment::all();
+        
+        return view('pages.create',compact('apartments'));
     }
 
     /**
@@ -48,7 +51,31 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+
+        $apartment = new Apartment();
+        $apartment->title = $data['tile'];
+        $event->description = $data['description'];
+        $event->max_guests = $data['max_guests'];
+        $event->rooms = $data['rooms'];
+        $event->beds = $data['beds'];
+        $event->baths = $data['baths'];
+        $event->main_img = $data['main_img'];
+        $event->address = $data['address'];
+        $event->longitude = $data['longitude'];
+        $event->latitude = $data['latitude'];
+        
+
+
+        $service = Service::find($id);
+        $service->apartment()->save($apartment);
+        
+
+        $apartment->services()->attach($data['service_id']);
+
+        
+        return redirect()->route('apartments.index');
     }
 
     /**
