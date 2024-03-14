@@ -1,10 +1,19 @@
 <x-guest-layout>
+
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
+
+    <!-- Rotta to Register -->
+    
+        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+  
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
+
+                        
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
