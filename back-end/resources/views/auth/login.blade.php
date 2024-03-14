@@ -5,9 +5,9 @@
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <!-- Rotta to Register -->
-    
-        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-  
+    <x-primary-button class="ml-3 mb-3">
+    <a href="{{ route('register') }}" >Register</a>
+    </x-primary-button>
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
@@ -51,6 +51,9 @@
             <x-primary-button class="ml-3">
                 {{ __('Log in') }}
             </x-primary-button>
+           
         </div>
     </form>
+    
+    
 </x-guest-layout>

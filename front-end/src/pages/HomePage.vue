@@ -1,14 +1,9 @@
 <template>
-  <HomeNav />
-  <h1>HomePage</h1>
+  <main>
+    <div class="container">
+      <h1>HomePage</h1>
+    </div>
+  </main>
 </template>
 
-<script>
-import HomeNav from "../components/HomeNav.vue";
-
-export default {
-  components: {
-    HomeNav,
-  },
-};
-</script>
+<script></script>
