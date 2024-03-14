@@ -20,7 +20,7 @@ use App\Http\Controllers\ApartmentController;
 //     return view('welcome');
 // });
 
-Route::redirect('/', 'http://127.0.0.1:5173/#/', 301);
+Route::redirect('/', 'http://localhost:5173/#/', 301);
 
 
 Route::get('/dashboard', function () {

@@ -14,7 +14,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     
 
-                    <x-nav-link href="http://127.0.0.1:5173/#/" :active="request()->routeIs('dashboard')">
+                    <x-nav-link href="http://localhost:5173/#/" :active="request()->routeIs('dashboard')">
                         Home
                     </x-nav-link>
 
