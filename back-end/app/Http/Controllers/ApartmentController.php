@@ -91,8 +91,15 @@ class ApartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        $apartment = Apartment::find($id);
+
+        $apartment->services()->detach();
+        $apartment->sponsors()->detach();
+        
+        $apartment->delete();
+
+        return redirect()->route('apartments.index');
     }
 }
