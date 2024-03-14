@@ -47,7 +47,9 @@
                         </div>
                         <!-- Immagine principale dell'appartamento -->
                         <div class="mb-3">
-                            <label for="main_img" class="form-label">Main Image</label>
+                            <label for="main_img" class="form-label">
+                                <img src="{{$apartment->main_img}}" alt="">
+                            </label>
                             <input value="{{$apartment->main_img}}" type="file" class="form-control" id="main_img" name="main_img" required>
                         </div>
                         <!-- Indirizzo dell'appartamento -->

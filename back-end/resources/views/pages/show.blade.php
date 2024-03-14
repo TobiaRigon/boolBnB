@@ -9,7 +9,7 @@
         <div class="card-header">
             {{ $apartment->title }}
         </div>
-        <img src="{{ asset('storage/'.$apartment->main_img) }}" alt="Main Image" class="card-img-top">
+        <img src="{{ asset($apartment->main_img) }}" alt="Main Image" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">{{ $apartment->title }}</h5>
             <p class="card-text">{{ $apartment->description }}</p>
