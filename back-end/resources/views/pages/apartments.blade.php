@@ -20,7 +20,7 @@
                             <div class="d-flex justify-content-between">
                                 <a href="{{route('apartments.show', $apartment->id)}}" class="btn btn-primary">View</a>
 
-                                <a href="" class="btn btn-secondary">Edit</a>
+                                <a href="{{route('apartments.edit', $apartment->id)}}" class="btn btn-secondary">Edit</a>
 
                                 <!-- css da sistemare -->
                                 <form action="{{ route('apartment.delete', $apartment->id) }}" method="POST">

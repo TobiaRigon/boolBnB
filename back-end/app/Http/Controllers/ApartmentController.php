@@ -109,7 +109,10 @@ class ApartmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = Auth::user(); // Recupera l'utente autenticato
+        $apartment = Apartment::find($id);
+    
+        return view('pages.edit', compact('apartment', 'user'));
     }
 
     /**
@@ -121,7 +124,37 @@ class ApartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        $apartment = Apartment::find($id);
+
+        $user = Auth::user();
+        
+        $apartment->title = $data['title'];
+        $apartment->description = $data['description'];
+        $apartment->max_guests = $data['max_guests'];
+        $apartment->rooms = $data['rooms'];
+        $apartment->beds = $data['beds'];
+        $apartment->baths = $data['baths'];
+        $apartment->main_img = $data['main_img'];
+        $apartment->address = $data['address'];
+        $apartment->longitude = $data['longitude'];
+        $apartment->latitude = $data['latitude'];
+        
+
+
+        // $service = Service::find($id);
+        // $service->apartment()->save($apartment);
+        
+
+        // $apartment->services()->attach($data['service_id']);
+        // $user_id = User::find($id);
+        $user->apartments()->save($apartment);
+
+        // $apartment-> user() -> associate($user);
+       
+        
+        return redirect()->route('apartments.show' , $apartment->id);
     }
 
     /**

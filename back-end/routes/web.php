@@ -44,6 +44,13 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/{id}', [ApartmentController::class, 'delete'])
     ->name('apartment.delete');
+
+    Route::get('/apartment/edit/{id}', [ ApartmentController:: class, 'edit' ])
+-> name ('apartments.edit');
+
+    Route::put('/apartment/edit/{id}', [ ApartmentController:: class, 'update' ])
+    -> name ('apartments.update');
+
 });
 
 Route::get('/apartment/{id}', [ ApartmentController:: class, 'show' ])

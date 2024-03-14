@@ -29,4 +29,3 @@
     </div>
 </div>
 @endsection
-<h2>Ciao</h2>
