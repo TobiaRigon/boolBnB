@@ -46,4 +46,7 @@ Route::middleware('auth')->group(function () {
     ->name('apartment.delete');
 });
 
+Route::get('/apartment/{id}', [ ApartmentController:: class, 'show' ])
+-> name ('apartments.show');
+
 require __DIR__.'/auth.php';
