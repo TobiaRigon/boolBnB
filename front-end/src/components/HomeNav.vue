@@ -17,7 +17,7 @@
         <a :href="apartmentsUrl">Apartments </a>
       </li>
       <li>
-        <a :href="loginUrl">Login</a>
+        <a :href="loginUrl">Login/Dashboard</a>
       </li>
       <!-- <li>
         <a :href="singinUrl">Singin</a>

@@ -15,9 +15,12 @@ use App\Http\Controllers\ApartmentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::redirect('/', 'http://127.0.0.1:5173/#/', 301);
 
 
 Route::get('/dashboard', function () {
