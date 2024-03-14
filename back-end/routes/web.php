@@ -36,8 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // ROTTA PER IL METODO CREATE/STORE
     Route::get('/create', [ApartmentController:: class , 'create'])
     -> name('apartment.create');
+    Route::post('/create', [ApartmentController:: class , 'store'])
+    -> name('apartment.store');
 
     Route::delete('/{id}', [ApartmentController::class, 'delete'])
     ->name('apartment.delete');
