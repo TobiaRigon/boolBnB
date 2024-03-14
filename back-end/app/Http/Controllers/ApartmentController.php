@@ -23,7 +23,7 @@ class ApartmentController extends Controller
     public function index()
     {
         // $user = User ::all();
-        
+
         $apartments = Apartment :: all();
 
         // momentaneamente in pages , poi in Apartment front-end tramite API
