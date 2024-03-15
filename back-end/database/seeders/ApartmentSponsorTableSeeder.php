@@ -18,12 +18,17 @@ class ApartmentSponsorTableSeeder extends Seeder
      */
     public function run()
     {
-        Apartment:: all() // prendimi tutti gli appartamenti creati
-        ->each (function($apartment){
-            $sponsor_id= Sponsor :: inRandomOrder() -> take(rand(1,10)) -> pluck('id');
+         // Retrieve all apartments and sponsors
+         $apartments = Apartment::all();
+         $sponsors = Sponsor::all();
 
-            $apartment -> sponsors() -> attach($sponsor_id);
+         // Loop through each apartment
+         foreach ($apartments as $apartment) {
+             // Choose a random sponsor for the apartment
+             $randomSponsor = $sponsors->random();
 
-        });
+             // Attach the sponsor to the apartment
+             $apartment->sponsors()->attach($randomSponsor);
+         }
     }
 }
