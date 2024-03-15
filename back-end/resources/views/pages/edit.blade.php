@@ -53,7 +53,7 @@
                             <input value="{{$apartment->main_img}}" type="file" class="form-control" id="main_img" name="main_img" required>
                         </div>
                         <!-- Indirizzo dell'appartamento -->
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="address" class="form-label">Address</label>
                             <input value="{{$apartment->address}}" type="text" class="form-control" id="address" name="address" required>
                         </div>
@@ -67,7 +67,27 @@
                             <input value="{{$apartment->latitude}}" type="text" class="form-control" id="latitude" name="latitude" required>
                         </div> 
                          Bottone per inviare il form
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn btn-success">Submit</button> -->
+                        {{-- address  --}}
+                                    <div class="mb-3 position-relative">
+                                        <label for="address"
+                                            class="form-label  @error('address') text-danger @enderror ">Indirizzo
+                                            completo <span class="text-danger fw-bold">*</span></label>
+                                        <input type="text" class="form-control @error('address') is-invalid @enderror"
+                                            id="address" name="address"
+                                            placeholder="Esempio Via Mario Rossi, 74, Milano (MI), Italia" maxlength="255"
+                                            value="{{ old('address', $apartment->address) }}" autocomplete="off">
+                                        @error('address')
+                                            <p class="text-danger fw-bold">{{ $message }}</p>
+                                        @enderror
+                                        <div id="menuAutoComplete" class="card position-absolute w-100 radius d-none">
+                                            <ul class="list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
                     </form>
                 </div>
             </div>
@@ -76,3 +96,51 @@
         
     </div>
 @endsection 
+
+
+@section('javascript')
+
+    <script>
+
+const search = document.getElementById('address');
+const menuAutoComplete = document.getElementById('menuAutoComplete');
+const ulList = document.querySelector('ul.list');
+const apiKey = '3kxy0pDsUIXUoGVxfKBKIXXHksHtr1a8';
+
+search.addEventListener('input', function() {
+    if (search.value.trim() !== '') {
+        getTomTomSuggestions(search.value.trim());
+    } else {
+        ulList.innerHTML = '';
+    }
+});
+
+function getTomTomSuggestions(address) {
+   fetch(`https://api.tomtom.com/search/2/search/${encodeURIComponent(address)}.json?key=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+            ulList.innerHTML = ''; // Clear previous results
+            if (data.results && data.results.length > 0) {
+                data.results.forEach(result => {
+                    const li = document.createElement('li');
+                    li.textContent = result.address.freeformAddress;
+                    li.addEventListener('click', function() {
+                        search.value = result.address.freeformAddress;
+                        ulList.innerHTML = ''; // Clear results on selection
+                    });
+                    ulList.appendChild(li);
+                });
+                menuAutoComplete.classList.remove('d-none'); // Show results
+            } else {
+                menuAutoComplete.classList.add('d-none'); // Hide results if no suggestions
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching TomTom suggestions:', error);
+        });
+}
+
+        
+    </script>
+
+@endsection
