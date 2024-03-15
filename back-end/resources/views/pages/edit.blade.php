@@ -6,6 +6,16 @@
     <div class="container mt-4">
         <h1 class="text-center mb-5">Modifica appartamento</h1>
 
+        @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
         <div class="container">
            
             <!-- Div che collassa -->
@@ -67,7 +77,7 @@
                             <input value="{{$apartment->latitude}}" type="text" class="form-control" id="latitude" name="latitude" required>
                         </div> 
                        
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn btn-success">MODIFICA</button>
                     </form>
                 </div>
             </div>
