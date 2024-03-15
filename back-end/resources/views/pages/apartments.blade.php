@@ -9,7 +9,7 @@
             @foreach ($apartments as $apartment)
                 <div class="col-lg-3 col-md-6">
                     <div class="card my-3">
-                        <img src="{{ asset('public/apartments/' . $apartment->main_img) }}" class="card-img-top"
+                        <img src="{{ asset($apartment->main_img) }}" class="card-img-top"
                             alt="...">
                         <div class="card-body">
                             <h5 class="card-title">{{ $apartment->title }}</h5>
