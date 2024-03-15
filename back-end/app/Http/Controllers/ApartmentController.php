@@ -56,11 +56,6 @@ class ApartmentController extends Controller
      */
     public function store(StoreApartmentRequest $request)
     {
-        $data = $request->all();
-
-
-public function store(Request $request)
-{
     // Validazione dei dati inviati dall'utente escluso latitudine e longitudine
     $data = $request->all();
 
@@ -162,7 +157,7 @@ public function store(Request $request)
         }
 
         // Aggiorna l'appartamento
-        $apartment->update($request->all());
+        $apartment->save();
 
         return redirect()->route('apartments.show', $apartment->id);
     }

@@ -30,16 +30,16 @@ class StoreApartmentRequest extends FormRequest
             'rooms' => 'required|integer|min:1',
             'beds' => 'required|integer|min:1',
             'baths' => 'required|integer|min:1',
-            'main_img' => 'required|string',
+            'main_img' => 'required|image',
             'address' => 'required|string',
             'longitude' => 'required|numeric',
             'latitude' => 'required|numeric',
-        
+
         ];
     }
 
 
-    // Messaggi di errore 
+    // Messaggi di errore
 
 public function messages()
 {
@@ -65,7 +65,7 @@ public function messages()
         'main_img.required' => 'Il campo immagine principale è obbligatorio.',
         'main_img.string' => 'Il campo immagine principale deve essere una stringa.',
         'address.required' => 'Il campo indirizzo è obbligatorio.',
-        'address.string' => 'Il campo indirizzo deve essere una stringa.',
+        // 'address.string' => 'Il campo indirizzo deve essere una stringa.',
         'longitude.required' => 'Il campo longitudine è obbligatorio.',
         'longitude.numeric' => 'Il campo longitudine deve essere un numero.',
         'latitude.required' => 'Il campo latitudine è obbligatorio.',
