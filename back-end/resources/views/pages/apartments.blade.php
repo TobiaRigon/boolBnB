@@ -4,7 +4,7 @@
     
 
     <div class="container mt-4">
-        <h1 class="text-center mb-5">Apartments List</h1>
+        <h1 class="text-center mb-5">Lista appartamenti</h1>
         <a class="btn btn-success  my-3" href="{{route('apartment.create')}}">NUOVO APPARTAMENTO</a>
 
         <div class=" row ">
