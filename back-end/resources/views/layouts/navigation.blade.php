@@ -22,6 +22,10 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('apartments.index')" :active="request()->routeIs('dashboard')">
+                        {{ __('Appartamenti') }}
+                    </x-nav-link>
+
                    
 
                    
@@ -45,7 +49,7 @@
                         <x-slot name="content">
                             <!-- Profile Link -->
                             <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
+                                {{ __('Profilo') }}
                             </x-dropdown-link>
                             <!-- Logout Link -->
                             <form method="POST" action="{{ route('logout') }}">

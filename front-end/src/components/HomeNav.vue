@@ -13,7 +13,7 @@
       </li> -->
 
       <li class="nav-item">
-        <a class="nav-link" :href="apartmentsUrl">Apartments </a>
+        <a class="nav-link" :href="apartmentsUrl">Appartamenti </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" :href="loginUrl">Login/Dashboard</a>

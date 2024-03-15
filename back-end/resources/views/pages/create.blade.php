@@ -16,42 +16,42 @@
                         @csrf
                         <!-- Titolo dell'appartamento -->
                         <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
+                            <label for="title" class="form-label">Titolo</label>
                             <input type="text" class="form-control" id="title" name="title" required>
                         </div>
                         <!-- Descrizione dell'appartamento -->
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
+                            <label for="description" class="form-label">Descrizione</label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
                         </div>
                         <!-- Max ospiti -->
                         <div class="mb-3">
-                            <label for="max_guests" class="form-label">Max Guests</label>
+                            <label for="max_guests" class="form-label">Numero ospiti</label>
                             <input type="number" class="form-control" id="max_guests" name="max_guests" required>
                         </div>
                         <!-- Numero di stanze -->
                         <div class="mb-3">
-                            <label for="rooms" class="form-label">Rooms</label>
+                            <label for="rooms" class="form-label">Numero stanza</label>
                             <input type="number" class="form-control" id="rooms" name="rooms" required>
                         </div>
                         <!-- Numero di letti -->
                         <div class="mb-3">
-                            <label for="beds" class="form-label">Beds</label>
+                            <label for="beds" class="form-label">Letti</label>
                             <input type="number" class="form-control" id="beds" name="beds" required>
                         </div>
                         <!-- Numero di bagni -->
                         <div class="mb-3">
-                            <label for="baths" class="form-label">Baths</label>
+                            <label for="baths" class="form-label">Bagni</label>
                             <input type="number" class="form-control" id="baths" name="baths" required>
                         </div>
                         <!-- Immagine principale dell'appartamento -->
                         <div class="mb-3">
-                            <label for="main_img" class="form-label">Main Image</label>
+                            <label for="main_img" class="form-label">Immagine di coperina</label>
                             <input type="file" class="form-control" id="main_img" name="main_img" required>
                         </div>
                         <!-- Indirizzo dell'appartamento -->
                         <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
+                            <label for="address" class="form-label">Indirizzo</label>
                             <input type="text" class="form-control" id="address" name="address" required>
                         </div>
                         Longitudine e latitudine per la mappa
