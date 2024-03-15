@@ -20,40 +20,36 @@ use App\Http\Controllers\ApartmentController;
 //     return view('welcome');
 // });
 
+// Redirect dalla homepage al tuo frontend Vue.js
 Route::redirect('/', 'http://localhost:5173/#/', 301);
 
-
+// Dashboard accessibile solo agli utenti autenticati e verificati
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/apartments', [ApartmentController:: class , 'index'])
--> name('apartments.index');
+// Visualizzazione pubblica degli appartamenti
+Route::get('/apartments', [ApartmentController::class, 'index'])->name('apartments.index');
 
+// Visualizzazione dettagliata di un singolo appartamento
+Route::get('/apartment/{id}', [ApartmentController::class, 'show'])->name('apartments.show');
 
+// Gruppo di rotte che richiedono autenticazione
 Route::middleware('auth')->group(function () {
+    // Gestione del profilo utente
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // ROTTA PER IL METODO CREATE/STORE
-    Route::get('/create', [ApartmentController:: class , 'create'])
-    -> name('apartment.create');
-    Route::post('/create', [ApartmentController:: class , 'store'])
-    -> name('apartment.store');
+    // Creazione di un nuovo appartamento
+    Route::get('/create', [ApartmentController::class, 'create'])->name('apartment.create');
+    Route::post('/create', [ApartmentController::class, 'store'])->name('apartment.store');
+    // Cancellazione di un appartamento
+    Route::delete('/{id}', [ApartmentController::class, 'destroy'])->name('apartment.delete'); // Ho cambiato delete in destroy per seguire le convenzioni di Laravel
 
-    Route::delete('/{id}', [ApartmentController::class, 'delete'])
-    ->name('apartment.delete');
-
-    Route::get('/apartment/edit/{id}', [ ApartmentController:: class, 'edit' ])
--> name ('apartments.edit');
-
-    Route::put('/apartment/edit/{id}', [ ApartmentController:: class, 'update' ])
-    -> name ('apartments.update');
-
+    // Modifica di un appartamento esistente
+    Route::get('/apartment/edit/{id}', [ApartmentController::class, 'edit'])->name('apartments.edit');
+    Route::put('/apartment/edit/{id}', [ApartmentController::class, 'update'])->name('apartments.update');
 });
-
-Route::get('/apartment/{id}', [ ApartmentController:: class, 'show' ])
--> name ('apartments.show');
 
 require __DIR__.'/auth.php';

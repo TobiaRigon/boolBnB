@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\StoreApartmentRequest;
 use App\Http\Requests\UpdateApartmentRequest;
+use Illuminate\Support\Facades\Http;
 
 // importa modelli collegati
 use App\Models\Apartment;
@@ -43,7 +44,7 @@ class ApartmentController extends Controller
     {
         $user = Auth::user(); // Recupera l'utente autenticato
         $apartments = Apartment::all();
-    
+
         return view('pages.create', compact('apartments', 'user'));
     }
 
@@ -57,38 +58,60 @@ class ApartmentController extends Controller
     {
         $data = $request->all();
 
-       
-        $user = Auth::user();
 
-        $apartment = new Apartment();
-        
+public function store(Request $request)
+{
+    // Validazione dei dati inviati dall'utente escluso latitudine e longitudine
+    $data = $request->all();
 
-        $apartment->title = $data['title'];
-        $apartment->description = $data['description'];
-        $apartment->max_guests = $data['max_guests'];
-        $apartment->rooms = $data['rooms'];
-        $apartment->beds = $data['beds'];
-        $apartment->baths = $data['baths'];
-        $apartment->main_img = $data['main_img'];
-        $apartment->address = $data['address'];
-        $apartment->longitude = $data['longitude'];
-        $apartment->latitude = $data['latitude'];
-        
+    $user=Auth::user();
 
 
-        // $service = Service::find($id);
-        // $service->apartment()->save($apartment);
-        
+    // Chiamata API a TomTom per ottenere latitudine e longitudine dall'indirizzo
+    // $apiKey = 'TUA_CHIAVE_API_TOMTOM';
+    // $response = Http::get("https://api.tomtom.com/search/2/geocode/{$data['address']}.json?key={$apiKey}");
 
-        // $apartment->services()->attach($data['service_id']);
-        // $user_id = User::find($id);
-        $user->apartments()->save($apartment);
+    // if($response->successful()) {
+    //     $location = $response->json()['results'][0]['position'];
+    //     $latitude = $location['lat'];
+    //     $longitude = $location['lon'];
+    // } else {
+    //     // Gestisci l'errore o imposta valori di default
+    //     $latitude = 0;
+    //     $longitude = 0;
+    // }
 
-        // $apartment-> user() -> associate($user);
-       
-        
-        return redirect()->route('apartments.index' , $apartment->id);
+    // Gestione del caricamento dell'immagine
+    if ($request->hasFile('main_img')) {
+        $file = $request->file('main_img');
+        $filenameWithExt = $file->getClientOriginalName();
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $fileNameToStore = $filename.'_'.time().'.'.$extension;
+        $path = $file->storeAs('public/apartments', $fileNameToStore);
+    } else {
+        $fileNameToStore = 'noimage.jpg';
     }
+
+    // Creazione e salvataggio dell'appartamento nel database
+    $apartment = new Apartment();
+    $apartment->user_id = Auth::id(); // Associa l'appartamento all'utente autenticato
+    $apartment->title = $data['title'];
+    $apartment->description = $data['description'];
+    $apartment->max_guests = $data['max_guests'];
+    $apartment->rooms = $data['rooms'];
+    $apartment->beds = $data['beds'];
+    $apartment->baths = $data['baths'];
+    $apartment->address = $data['address'];
+    // $apartment->latitude = $latitude;
+    // $apartment->longitude = $longitude;
+    $apartment->main_img = $fileNameToStore;
+    $apartment->save();
+
+    // Reindirizzamento alla pagina degli appartamenti con un messaggio di successo
+    return redirect()->route('apartments.index')->with('success', 'Appartamento creato con successo!');
+}
+
 
     /**
      * Display the specified resource.
@@ -98,7 +121,7 @@ class ApartmentController extends Controller
      */
     public function show($id)
     {
-        
+
         $apartment = Apartment :: find($id);
         return view('pages.show', compact('apartment'));
 
@@ -112,10 +135,15 @@ class ApartmentController extends Controller
      */
     public function edit($id)
     {
-        $user = Auth::user(); // Recupera l'utente autenticato
-        $apartment = Apartment::find($id);
-    
-        return view('pages.edit', compact('apartment', 'user'));
+        $apartment = Apartment::findOrFail($id);
+
+        // Controllo se l'utente attualmente autenticato è il proprietario dell'appartamento
+        if (auth()->id() !== $apartment->user_id) {
+            return redirect()->back()->with('error', 'Non sei autorizzato a eliminare questo appartamento.');
+        }
+
+
+        return view('pages.edit', compact('apartment'));
     }
 
     /**
@@ -127,37 +155,16 @@ class ApartmentController extends Controller
      */
     public function update(UpdateApartmentRequest $request, $id)
     {
-        $data = $request->all();
+        $apartment = Apartment::findOrFail($id);
 
-        $apartment = Apartment::find($id);
+        if (auth()->id() !== $apartment->user_id) {
+            abort(403);
+        }
 
-        $user = Auth::user();
-        
-        $apartment->title = $data['title'];
-        $apartment->description = $data['description'];
-        $apartment->max_guests = $data['max_guests'];
-        $apartment->rooms = $data['rooms'];
-        $apartment->beds = $data['beds'];
-        $apartment->baths = $data['baths'];
-        $apartment->main_img = $data['main_img'];
-        $apartment->address = $data['address'];
-        $apartment->longitude = $data['longitude'];
-        $apartment->latitude = $data['latitude'];
-        
+        // Aggiorna l'appartamento
+        $apartment->update($request->all());
 
-
-        // $service = Service::find($id);
-        // $service->apartment()->save($apartment);
-        
-
-        // $apartment->services()->attach($data['service_id']);
-        // $user_id = User::find($id);
-        $user->apartments()->save($apartment);
-
-        // $apartment-> user() -> associate($user);
-       
-        
-        return redirect()->route('apartments.show' , $apartment->id);
+        return redirect()->route('apartments.show', $apartment->id);
     }
 
     /**
@@ -166,15 +173,18 @@ class ApartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function destroy($id)
     {
-        $apartment = Apartment::find($id);
+        $apartment = Apartment::findOrFail($id);
 
-        $apartment->services()->detach();
-        $apartment->sponsors()->detach();
-        
+        if (auth()->id() !== $apartment->user_id) {
+            return redirect()->back()->with('error', 'Non sei autorizzato a eliminare questo appartamento.');
+        }
+
+
         $apartment->delete();
 
         return redirect()->route('apartments.index');
     }
+
 }
