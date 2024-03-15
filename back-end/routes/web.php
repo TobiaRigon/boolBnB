@@ -42,9 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Creazione di un nuovo appartamento
-    Route::get('/create', [ApartmentController::class, 'create'])->name('apartment.create');
-    Route::post('/create', [ApartmentController::class, 'store'])->name('apartment.store');
-
+    Route::get('/apartments/create', [ApartmentController::class, 'create'])->name('apartments.create');
+    Route::post('/create', [ApartmentController::class, 'store'])->name('apartments.store');
     // Cancellazione di un appartamento
     Route::delete('/{id}', [ApartmentController::class, 'destroy'])->name('apartment.delete'); // Ho cambiato delete in destroy per seguire le convenzioni di Laravel
 

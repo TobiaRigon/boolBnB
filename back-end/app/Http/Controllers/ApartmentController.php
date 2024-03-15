@@ -109,7 +109,7 @@ public function store(Request $request)
     $apartment->save();
 
     // Reindirizzamento alla pagina degli appartamenti con un messaggio di successo
-    return redirect()->route('apartments.index', $apartment->id)->with('success', 'Appartamento creato con successo!');
+    return redirect()->route('apartments.index')->with('success', 'Appartamento creato con successo!');
 }
 
 
