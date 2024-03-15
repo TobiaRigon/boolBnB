@@ -4,7 +4,7 @@
     
 
     <div class="container mt-4">
-        <h1 class="text-center mb-5">Create New Apartment</h1>
+        <h1 class="text-center mb-5">Crea Nuovo Appartamento</h1>
 
 
         @if($errors->any())
