@@ -16,22 +16,23 @@ class ApartmentServiceTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        Apartment:: all() // prendimi tutti gli appartamenti creati
-        ->each (function($apartment){
-            $service_id= Service :: inRandomOrder() -> take(rand(1,10)) -> pluck('id');
+{
+    // Recupera tutti gli appartamenti e tutti i servizi
+    $apartments = Apartment::all();
+    $services = Service::all();
 
-            $apartment -> services() -> attach($service_id);
+    // Associa casualmente i servizi a ciascun appartamento
+    $apartments->each(function ($apartment) use ($services) {
+        // Seleziona un numero casuale di servizi da associare all'appartamento,
+        // garantendo che sia almeno 2
+        $numServices = max(2, rand(1, count($services)));
 
-        });
-        // Apartment :: factory()
-        // -> count(5)
-        // -> make()
-        // -> each(function($apartment){
-        //     $service= Service :: inRandomOrder()->first() ;
+        // Prendi un insieme casuale di servizi
+        $randomServices = $services->random($numServices);
 
-        //     $apartment -> service()-> attach($service);
-        //     $apartment ->save();  
-        // }) ;
-    }
+        // Associare i servizi selezionati all'appartamento
+        $apartment->services()->attach($randomServices);
+    });
+}
+
 }
