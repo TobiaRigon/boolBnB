@@ -52,7 +52,21 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $data = $request->validate([
+
+
+            'title' => 'required|string|max:255|min:2',
+            'description' => 'required|string',
+            'max_guests' => 'required|integer|min:1',
+            'rooms' => 'required|integer|min:1',
+            'beds' => 'required|integer|min:1',
+            'baths' => 'required|integer|min:1',
+            'main_img' => 'required|string',
+            'address' => 'required|string',
+            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
+
+        ]);
 
         
         $user = Auth::user();
