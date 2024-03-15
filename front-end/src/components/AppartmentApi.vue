@@ -1,12 +1,31 @@
 <template>
     <h1>I NOSTRI APPARTAMENTI:</h1>
     
-    <ul>
-        <li v-for="apartment in apartments" :key="apartment.id">
-            <h4>{{ apartment.title }}</h4>
-            <p>{{ apartment.description }}</p>
-        </li> 
-    </ul>
+    <div class="container">
+        <div class="row">
+
+        
+        <div class="col-lg-3 col-md-6" v-for="apartment in apartments" :key="apartment.id">
+             <div class="card my-3">
+                    <img :src="apartment.main_img" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ apartment.title }}</h5>
+                        <p class="card-text">{{ apartment.description }}</p>
+                        <div class="d-flex justify-content-between">
+                            <a :href="'/apartments/' + apartment.id" class="btn btn-primary">APRI</a>
+                        </div>
+                    </div>
+                </div>
+            
+    
+        </div>
+        
+        </div>
+    </div>
+
+
+   
+
 </template>
 
 <script>
