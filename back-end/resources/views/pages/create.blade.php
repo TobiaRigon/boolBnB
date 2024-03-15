@@ -10,7 +10,7 @@
             <div id="newApartmentForm">
                 <div class="card card-body mt-3">
                     <!-- Form per l'inserimento di un nuovo appartamento -->
-                    <form action="{{ route('apartments.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('apartment.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <!-- Titolo dell'appartamento -->
                         <div class="mb-3">

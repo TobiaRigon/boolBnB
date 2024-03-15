@@ -56,16 +56,10 @@ class ApartmentController extends Controller
 public function store(Request $request)
 {
     // Validazione dei dati inviati dall'utente escluso latitudine e longitudine
-    $data = $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required|string',
-        'max_guests' => 'required|integer|min:1',
-        'rooms' => 'required|integer|min:1',
-        'beds' => 'required|integer|min:1',
-        'baths' => 'required|integer|min:1',
-        'address' => 'required|string|max:255',
-        'main_img' => 'nullable|image|max:1999',
-    ]);
+    $data = $request->all();
+
+    $user=Auth::user();
+
 
     // Chiamata API a TomTom per ottenere latitudine e longitudine dall'indirizzo
     // $apiKey = 'TUA_CHIAVE_API_TOMTOM';
@@ -103,8 +97,8 @@ public function store(Request $request)
     $apartment->beds = $data['beds'];
     $apartment->baths = $data['baths'];
     $apartment->address = $data['address'];
-    $apartment->latitude = $latitude;
-    $apartment->longitude = $longitude;
+    // $apartment->latitude = $latitude;
+    // $apartment->longitude = $longitude;
     $apartment->main_img = $fileNameToStore;
     $apartment->save();
 
@@ -143,7 +137,7 @@ public function store(Request $request)
         }
 
 
-        return view('apartments.edit', compact('apartment'));
+        return view('pages.edit', compact('apartment'));
     }
 
     /**
