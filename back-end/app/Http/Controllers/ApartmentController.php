@@ -109,7 +109,7 @@ public function store(Request $request)
     $apartment->save();
 
     // Reindirizzamento alla pagina degli appartamenti con un messaggio di successo
-    return redirect()->route('apartments.index')->with('success', 'Appartamento creato con successo!');
+    return redirect()->route('apartments.index', $apartment->id)->with('success', 'Appartamento creato con successo!');
 }
 
 
@@ -139,8 +139,9 @@ public function store(Request $request)
 
         // Controllo se l'utente attualmente autenticato è il proprietario dell'appartamento
         if (auth()->id() !== $apartment->user_id) {
-            abort(403);
+            return redirect()->back()->with('error', 'Non sei autorizzato a eliminare questo appartamento.');
         }
+
 
         return view('apartments.edit', compact('apartment'));
     }

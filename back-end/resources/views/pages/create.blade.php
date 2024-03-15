@@ -54,7 +54,7 @@
                         </div>
 
                         {{-- Bottone per inviare il form --}}
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <input type="submit" class="btn btn-success">crea
                     </form>
                 </div>
             </div>
