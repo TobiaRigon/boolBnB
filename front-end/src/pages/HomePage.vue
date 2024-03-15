@@ -2,8 +2,19 @@
   <main>
     <div class="container">
       <h1>HomePage</h1>
+
+      <AppartmentApi />
+
     </div>
   </main>
 </template>
 
-<script></script>
+<script>
+import AppartmentApi from '../components/AppartmentApi.vue';
+
+export default {
+  components: {
+    AppartmentApi,
+  },
+};
+</script>
