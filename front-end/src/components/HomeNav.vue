@@ -9,18 +9,18 @@
         <router-link to="/search">Search</router-link>
       </li>
       <li>
-        <router-link to="/apartments">Sponsored Apartments</router-link>
+         <router-link to="/apartments">Sponsored Apartments</router-link> 
       </li> -->
 
       <li class="nav-item">
-        <a class="nav-link" :href="apartmentsUrl">Apartments </a>
+          <router-link to="/apartments">Apartments</router-link>
       </li>
       <li class="nav-item">
         <a class="nav-link" :href="loginUrl">Login/Dashboard</a>
       </li>
-      <!-- <li>
+      <li>
         <a :href="singinUrl">Singin</a>
-      </li> -->
+      </li> 
     </ul>
   </nav>
 </template>
