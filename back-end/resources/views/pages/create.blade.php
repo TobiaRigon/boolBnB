@@ -62,30 +62,147 @@
                                     class="text-danger">*</span></label>
                             <input type="file" class="form-control" id="main_img" name="main_img" required>
                         </div>
-                        <!-- Indirizzo dell'appartamento -->
+                        <!-- indirizzo appartamento -->
                         <div class="mb-3">
-                            <label for="address" class="form-label">Indirizzo <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="address" name="address" required>
-                        </div>
-                        Longitudine e latitudine per la mappa
-                        <div class="mb-3">
-                            <label for="longitude" class="form-label">Longitude <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="longitude" name="longitude" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="latitude" class="form-label">Latitude <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="latitude" name="latitude" required>
-                        </div>
+                            <!-- scegli città -->
 
-
-
-                        {{-- Bottone per inviare il form --}}
-                        <input type="submit" class="btn btn-success" value="Crea Appartamento">
-                    </form>
-                </div>
+                            <label for="address" class="form-label"> Indirizzo dell'appartamento</label>
+                            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="city" id="Milano" value="Milano">
+            <label class="form-check-label" for="Milano">Milano</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="city" id="Roma" value="Roma">
+            <label class="form-check-label" for="Roma">Roma</label>
+        </div>
+                            <input type="text" class="form-control" id="address" name="address" value="">
+                        </div>
+                         <div id="AutoComplete" class="card position-absolute w-100 radius d-none">
+                            <ul class="list" style="cursor: pointer;">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="d-none">
+                        <input type="text" id="latitude" name="latitude">
+                        <input type="text" id="longitude" name="longitude">
+                    </div>
+                    <!-- Bottone per inviare il form -->
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
             </div>
         </div>
-
-
     </div>
-@endsection
+</div>
+     
+<script>
+   
+    //scegli città
+    //scrivo una funzione che, in base al click mi da diversi valori di lat, long e radius
+    Milano = document.getElementById('Milano')
+    Roma = document.getElementById('Roma')
+    let lat = '';
+    let lon = '';
+    let radius = '';
+   
+        Milano.addEventListener('change', function () {
+            if (Milano.checked)
+            {lat = '45.4642';
+            lon = '9.1900';
+            radius = '20000';}
+        })
+    
+        Roma.addEventListener('change', function () {
+            if (Roma.checked)
+            {lat = '41.9028';
+            lon = '12.4964';
+            radius = '25000';}
+        })
+    // chiave API
+    const keyApi = 'brzK3He1s61mi6MQycw8qJXnuSAtFOfx';
+    
+
+    // Elementi nel DOM
+    const searchEl = document.getElementById('address');
+    const AutoCompleteEl = document.getElementById('AutoComplete'); 
+    const AutoCompleteClass = AutoCompleteEl.classList; 
+    const ulListEl = AutoCompleteEl.querySelector('ul.list'); 
+    //latitudine e longitudine
+    const latitude = document.getElementById('latitude');
+    const longitude = document.getElementById('longitude');
+
+
+    searchEl.addEventListener('input', function() {
+        if (searchEl.value != '')
+            searchAdress(searchEl.value);
+        addRemoveClass();
+
+    })
+
+
+    function searchAdress(adress) {
+        fetch(
+                `https://api.tomtom.com/search/2/search/${adress}.json?key=${keyApi}&countrySet=IT&limit=5&lat=${lat}&lon=${lon}&radius=${radius}`
+            )
+            .then(response => response.json())
+            .then(data => {
+
+                console.log(data.results);
+
+
+                ulListEl.innerHTML = '';
+                if (data.results != undefined)
+                    data.results.forEach(function(currentValue, index, array) {
+
+                        const li = document.createElement('li');
+                        li.append(currentValue.address.freeformAddress);
+                        li.addEventListener('click',
+                            () => {
+                                searchEl.value = currentValue.address.freeformAddress;
+                                AutoCompleteClass.add('d-none');
+                                ulListEl.innerHTML = '';
+                                latitude.value = currentValue.position.lat;
+                                longitude.value = currentValue.position.lon;
+                                console.log(latitude.value, 'lat');
+                                console.log(longitude.value, 'lon');
+                                console.log(latitude.value);
+                            }
+                        )
+
+                        // fine
+                        ulListEl.appendChild(li);
+                    });
+            });
+    }
+
+
+    document.addEventListener('click', function(event) {
+        // Verifica se il clic è avvenuto all'interno del menu
+        const isClickInsideMenu = AutoCompleteEl.contains(event.target);
+
+        // Se il clic non è avvenuto all'interno del menu, chiudi il menu
+        if (!isClickInsideMenu) {
+            AutoCompleteClass.add('d-none');
+        }
+    });
+
+       // funzione per gestire classi
+       function addRemoveClass() {
+        console.log(AutoCompleteClass);
+        if (searchEl.value == '')
+            AutoCompleteClass.add('d-none');
+        else
+            AutoCompleteClass.remove('d-none');
+    }
+</script>
+
+ 
+<style>
+    #AutoComplete ul li:hover {
+    background-color: rgba(0, 0, 255, 0.1); 
+    border: 1px solid darkgrey; 
+}
+
+</style>
+
+@endsection 
+
