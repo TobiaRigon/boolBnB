@@ -20,10 +20,18 @@ class ApiController extends Controller
     }
 
 
-
+    // GESTIONE ERRORI IN DEBUG
     public function getApartmentById($id) {
-
-        $apartment = Apartment::find($id); // Voglio appartamento con ID che ho fornito 
-        return response()->json($apartment); // Mi restituisce appartamento in formato json
+        // Cerca l'appartamento nel database
+        $apartment = Apartment::find($id);
+    
+        // Verifica se l'appartamento è stato trovato
+        if (!$apartment) {
+            // Se l'appartamento non è stato trovato, restituisci un messaggio di errore
+            return response()->json(['error' => 'Appartamento non trovato'], 404);
+        }
+    
+        // Restituisci i dettagli dell'appartamento
+        return response()->json($apartment);
     }
 }
