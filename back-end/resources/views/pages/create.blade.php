@@ -62,7 +62,7 @@
             <input class="form-check-input" type="radio" name="city" id="Roma" value="Roma">
             <label class="form-check-label" for="Roma">Roma</label>
         </div>
-                            <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}">
+                            <input type="text" class="form-control" id="address" name="address" value="">
                         </div>
                          <div id="AutoComplete" class="card position-absolute w-100 radius d-none">
                             <ul class="list" style="cursor: pointer;">
@@ -110,9 +110,9 @@
 
     // Elementi nel DOM
     const searchEl = document.getElementById('address');
-    const AutoCompleteEl = document.getElementById('AutoComplete'); // Qui era AutoComplete invece di AutoCompleteEl
-    const AutoCompleteClass = AutoCompleteEl.classList; // Qui era AutoComplete invece di AutoCompleteEl
-    const ulListEl = AutoCompleteEl.querySelector('ul.list'); // Qui era AutoComplete invece di AutoCompleteEl
+    const AutoCompleteEl = document.getElementById('AutoComplete'); 
+    const AutoCompleteClass = AutoCompleteEl.classList; 
+    const ulListEl = AutoCompleteEl.querySelector('ul.list'); 
     //latitudine e longitudine
     const latitude = document.getElementById('latitude');
     const longitude = document.getElementById('longitude');
