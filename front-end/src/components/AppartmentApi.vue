@@ -12,7 +12,7 @@
                         <h5 class="card-title">{{ apartment.title }}</h5>
                         <p class="card-text">{{ apartment.description }}</p>
                         <div class="d-flex justify-content-between">
-                            <a :href="'/apartments/' + apartment.id" class="btn btn-primary">APRI</a>
+                            <router-link :to="'/apartments/' + apartment.id" class="btn btn-primary">APRI</router-link>
                         </div>
                     </div>
                 </div>
