@@ -114,7 +114,15 @@ class ApartmentTableSeeder extends Seeder
 
         ];
         foreach ($apartments as $apartmentData) {
-            Apartment::create($apartmentData);
+            $apartment = Apartment::create($apartmentData);
+
+            // Assumendo che vuoi aggiungere 5 immagini per ogni appartamento
+            for ($i = 0; $i < 5; $i++) {
+                Gallery::create([
+                    'apartment_id' => $apartment->id,
+                    'path' => "path/to/your/image{$i}.jpg", // Modifica con il percorso effettivo
+                ]);
+            }
         }
     }
 }

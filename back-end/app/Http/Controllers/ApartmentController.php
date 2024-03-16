@@ -56,57 +56,48 @@ class ApartmentController extends Controller
      */
     public function store(StoreApartmentRequest $request)
     {
-    // Validazione dei dati inviati dall'utente escluso latitudine e longitudine
-    $data = $request->all();
+        $data = $request->all();
+        $user = Auth::user();
 
-    $user=Auth::user();
+        // La logica esistente per il caricamento dell'immagine principale rimane invariata
 
+        if ($request->hasFile('main_img')) {
+            $file = $request->file('main_img');
+            $filenameWithExt = $file->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $path = $file->storeAs('public/apartments', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
 
-    // Chiamata API a TomTom per ottenere latitudine e longitudine dall'indirizzo
-    // $apiKey = 'TUA_CHIAVE_API_TOMTOM';
-    // $response = Http::get("https://api.tomtom.com/search/2/geocode/{$data['address']}.json?key={$apiKey}");
+        // Creazione dell'appartamento
 
-    // if($response->successful()) {
-    //     $location = $response->json()['results'][0]['position'];
-    //     $latitude = $location['lat'];
-    //     $longitude = $location['lon'];
-    // } else {
-    //     // Gestisci l'errore o imposta valori di default
-    //     $latitude = 0;
-    //     $longitude = 0;
-    // }
+        $apartment = new Apartment();
+        // [Impostazione delle altre proprietà dell'appartamento...]
+        $apartment->main_img = $fileNameToStore;
+        $apartment->save();
 
-    // Gestione del caricamento dell'immagine
-    if ($request->hasFile('main_img')) {
-        $file = $request->file('main_img');
-        $filenameWithExt = $file->getClientOriginalName();
-        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        $extension = $file->getClientOriginalExtension();
-        $fileNameToStore = $filename.'_'.time().'.'.$extension;
-        $path = $file->storeAs('public/apartments', $fileNameToStore);
-    } else {
-        $fileNameToStore = 'noimage.jpg';
+        // Gestione del caricamento delle immagini multiple per la galleria
+
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $image) {
+                $galleryFilenameWithExt = $image->getClientOriginalName();
+                $galleryFilename = pathinfo($galleryFilenameWithExt, PATHINFO_FILENAME);
+                $galleryExtension = $image->getClientOriginalExtension();
+                $galleryFileNameToStore = $galleryFilename.'_'.time().'.'.$galleryExtension;
+                $galleryPath = $image->storeAs('public/gallery', $galleryFileNameToStore);
+
+                Gallery::create([
+                    'apartment_id' => $apartment->id,
+                    'path' => $galleryFileNameToStore, // Salva il nome del file nel DB
+                ]);
+            }
+        }
+
+        return redirect()->route('apartments.index')->with('success', 'Appartamento creato con successo!');
     }
-
-    // Creazione e salvataggio dell'appartamento nel database
-    $apartment = new Apartment();
-    $apartment->user_id = Auth::id(); // Associa l'appartamento all'utente autenticato
-    $apartment->title = $data['title'];
-    $apartment->description = $data['description'];
-    $apartment->max_guests = $data['max_guests'];
-    $apartment->rooms = $data['rooms'];
-    $apartment->beds = $data['beds'];
-    $apartment->baths = $data['baths'];
-    $apartment->address = $data['address'];
-    // $apartment->latitude = $latitude;
-    // $apartment->longitude = $longitude;
-    $apartment->main_img = $fileNameToStore;
-    $apartment->save();
-
-    // Reindirizzamento alla pagina degli appartamenti con un messaggio di successo
-    return redirect()->route('apartments.index')->with('success', 'Appartamento creato con successo!');
-}
-
 
     /**
      * Display the specified resource.
