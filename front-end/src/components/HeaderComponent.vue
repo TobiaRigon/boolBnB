@@ -1,5 +1,4 @@
 <template>
-  <h1>HeaderComponent</h1>
   <HomeNav />
 </template>
 

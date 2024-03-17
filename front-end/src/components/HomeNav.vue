@@ -13,7 +13,9 @@
       </li> -->
 
       <li class="nav-item">
-        <router-link class="nav-link" to="/apartments">Apartments</router-link>
+        <router-link class="nav-link" to="/apartments"
+          >Appartamenti</router-link
+        >
       </li>
       <li class="nav-item">
         <a class="nav-link" :href="loginUrl">Login/Dashboard</a>
