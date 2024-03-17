@@ -69,7 +69,15 @@ img {
   height: 100%;
 }
 .card-text {
-  overflow-y: hidden;
+  overflow-y: auto;
   height: 50%;
+}
+
+.card-text::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+.card-text {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 </style>
