@@ -1,55 +1,75 @@
 <template>
-    <h1>I NOSTRI APPARTAMENTI:</h1>
-    
-    <div class="container">
-        <div class="row">
+  <h1>I NOSTRI APPARTAMENTI:</h1>
 
-        
-        <div class="col-lg-3 col-md-6" v-for="apartment in apartments" :key="apartment.id">
-             <div class="card my-3">
-                    <img :src="apartment.main_img" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ apartment.title }}</h5>
-                        <p class="card-text">{{ apartment.description }}</p>
-                        <div class="d-flex justify-content-between">
-                            <router-link :to="'/apartments/' + apartment.id" class="btn btn-primary">APRI</router-link>
-                        </div>
-                    </div>
-                </div>
-            
-    
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-lg-3 col-md-6"
+        v-for="apartment in apartments"
+        :key="apartment.id"
+      >
+        <div class="card my-3">
+          <div class="card-container">
+            <img :src="apartment.main_img" class="card-img-top" alt="..." />
+
+            <h5 class="card-title p-2">{{ apartment.title }}</h5>
+            <p class="card-text p-2">{{ apartment.description }}</p>
+            <div class="d-flex justify-content-between">
+              <router-link
+                :to="'/apartments/' + apartment.id"
+                class="btn btn-primary m-2"
+                >APRI</router-link
+              >
+            </div>
+          </div>
         </div>
-        
-        </div>
+      </div>
     </div>
-
-
-   
-
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 
 export default {
-    name: "AppartmentApi",
-    data() {
-        return {
-            apartments: [],
-
-        };
-    },
-    mounted() {
-        axios
-            .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
-            .then((res) => {
-            
-                    this.apartments = res.data;
-                    
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    },
+  name: "AppartmentApi",
+  data() {
+    return {
+      apartments: [],
+    };
+  },
+  mounted() {
+    axios
+      .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
+      .then((res) => {
+        this.apartments = res.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
 };
 </script>
+
+<style scoped>
+img {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.card {
+  height: 500px;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.card-text {
+  overflow-y: hidden;
+  height: 50%;
+}
+</style>
