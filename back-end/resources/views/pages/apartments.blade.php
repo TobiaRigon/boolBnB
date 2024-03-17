@@ -9,9 +9,9 @@
             @foreach ($apartments as $apartment)
                 <div class="col-lg-3 col-md-6">
                     <div class="card my-3">
-                        <img src="{{ asset($apartment->main_img) }}" class="card-img-top"
+                    <div class="card-container">
+                    <img src="{{ asset($apartment->main_img) }}" class="card-img-top"
                             alt="...">
-                        <div class="card-body">
                             <h5 class="card-title">{{ $apartment->title }}</h5>
                             <p class="card-text">{{ Str::limit($apartment->description) }}</p>
                             <div class="d-flex justify-content-between">
@@ -27,10 +27,48 @@
                                     </form>
                                 @endif
                             </div>
-                        </div>
+                      
+
+                    </div>
+                       
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
+
+
+    <style scoped>
+img {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.card {
+  height: 500px;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.card-text {
+  overflow-y: auto;
+  height: 5080
+}
+.card-text::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+.card-text {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+</style>
+
 @endsection
+
+
+   
