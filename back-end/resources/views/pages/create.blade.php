@@ -38,23 +38,23 @@
                         <div class="mb-3">
                             <label for="max_guests" class="form-label">Numero ospiti <span
                                     class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="max_guests" name="max_guests" required>
+                            <input type="number" class="form-control" id="max_guests" name="max_guests" required min="1">
                         </div>
                         <!-- Numero di stanze -->
                         <div class="mb-3">
                             <label for="rooms" class="form-label">Numero stanza <span
                                     class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="rooms" name="rooms" required>
+                            <input type="number" class="form-control" id="rooms" name="rooms" required min="1">
                         </div>
                         <!-- Numero di letti -->
                         <div class="mb-3">
                             <label for="beds" class="form-label">Letti <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="beds" name="beds" required>
+                            <input type="number" class="form-control" id="beds" name="beds" required min="1">
                         </div>
                         <!-- Numero di bagni -->
                         <div class="mb-3">
                             <label for="baths" class="form-label">Bagni <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="baths" name="baths" required>
+                            <input type="number" class="form-control" id="baths" name="baths" required min="1">
                         </div>
                         <!-- Immagine principale dell'appartamento -->
                         <div class="mb-3">

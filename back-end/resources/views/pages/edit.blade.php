@@ -38,22 +38,22 @@
                         <!-- Max ospiti -->
                         <div class="mb-3">
                             <label for="max_guests" class="form-label">Numero ospiti</label>
-                            <input value="{{$apartment->max_guests}}" type="number" class="form-control" id="max_guests" name="max_guests" required>
+                            <input value="{{$apartment->max_guests}}" type="number" class="form-control" id="max_guests" name="max_guests" min="1" required>
                         </div>
                         <!-- Numero di stanze -->
                         <div class="mb-3">
                             <label for="rooms" class="form-label">Numero stanze</label>
-                            <input value="{{$apartment->rooms}}" type="number" class="form-control" id="rooms" name="rooms" required>
+                            <input value="{{$apartment->rooms}}" type="number" class="form-control" id="rooms" name="rooms" min="1" required>
                         </div>
                         <!-- Numero di letti -->
                         <div class="mb-3">
                             <label for="beds" class="form-label">Numero letti</label>
-                            <input value="{{$apartment->beds}}" type="number" class="form-control" id="beds" name="beds" required>
+                            <input value="{{$apartment->beds}}" type="number" class="form-control" id="beds" name="beds" min="1" required>
                         </div>
                         <!-- Numero di bagni -->
                         <div class="mb-3">
                             <label for="baths" class="form-label">Numero bagni</label>
-                            <input value="{{$apartment->baths}}" type="number" class="form-control" id="baths" name="baths" required>
+                            <input value="{{$apartment->baths}}" type="number" class="form-control" id="baths" name="baths" min="1" required>
                         </div>
                         <!-- Immagine principale dell'appartamento -->
                         <div class="mb-3">
