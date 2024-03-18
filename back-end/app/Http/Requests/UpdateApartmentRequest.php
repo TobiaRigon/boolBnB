@@ -32,8 +32,8 @@ class UpdateApartmentRequest extends FormRequest
             'baths' => 'required|integer|min:1',
             'main_img' => '',
             'address' => 'required|string',
-            'longitude' => 'required|numeric',
-            'latitude' => 'required|numeric',
+            'longitude' => '',
+            'latitude' => '',
         
         ];
     }
@@ -66,9 +66,7 @@ public function messages()
         'address.required' => 'Il campo indirizzo è obbligatorio.',
         'address.string' => 'Il campo indirizzo deve essere una stringa.',
         'longitude.required' => 'Il campo longitudine è obbligatorio.',
-        'longitude.numeric' => 'Il campo longitudine deve essere un numero.',
         'latitude.required' => 'Il campo latitudine è obbligatorio.',
-        'latitude.numeric' => 'Il campo latitudine deve essere un numero.',
     ];
 }
 

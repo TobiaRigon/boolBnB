@@ -60,7 +60,7 @@
                             <label for="main_img" class="form-label">
                                 <img src="{{$apartment->main_img}}" alt="">
                             </label>
-                            <input value="{{$apartment->main_img}}" type="file" class="form-control" id="main_img" name="main_img" required>
+                            <input value="{{$apartment->main_img}}" type="file" class="form-control" id="main_img" name="main_img" >
                         </div>
                       
                         {{-- address  --}}
@@ -70,14 +70,14 @@
 
                             <label for="address" class="form-label"> Indirizzo dell'appartamento</label>
                             <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="city" id="Milano" value="Milano">
-            <label class="form-check-label" for="Milano">Milano</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="city" id="Roma" value="Roma">
-            <label class="form-check-label" for="Roma">Roma</label>
-        </div>
-                            <input type="text" class="form-control" id="address" name="address" value="{{ old('address', $apartment->address) }}">
+                                <input class="form-check-input" type="radio" name="city" id="Milano" value="Milano">
+                                <label class="form-check-label" for="Milano">Milano</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="city" id="Roma" value="Roma">
+                                <label class="form-check-label" for="Roma">Roma</label>
+                            </div>
+                            <input type="text" class="form-control" id="address" name="address" value="{{ old('address', $apartment->address) }}" required>
                         </div>
                          <div id="AutoComplete" class="card position-absolute w-100 radius d-none">
                             <ul class="list" style="cursor: pointer;">
@@ -85,8 +85,8 @@
                         </div>
                     </div>
                     <div class="d-none">
-                        <input type="text" id="latitude" name="latitude">
-                        <input type="text" id="longitude" name="longitude">
+                        <input type="text" id="latitude" name="latitude" value="{{ old('latitude', $apartment->latitude) }}" required>
+                        <input type="text" id="longitude" name="longitude" value="{{ old('longitude', $apartment->longitude) }}" required>
                     </div>
 
                     <button type="submit" class="btn btn-success">Submit</button>     
