@@ -5,7 +5,7 @@
     <div class="row">
       <div
         class="col-lg-3 col-md-6"
-        v-for="apartment in apartments"
+        v-for="apartment in paginatedList"
         :key="apartment.id"
       >
         <div class="card my-3">
@@ -25,6 +25,27 @@
         </div>
       </div>
     </div>
+
+    <div class="btn-container">
+      <div class="btn-wrapper">
+        <button
+          class="btn"
+          type="button"
+          :disabled="currentPage === 1"
+          @click="changePage(-1)"
+        >
+          << Prev
+        </button>
+        <button
+          class="btn"
+          type="button"
+          :disabled="currentPage === 4"
+          @click="changePage(1)"
+        >
+          Next >>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,17 +57,35 @@ export default {
   data() {
     return {
       apartments: [],
+      perPage: 8,
+      currentPage: 1,
     };
   },
-  mounted() {
-    axios
-      .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
-      .then((res) => {
-        this.apartments = res.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  computed: {
+    paginatedList() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.apartments.slice(start, end);
+    },
+  },
+  created() {
+    this.getApartments();
+  },
+  methods: {
+    getApartments() {
+      axios
+        .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
+        .then((res) => {
+          this.apartments = res.data;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    changePage(num) {
+      this.currentPage += num;
+      console.log(this.currentPage);
+    },
   },
 };
 </script>
@@ -71,6 +110,13 @@ img {
 .card-text {
   overflow-y: auto;
   height: 50%;
+}
+.btn-container {
+  text-align: center;
+}
+.btn-wrapper {
+  display: inline-block;
+  margin: 0 auto;
 }
 
 .card-text::-webkit-scrollbar {
