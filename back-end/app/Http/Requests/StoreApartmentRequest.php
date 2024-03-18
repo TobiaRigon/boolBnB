@@ -30,7 +30,7 @@ class StoreApartmentRequest extends FormRequest
             'rooms' => 'required|integer|min:1',
             'beds' => 'required|integer|min:1',
             'baths' => 'required|integer|min:1',
-            'main_img' => 'required|image',
+            'main_img' => 'required|image|mines:jpeg,png,jpg,gif,svg|max:2048',
             'address' => 'required|string',
             'longitude' => 'required|numeric',
             'latitude' => 'required|numeric',
