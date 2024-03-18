@@ -29,13 +29,16 @@ class Apartment extends Model
     public function services ()
         {
             return $this -> belongsToMany(Service::class);
-            
+
         }
     public function sponsors()
         {
             return $this -> belongsToMany(Sponsor::class);
         }
 
-
+        protected $fillable = [
+            'title', 'description', 'max_guests', 'rooms', 'beds', 'baths', 'main_img', 'address', 'longitude', 'latitude'
+            // Aggiungi qui altri campi che vuoi siano assegnabili in massa
+        ];
 
 }
