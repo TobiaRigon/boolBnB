@@ -56,7 +56,7 @@ export default {
       }
       // Altrimenti, costruisci il percorso completo utilizzando il percorso di base del server Laravel
       const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
-      return `${baseUrl}/storage/${imagePath}`;
+      return `${baseUrl}/${imagePath}`;
     },
   },
   mounted() {
