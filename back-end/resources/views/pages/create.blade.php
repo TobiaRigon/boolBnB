@@ -30,8 +30,8 @@
                         </div>
                         <!-- Descrizione dell'appartamento -->
                         <div class="mb-3">
-                            <label for="description" class="form-label">Descrizion <span
-                                    class="text-danger">*</span>e</label>
+                            <label for="description" class="form-label">Descrizione <span
+                                    class="text-danger">*</span></label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
                         </div>
                         <!-- Max ospiti -->
