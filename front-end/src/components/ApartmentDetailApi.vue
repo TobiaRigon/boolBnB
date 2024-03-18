@@ -4,7 +4,7 @@
 
     <div class="container d-flex justify-content-center">
       <div class="card">
-        <img :src="apartment.main_img" class="card-img-top" alt="..." />
+        <img :src="getImageUrl(apartment.main_img)" class="card-img-top" alt="Immagine dell'appartamento" />
         <div class="card-body">
           <h5 class="card-title">{{ apartment.title }}</h5>
           <p class="card-text">{{ apartment.description }}</p>
@@ -37,6 +37,17 @@ export default {
     return {
       apartment: {},
     };
+  },
+  methods: {
+    getImageUrl(imagePath) {
+      // Controlla se il percorso dell'immagine sembra essere un URL completo
+      if (imagePath && (imagePath.startsWith('http://') || imagePath.startsWith('https://'))) {
+        return imagePath;
+      }
+      // Altrimenti, costruisci il percorso completo utilizzando il percorso di base del server Laravel
+      const baseUrl = 'http://127.0.0.1:8000'; // Modifica con il tuo URL effettivo se diverso
+      return `${baseUrl}/storage/${imagePath}`;
+    },
   },
   mounted() {
     const apartmentId = this.$route.params.id;

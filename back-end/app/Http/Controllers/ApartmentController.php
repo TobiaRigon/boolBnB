@@ -61,33 +61,43 @@ class ApartmentController extends Controller
 
         // ... Logica API TomTom qui
 
-        // Creazione e salvataggio dell'appartamento nel database
-        $apartment = new Apartment();
-        $apartment->user_id = Auth::id();
-        $apartment->fill($data); // Assumendo che StoreApartmentRequest validi tutti i campi necessari
+      // Assumendo che StoreApartmentRequest validi tutti i campi necessari
         // $apartment->latitude = $latitude; // Se stai utilizzando i campi latitudine e longitudine
         // $apartment->longitude = $longitude;
 
-        // Gestione dell'upload dell'immagine principale
-        if ($request->hasFile('main_img')) {
-            $path= $request->file('main_img')->store('public/apartments', 'public');
-        } else {
-            $apartment->main_img = 'noimage.jpg';
+        $path = 'noimage.jpg'; // Imposta un'immagine predefinita
+
+        if($request->hasFile('main_img')) {
+            $filenameWithExt = $request->file('main_img')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('main_img')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $path = $request->file('main_img')->storeAs('public/apartments', $fileNameToStore);
         }
+
+
+        $apartment = new Apartment([
+            'title' => $request->title,
+            'description' => $request->description,
+            'max_guests' => $request->max_guests,
+            'rooms' => $request->rooms,
+            'beds' => $request->beds,
+            'baths' => $request->baths,
+            'main_img' => $path, // Assumi che "image" sia il nome della colonna nel tuo database
+            'address' => $request->address,
+            'longitude' => $request->longitude,
+            'latitude' => $request->latitude,
+            // Assicurati di includere qui eventuali altri campi richiesti
+        ]);
+        $apartment->user_id = auth()->id();
+
 
         $apartment->save();
 
         // Gestione dell'upload delle immagini della galleria
-        if ($request->hasFile('gallery_images')) {
-            foreach ($request->file('gallery_images') as $image) {
-                $gallery = new Gallery();
-                $gallery->apartment_id = $apartment->id;
-                $gallery->path_image = $image->store('public/apartments/gallery', 'public');
-                $gallery->save();
-            }
-        }
 
-        return redirect()->route('apartments.index')->with('success', 'Appartamento creato con successo!');
+
+        return redirect()->route('apartments.index',['main_img' => $path])->with('success', 'Appartamento creato con successo!');
     }
 
 
@@ -100,7 +110,7 @@ class ApartmentController extends Controller
     public function show($id)
     {
 
-        $apartment = Apartment :: find($id);
+        $apartment = Apartment :: findOrFail($id);
         return view('pages.show', compact('apartment'));
 
     }
