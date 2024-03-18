@@ -22,7 +22,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('apartments.index')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link href="http://localhost:5173/#/apartments" :active="request()->routeIs('dashboard')">
                         {{ __('Appartamenti') }}
                     </x-nav-link>
 
