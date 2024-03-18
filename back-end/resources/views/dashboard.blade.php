@@ -15,7 +15,7 @@
         
         <div class="row">
             @foreach ($apartments as $apartment)
-                <div class="col-lg-3 col-md-6">
+                <div class="col-12 col-md-6 col-lg-4 ">
                     <div class="card my-3">
                     <div class="card-container">
                     <img src="{{ asset($apartment->main_img) }}" class="card-img-top"
@@ -46,6 +46,37 @@
         </div>
     </div>
 
+
+
+    <style scoped>
+img {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.card {
+  height: 500px;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.card-text {
+  overflow-y: auto;
+  height: 5080
+}
+.card-text::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+.card-text {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+</style>
     
     @endsection
     
