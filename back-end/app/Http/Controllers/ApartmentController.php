@@ -182,4 +182,6 @@ class ApartmentController extends Controller
         return redirect()->route('apartments.index');
     }
 
+ 
+    
 }

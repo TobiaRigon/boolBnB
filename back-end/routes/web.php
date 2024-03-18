@@ -34,6 +34,9 @@ Route::get('/apartments', [ApartmentController::class, 'index'])->name('apartmen
 // Visualizzazione dettagliata di un singolo appartamento
 Route::get('/apartment/{id}', [ApartmentController::class, 'show'])->name('apartments.show');
 
+
+
+
 // Gruppo di rotte che richiedono autenticazione
 Route::middleware('auth')->group(function () {
     // Gestione del profilo utente

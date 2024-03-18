@@ -19,10 +19,16 @@ use App\Http\Controllers\ApiController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::group(['prefix' => '/apartmentApi'] , function(){
 
     Route::get('/apartments', [ApiController::class, 'getApartments']);
     Route::get('/apartments/{id}', [ApiController::class, 'getApartmentById']);
+       //Rotta per la ricerca degli appartamenti
+    // Route::get('/apartments/search', [ApiController ::class, 'search']);
+    Route::get('search', [ApiController ::class, 'search']);
+
+
 
 });
 
