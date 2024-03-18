@@ -28,11 +28,11 @@ class ApartmentController extends Controller
     public function index()
     {
         // $user = User ::all();
-
-        $apartments = Apartment :: all();
+        $user = Auth::user(); // Recupera l'utente autenticato
+        $apartments = $user->apartments;// Recupera gli appartamenti dell'utente
 
         // momentaneamente in pages , poi in Apartment front-end tramite API
-        return view('pages.apartments', compact ('apartments'));
+        return view('dashboard', compact ('apartments' , 'user' ));
     }
 
     /**

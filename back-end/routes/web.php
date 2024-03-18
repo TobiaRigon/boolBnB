@@ -29,7 +29,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Visualizzazione pubblica degli appartamenti
-Route::get('/apartments', [ApartmentController::class, 'index'])->name('apartments.index');
+Route::get('/dashboard', [ApartmentController::class, 'index'])->name('dashboard');
 
 // Visualizzazione dettagliata di un singolo appartamento
 Route::get('/apartment/{id}', [ApartmentController::class, 'show'])->name('apartments.show');
