@@ -2,15 +2,27 @@
   <h1>I NOSTRI APPARTAMENTI:</h1>
   <div class="container">
     <div class="row">
-      <div class="col-lg-3 col-md-6" v-for="apartment in paginatedList" :key="apartment.id">
+      <div
+        class="col-lg-3 col-md-6"
+        v-for="apartment in paginatedList"
+        :key="apartment.id"
+      >
         <div class="card my-3">
           <div class="card-container">
             <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
-            <img :src="getImageUrl(apartment.main_img)" class="card-img-top" alt="Immagine dell'appartamento" />
+            <img
+              :src="apartment.main_img"
+              class="card-img-top"
+              alt="Immagine dell'appartamento"
+            />
             <h5 class="card-title p-2">{{ apartment.title }}</h5>
             <p class="card-text p-2">{{ apartment.description }}</p>
             <div class="d-flex justify-content-between">
-              <router-link :to="'/apartments/' + apartment.id" class="btn btn-primary m-2">APRI</router-link>
+              <router-link
+                :to="'/apartments/' + apartment.id"
+                class="btn btn-primary m-2"
+                >APRI</router-link
+              >
             </div>
           </div>
         </div>
@@ -41,10 +53,10 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  name: 'AppartmentApi',
+  name: "AppartmentApi",
   data() {
     return {
       apartments: [],
@@ -53,24 +65,24 @@ export default {
     };
   },
   methods: {
-    getImageUrl(imagePath) {
-  if (!imagePath) {
-    // Fornisci un'immagine di default se imagePath non è definito
-    return 'http://127.0.0.1:8000/storage/apartments/default-image.jpg'; // Percorso di un'immagine di default
-  }
+    //     getImageUrl(imagePath) {
+    //   if (!imagePath) {
+    //     // Fornisci un'immagine di default se imagePath non è definito
+    //     return 'http://127.0.0.1:8000/storage/apartments/default-image.jpg'; // Percorso di un'immagine di default
+    //   }
 
-  // Controlla se il percorso dell'immagine inizia con 'http://' o 'https://'
-  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-    return imagePath;
-  }
+    //   // Controlla se il percorso dell'immagine inizia con 'http://' o 'https://'
+    //   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    //     return imagePath;
+    //   }
 
-  // Rimuove eventuali duplicazioni del percorso 'storage/'
-  const correctedPath = imagePath.replace(/^(storage\/)+/, 'storage/');
+    //   // Rimuove eventuali duplicazioni del percorso 'storage/'
+    //   const correctedPath = imagePath.replace(/^(storage\/)+/, 'storage/');
 
-  // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
-  const baseUrl = 'http://127.0.0.1:8000'; // Sostituisci con il tuo URL effettivo se diverso
-  return `${baseUrl}/${correctedPath}`;
-},
+    //   // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
+    //   const baseUrl = 'http://127.0.0.1:8000'; // Sostituisci con il tuo URL effettivo se diverso
+    //   return `${baseUrl}/${correctedPath}`;
+    // },
 
     changePage(num) {
       this.currentPage += num;
@@ -78,7 +90,8 @@ export default {
     },
   },
   mounted() {
-    axios.get('http://127.0.0.1:8000/api/apartmentApi/apartments')
+    axios
+      .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
       .then((res) => {
         this.apartments = res.data;
       })
@@ -97,7 +110,6 @@ export default {
 </script>
 
 <!-- Stili rimangono invariati -->
-
 
 <style scoped>
 img {
