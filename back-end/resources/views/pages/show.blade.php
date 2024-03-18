@@ -18,16 +18,23 @@
                 <li>Letti: {{ $apartment->beds }}</li>
                 <li>Bagni: {{ $apartment->baths }}</li>
                 <li>Indirizzo: {{ $apartment->address }}</li>
-                <!-- <li>Longitudine: {{ $apartment->longitude }}</li>
-                <li>Latitudine: {{ $apartment->latitude }}</li> -->
+                <li>Servizi:</li>
+                <ul>
+                    @foreach ($apartment->services as $service)
+                        <li>
+                            <i class="fas {{ $service['icon'] }}"></i> {{ $service['name'] }}
+                        </li>
+                    @endforeach
+                {{-- <!-- <li>Longitudine: {{ $apartment->longitude }}</li> --}}
+                {{-- <li>Latitudine: {{ $apartment->latitude }}</li> --> --}}
             </ul>
         </div>
         <div class="card-footer">
-          
+
         </div>
     </div>
 </div>
-<script> 
+<script>
 
 
 

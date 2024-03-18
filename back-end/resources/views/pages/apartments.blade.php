@@ -14,6 +14,7 @@
                             alt="...">
                             <h5 class="card-title">{{ $apartment->title }}</h5>
                             <p class="card-text">{{ Str::limit($apartment->description) }}</p>
+
                             <div class="d-flex justify-content-between">
                                 <a href="{{ route('apartments.show', $apartment->id) }}" class="btn btn-primary">APRI</a>
                                 @if (auth()->id() == $apartment->user_id)
@@ -27,10 +28,10 @@
                                     </form>
                                 @endif
                             </div>
-                      
+
 
                     </div>
-                       
+
                     </div>
                 </div>
             @endforeach
@@ -71,4 +72,4 @@ img {
 @endsection
 
 
-   
+

@@ -14,8 +14,13 @@
             <li><strong>Letti:</strong> {{ apartment.beds }}</li>
             <li><strong>Bagni:</strong> {{ apartment.baths }}</li>
             <li><strong>Indirizzo:</strong> {{ apartment.address }}</li>
-            <!-- <li><strong>Longitude:</strong> {{ apartment.longitude }}</li>
-              <li><strong>Latitude:</strong> {{ apartment.latitude }}</li> -->
+            <li><strong>Servizi:</strong>
+              <ul class="list-unstyled">
+                <li v-for="service in apartment.services">
+                  <i :class="'fas ' + service.icon"></i> {{ service.name }}
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
@@ -37,7 +42,6 @@ export default {
     const apartmentId = this.$route.params.id;
     axios
       .get(`http://127.0.0.1:8000/api/apartmentApi/apartments/${apartmentId}`)
-
       .then((res) => {
         this.apartment = res.data;
       })
