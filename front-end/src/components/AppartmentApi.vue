@@ -11,7 +11,7 @@
           <div class="card-container">
             <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
             <img
-              :src="apartment.main_img"
+              :src="getImageUrl(apartment.main_img)"
               class="card-img-top"
               alt="Immagine dell'appartamento"
             />
@@ -65,23 +65,16 @@ export default {
     };
   },
   methods: {
-        getImageUrl(imagePath) {
-      if (!imagePath) {
-        // Fornisci un'immagine di default se imagePath non è definito
-        return 'http://127.0.0.1:8000/storage/apartments/default-image.jpg'; // Percorso di un'immagine di default
-      }
-
-      // Controlla se il percorso dell'immagine inizia con 'http://' o 'https://'
-      if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    getImageUrl(imagePath) {
+      // Verifica se il percorso restituito dal backend include il prefisso "storage"
+      if (imagePath.startsWith("storage")) {
+        // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
+        const baseUrl = "http://127.0.0.1:8000"; // Sostituisci con il tuo URL effettivo se diverso
+        return `${baseUrl}/${imagePath}`;
+      } else {
+        // Se il percorso non include "storage", restituisci direttamente il percorso
         return imagePath;
       }
-
-      // Rimuove eventuali duplicazioni del percorso 'storage/'
-      const correctedPath = imagePath.replace(/^(storage\/)+/, 'storage/');
-
-      // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
-      const baseUrl = 'http://127.0.0.1:8000'; // Sostituisci con il tuo URL effettivo se diverso
-      return `${baseUrl}/${correctedPath}`;
     },
 
     changePage(num) {
