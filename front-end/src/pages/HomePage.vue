@@ -7,9 +7,16 @@ export default {
       searchApi: "http://127.0.0.1:8000/api/apartmentApi/search?search=",
       findApartment: "",
       apartments: [],
+      perPage: 8,
+      currentPage: 1,
     };
   },
   methods: {
+    // Metodo per cambiare pagina
+    changePage(num) {
+      this.currentPage += num;
+      console.log(this.currentPage);
+    },
     // Metodo per eseguire la ricerca degli appartamenti
     getApartments() {
       // definisco variabile url
@@ -51,6 +58,14 @@ export default {
     // posso visualizzare tutti gli appartamenti
     this.getApartments();
   },
+
+  computed: {
+    paginatedList() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.apartments.slice(start, end);
+    },
+  },
 };
 </script>
 
@@ -82,7 +97,7 @@ export default {
       <div class="row">
         <div
           class="col-lg-3 col-md-6"
-          v-for="apartment in apartments"
+          v-for="apartment in paginatedList"
           :key="apartment.id"
         >
           <div class="card my-3">
@@ -104,6 +119,26 @@ export default {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="btn-container">
+        <div class="btn-wrapper">
+          <button
+            class="btn"
+            type="button"
+            :disabled="currentPage === 1"
+            @click="changePage(-1)"
+          >
+            << Prev
+          </button>
+          <button
+            class="btn"
+            type="button"
+            :disabled="currentPage === 4"
+            @click="changePage(1)"
+          >
+            Next >>
+          </button>
         </div>
       </div>
     </div>
