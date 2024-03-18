@@ -35,6 +35,17 @@ export default {
       // Esegue la ricerca degli appartamenti quando l'utente digita nel campo di ricerca
       this.getApartments();
     },
+    getImageUrl(imagePath) {
+      // Verifica se il percorso restituito dal backend include il prefisso "storage"
+      if (imagePath.startsWith("storage")) {
+        // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
+        const baseUrl = "http://127.0.0.1:8000"; // Sostituisci con il tuo URL effettivo se diverso
+        return `${baseUrl}/${imagePath}`;
+      } else {
+        // Se il percorso non include "storage", restituisci direttamente il percorso
+        return imagePath;
+      }
+    },
   },
   mounted() {
     // posso visualizzare tutti gli appartamenti
@@ -76,7 +87,11 @@ export default {
         >
           <div class="card my-3">
             <div class="card-container">
-              <img :src="apartment.main_img" class="card-img-top" alt="..." />
+              <img
+                :src="getImageUrl(apartment.main_img)"
+                class="card-img-top"
+                alt="..."
+              />
 
               <h5 class="card-title p-2">{{ apartment.title }}</h5>
               <p class="card-text p-2">{{ apartment.description }}</p>

@@ -65,24 +65,24 @@ export default {
     };
   },
   methods: {
-    //     getImageUrl(imagePath) {
-    //   if (!imagePath) {
-    //     // Fornisci un'immagine di default se imagePath non è definito
-    //     return 'http://127.0.0.1:8000/storage/apartments/default-image.jpg'; // Percorso di un'immagine di default
-    //   }
+        getImageUrl(imagePath) {
+      if (!imagePath) {
+        // Fornisci un'immagine di default se imagePath non è definito
+        return 'http://127.0.0.1:8000/storage/apartments/default-image.jpg'; // Percorso di un'immagine di default
+      }
 
-    //   // Controlla se il percorso dell'immagine inizia con 'http://' o 'https://'
-    //   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-    //     return imagePath;
-    //   }
+      // Controlla se il percorso dell'immagine inizia con 'http://' o 'https://'
+      if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+        return imagePath;
+      }
 
-    //   // Rimuove eventuali duplicazioni del percorso 'storage/'
-    //   const correctedPath = imagePath.replace(/^(storage\/)+/, 'storage/');
+      // Rimuove eventuali duplicazioni del percorso 'storage/'
+      const correctedPath = imagePath.replace(/^(storage\/)+/, 'storage/');
 
-    //   // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
-    //   const baseUrl = 'http://127.0.0.1:8000'; // Sostituisci con il tuo URL effettivo se diverso
-    //   return `${baseUrl}/${correctedPath}`;
-    // },
+      // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
+      const baseUrl = 'http://127.0.0.1:8000'; // Sostituisci con il tuo URL effettivo se diverso
+      return `${baseUrl}/${correctedPath}`;
+    },
 
     changePage(num) {
       this.currentPage += num;

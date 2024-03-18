@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Requests\StoreApartmentRequest;
 use App\Http\Requests\UpdateApartmentRequest;
@@ -58,24 +59,26 @@ class ApartmentController extends Controller
     {
         $data = $request->all();
         $user = Auth::user();
-
+    
         // ... Logica API TomTom qui
-
-      // Assumendo che StoreApartmentRequest validi tutti i campi necessari
+    
+        // Assumendo che StoreApartmentRequest validi tutti i campi necessari
         // $apartment->latitude = $latitude; // Se stai utilizzando i campi latitudine e longitudine
         // $apartment->longitude = $longitude;
-
+    
         $path = 'noimage.jpg'; // Imposta un'immagine predefinita
-
-        if($request->hasFile('main_img')) {
+    
+        if ($request->hasFile('main_img')) {
             $filenameWithExt = $request->file('main_img')->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('main_img')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
             $path = $request->file('main_img')->storeAs('public/apartments', $fileNameToStore);
+    
+            // Modifica il percorso per rimuovere "public/" e aggiungere "storage/"
+            $path = str_replace('public/', 'storage/', $path);
         }
-
-
+    
         $apartment = new Apartment([
             'title' => $request->title,
             'description' => $request->description,
@@ -90,15 +93,14 @@ class ApartmentController extends Controller
             // Assicurati di includere qui eventuali altri campi richiesti
         ]);
         $apartment->user_id = auth()->id();
-
-
+    
         $apartment->save();
-
+    
         // Gestione dell'upload delle immagini della galleria
-
-
-        return redirect()->route('dashboard',['main_img' => $path])->with('success', 'Appartamento creato con successo!');
+    
+        return redirect()->route('dashboard')->with('success', 'Appartamento creato con successo!');
     }
+    
 
 
     /**
@@ -142,18 +144,50 @@ class ApartmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateApartmentRequest $request, $id)
-    {
-        $apartment = Apartment::findOrFail($id);
+{
+    $apartment = Apartment::findOrFail($id);
 
-        if (auth()->id() !== $apartment->user_id) {
-            abort(403);
+    if (auth()->id() !== $apartment->user_id) {
+        abort(403);
+    }
+
+    // Verifica se è stata caricata una nuova immagine
+    if ($request->hasFile('main_img')) {
+        // Elimina l'immagine precedente dal filesystem se esiste
+        if (Storage::exists($apartment->main_img)) {
+            Storage::delete($apartment->main_img);
         }
 
-        // Aggiorna l'appartamento
-        $apartment->save();
+        // Carica la nuova immagine
+        $filenameWithExt = $request->file('main_img')->getClientOriginalName();
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        $extension = $request->file('main_img')->getClientOriginalExtension();
+        $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+        $path = $request->file('main_img')->storeAs('public/apartments', $fileNameToStore);
 
-        return redirect()->route('apartments.show', $apartment->id);
+        // Modifica il percorso per rimuovere "public/" e aggiungere "storage/"
+        $path = str_replace('public/', 'storage/', $path);
+
+        // Aggiorna il percorso dell'immagine nel database
+        $apartment->main_img = $path;
     }
+
+    // Aggiorna gli altri campi dell'appartamento
+    $apartment->update([
+        'title' => $request->title,
+        'description' => $request->description,
+        'max_guests' => $request->max_guests,
+        'rooms' => $request->rooms,
+        'beds' => $request->beds,
+        'baths' => $request->baths,
+        'address' => $request->address,
+        'longitude' => $request->longitude,
+        'latitude' => $request->latitude,
+        // Assicurati di includere qui eventuali altri campi richiesti
+    ]);
+
+    return redirect()->route('apartments.show', $apartment->id)->with('success', 'Appartamento aggiornato con successo!');
+}
 
     /**
      * Remove the specified resource from storage.
