@@ -3,7 +3,7 @@
     <h1>DETTAGLI APPARTAMENTO:</h1>
 
     <div class="container d-flex justify-content-center">
-      <div class="card">
+      <div class="my_card card">
         <img
           :src="getImageUrl(apartment.main_img)"
           class="card-img-top"
@@ -74,7 +74,8 @@ export default {
 </script>
 
 <style scoped>
-.card {
+.my_card {
   max-width: 1000px;
+  height: 100%;
 }
 </style>
