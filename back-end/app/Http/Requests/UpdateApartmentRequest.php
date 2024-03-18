@@ -32,8 +32,8 @@ class UpdateApartmentRequest extends FormRequest
             'baths' => 'required|integer|min:1',
             'main_img' => '',
             'address' => 'required|string',
-            'longitude' => '',
-            'latitude' => '',
+            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
         
         ];
     }
