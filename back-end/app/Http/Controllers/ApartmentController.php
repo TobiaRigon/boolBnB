@@ -97,7 +97,7 @@ class ApartmentController extends Controller
         // Gestione dell'upload delle immagini della galleria
 
 
-        return redirect()->route('apartments.index',['main_img' => $path])->with('success', 'Appartamento creato con successo!');
+        return redirect()->route('dashboard',['main_img' => $path])->with('success', 'Appartamento creato con successo!');
     }
 
 

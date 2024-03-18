@@ -52,15 +52,36 @@ export default {
       currentPage: 1,
     };
   },
+  methods: {
+    getImageUrl(imagePath) {
+      // Controlla se il percorso dell'immagine sembra essere un URL completo
+      if (imagePath && ( imagePath.startsWith('https://'))) {
+        return imagePath;
+      }
+      // Altrimenti, costruisci il percorso completo utilizzando il percorso di base del server Laravel
+      const baseUrl = 'http://127.0.0.1:8000'; // Modifica con il tuo URL effettivo se diverso
+      return `${baseUrl}/storage/${imagePath}`;
+    },
+    changePage(num) {
+      this.currentPage += num;
+      console.log(this.currentPage);
+    },
+  },
   mounted() {
-    axios
-      .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
+    axios.get('http://127.0.0.1:8000/api/apartmentApi/apartments')
       .then((res) => {
         this.apartments = res.data;
       })
       .catch((err) => {
         console.error(err);
       });
+  },
+  computed: {
+    paginatedList() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.apartments.slice(start, end);
+    },
   },
 };
 </script>
