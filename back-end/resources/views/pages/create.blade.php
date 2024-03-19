@@ -4,7 +4,6 @@
     <div class="container mt-4">
         <h1 class="text-center mb-5">Crea Nuovo Appartamento</h1>
 
-
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -16,88 +15,88 @@
         @endif
 
         <div class="container">
-
-            <!-- Div che collassa -->
             <div id="newApartmentForm">
                 <div class="card card-body mt-3">
-                    <!-- Form per l'inserimento di un nuovo appartamento -->
                     <form action="{{ route('apartment.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <!-- Titolo dell'appartamento -->
                         <div class="mb-3">
                             <label for="title" class="form-label">Titolo <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="title" name="title" required>
+                            <input type="text" class="form-control" id="title" name="title"
+                                value="{{ old('title') }}" required>
                         </div>
-                        <!-- Descrizione dell'appartamento -->
+
                         <div class="mb-3">
                             <label for="description" class="form-label">Descrizione <span
                                     class="text-danger">*</span></label>
-                            <textarea class="form-control" id="description" name="description" required></textarea>
+                            <textarea class="form-control" id="description" name="description" required>{{ old('description') }}</textarea>
                         </div>
-                        <!-- Max ospiti -->
+
                         <div class="mb-3">
                             <label for="max_guests" class="form-label">Numero ospiti <span
                                     class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="max_guests" name="max_guests" required
-                                min="1">
+                            <input type="number" class="form-control" id="max_guests" name="max_guests"
+                                value="{{ old('max_guests') }}" required min="1">
                         </div>
-                        <!-- Numero di stanze -->
+
                         <div class="mb-3">
                             <label for="rooms" class="form-label">Numero stanza <span
                                     class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="rooms" name="rooms" required
-                                min="1">
+                            <input type="number" class="form-control" id="rooms" name="rooms"
+                                value="{{ old('rooms') }}" required min="1">
                         </div>
-                        <!-- Numero di letti -->
+
                         <div class="mb-3">
                             <label for="beds" class="form-label">Letti <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="beds" name="beds" required
-                                min="1">
+                            <input type="number" class="form-control" id="beds" name="beds"
+                                value="{{ old('beds') }}" required min="1">
                         </div>
-                        <!-- Numero di bagni -->
+
                         <div class="mb-3">
                             <label for="baths" class="form-label">Bagni <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="baths" name="baths" required
-                                min="1">
+                            <input type="number" class="form-control" id="baths" name="baths"
+                                value="{{ old('baths') }}" required min="1">
                         </div>
-                         <!-- servizi -->
+
                         <div class="mb-3">
-                            @foreach($services as $service)
+                            @foreach ($services as $service)
                                 <div>
-                                    <input type="checkbox" name="services[]" value="{{ $service->id }}">
+                                    <input type="checkbox" name="services[]" value="{{ $service->id }}"
+                                        @if (is_array(old('services')) && in_array($service->id, old('services'))) checked @endif>
                                     <label>{{ $service->name }}</label>
                                 </div>
                             @endforeach
                         </div>
-                        <!-- Immagine principale dell'appartamento -->
+
                         <div class="mb-3">
                             <label for="main_img" class="form-label">Immagine di copertina <span
                                     class="text-danger">*</span></label>
                             <input type="file" name="main_img">
                         </div>
-                        <!-- indirizzo appartamento -->
-                        <div class="mb-3">
-                            <!-- scegli città -->
 
-                            <label for="address" class="form-label"> Indirizzo dell'appartamento</label>
-                            <input type="text" class="form-control" id="address" name="address" value="">
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Indirizzo dell'appartamento</label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                value="{{ old('address') }}">
                         </div>
+
                         <div id="AutoComplete" class="card position-absolute w-100 radius d-none">
                             <ul class="list" style="cursor: pointer;">
                             </ul>
                         </div>
+
+                        <div class="d-none">
+                            <input type="text" id="latitude" name="latitude" value="{{ old('latitude') }}">
+                            <input type="text" id="longitude" name="longitude" value="{{ old('longitude') }}">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Crea</button>
+                    </form>
                 </div>
-                <div class="d-none">
-                    <input type="text" id="latitude" name="latitude">
-                    <input type="text" id="longitude" name="longitude">
-                </div>
-                <!-- Bottone per inviare il form -->
-                <button type="submit" class="btn-submit">Crea</button>
-                </form>
             </div>
         </div>
     </div>
-    </div>
+
+
 
     <script>
         //scegli città
@@ -107,7 +106,7 @@
         let lon = '';
         let radius = '';
 
-  
+
         // chiave API
         const keyApi = 'brzK3He1s61mi6MQycw8qJXnuSAtFOfx';
 
@@ -193,13 +192,14 @@
             border: 1px solid darkgrey;
         }
 
-        .btn-submit{
-            background-color:white;
-            color:green;
+        .btn-submit {
+            background-color: white;
+            color: green;
             padding: 8px;
             border-radius: 4px;
             transition-duration: 0.4s;
         }
+
         .btn-submit:hover {
             background-color: green;
             color: white;
