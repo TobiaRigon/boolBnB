@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="container">
-      <h1>Apartments</h1>
+      
 
       <a class="btn btn-success my-3" href="http://localhost:8000/create"
         >NUOVO APPARTAMENTO</a
