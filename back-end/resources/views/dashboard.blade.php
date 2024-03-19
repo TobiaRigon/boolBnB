@@ -15,16 +15,18 @@
         
         <div class="row">
             @foreach ($apartments as $apartment)
+            <a href="{{ route('apartments.show', $apartment->id) }}">
                 <div class="col-12 col-md-6 col-lg-4 ">
                     <div class="card my-3">
-                    <div class="card-container">
-                    <img src="{{ asset($apartment->main_img) }}" class="card-img-top"
+                    
+                        <div class="card-container">
+                          <img src="{{ asset($apartment->main_img) }}" class="card-img-top"
                             alt="...">
                             <h5 class="card-title">{{ $apartment->title }}</h5>
                             <p class="card-text">{{ Str::limit($apartment->description) }}</p>
 
                             <div class="d-flex justify-content-between">
-                                <a href="{{ route('apartments.show', $apartment->id) }}" class="btn btn-primary">APRI</a>
+                                <!-- <a href="{{ route('apartments.show', $apartment->id) }}" class="btn btn-primary">APRI</a> -->
                                 @if (auth()->id() == $apartment->user_id)
                                     <a href="{{ route('apartments.edit', $apartment->id) }}"
                                         class="btn btn-secondary">MODIFICA</a>
@@ -36,12 +38,10 @@
                                     </form>
                                 @endif
                             </div>
-
-
-                    </div>
-
+                        </div>
                     </div>
                 </div>
+                </a>
             @endforeach
         </div>
     </div>
