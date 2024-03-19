@@ -6,9 +6,15 @@ export default {
     return {
       searchApi: "http://127.0.0.1:8000/api/apartmentApi/search?search=",
       findApartment: "",
+      AutoMenu: [],
       apartments: [],
       perPage: 8,
       currentPage: 1,
+      lat: "",
+      lon: "",
+      città: "",
+      via: "",
+      raggio: "",
     };
   },
   methods: {
@@ -34,14 +40,26 @@ export default {
           console.log(err);
         });
     },
+    autoComplete() {
+      const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
+      let tomTomApi = `https://api.tomtom.com/search/2/search/${this.findApartment}.json?key=${keyApi}`;
+      console.log(tomTomApi);
+      axios
+        .get(tomTomApi)
+        .then((res) => {
+          this.AutoMenu = res.data.results;
+          console.log(this.AutoMenu);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
     handleSearch(event) {
       event.preventDefault(); // Evita il ricaricamento della pagina
       this.getApartments();
     },
-    InputChange() {
-      // Esegue la ricerca degli appartamenti quando l'utente digita nel campo di ricerca
-      this.getApartments();
-    },
+
     getImageUrl(imagePath) {
       // Verifica se il percorso restituito dal backend include il prefisso "storage"
       if (imagePath.startsWith("storage")) {
@@ -54,11 +72,6 @@ export default {
       }
     },
   },
-  mounted() {
-    // posso visualizzare tutti gli appartamenti
-    this.getApartments();
-  },
-
   computed: {
     paginatedList() {
       const start = (this.currentPage - 1) * this.perPage;
@@ -86,11 +99,29 @@ export default {
           placeholder="Cerca"
           aria-label="Search"
           v-model="findApartment"
-          @input="InputChange()"
+          @input="autoComplete"
         />
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
           Cerca
         </button>
+        <!-- Inizio: Elemento per l'autocompletamento -->
+        <div
+          id="AutoComplete"
+          style="margin-top: 40px"
+          class="card position-absolute w-80 h-50 radius"
+          v-show="AutoMenu.length > 0 && findApartment.trim() !== ''"
+        >
+          <ul class="list" style="cursor: pointer">
+            <li
+              v-for="(item, index) in AutoMenu"
+              :key="index"
+              @click="selectItem(item)"
+            >
+              {{ item.address.freeformAddress }}
+            </li>
+          </ul>
+        </div>
+        <!-- Fine: Elemento per l'autocompletamento -->
       </form>
     </div>
     <div class="container">
@@ -121,28 +152,28 @@ export default {
           </div>
         </div>
       </div>
-      <div class="btn-container">
-        <div class="btn-wrapper">
-          <button
-            class="btn"
-            type="button"
-            :disabled="currentPage === 1"
-            @click="changePage(-1)"
-          >
-            << Prev
-          </button>
-          <button
-            class="btn"
-            type="button"
-            :disabled="currentPage === 4"
-            @click="changePage(1)"
-          >
-            Next >>
-          </button>
-        </div>
-      </div>
     </div>
   </main>
+  <div class="btn-container">
+    <div class="btn-wrapper">
+      <button
+        class="btn"
+        type="button"
+        :disabled="currentPage === 1"
+        @click="changePage(-1)"
+      >
+        << Prev
+      </button>
+      <button
+        class="btn"
+        type="button"
+        :disabled="currentPage === 4"
+        @click="changePage(1)"
+      >
+        Next >>
+      </button>
+    </div>
+  </div>
 </template>
 
 <style>
@@ -183,5 +214,15 @@ img:hover {
 .card-text {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+li {
+  list-style: none;
+}
+#AutoComplete {
+  width: 50%;
+}
+#AutoComplete ul li:hover {
+  background-color: rgba(0, 0, 255, 0.1);
+  border: 1px solid darkgrey;
 }
 </style>
