@@ -32,7 +32,7 @@
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <input class="btn btn-danger" type="submit" value="ELIMINA">
+                                        <input class="btn-delete" type="submit" value="ELIMINA">
                                     </form>
                                 @endif
                             </div>
@@ -75,6 +75,12 @@ img {
 .card-text {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+.btn-delete{
+  background-color:red;
+  color:white;
+  padding:7px;
+  border-radius: 4px;
 }
 </style>
     
