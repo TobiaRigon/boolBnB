@@ -12,15 +12,15 @@ class MessageController extends Controller
     public function store(Request $request) {
 
         //VALIDAZIONE DATI
-        $request->validate([
+        $validatedData = $request->validate([
             'nome' => 'required|string|max:255',
             'testo' => 'required|string',
         ]);
 
         //SALVATAGGIO MESSAGGIO IN DATABASE
         $message = new Message();
-        $message->nome = $request-> nome;
-        $message->testo = $request-> testo;
+        $message->nome =  $validatedData['nome'];
+        $message->testo = $validatedData['testo'];
 
         $message->save();
 
