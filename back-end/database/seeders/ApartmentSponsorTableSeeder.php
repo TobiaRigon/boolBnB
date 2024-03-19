@@ -34,7 +34,7 @@ class ApartmentSponsorTableSeeder extends Seeder
                 "sponsor_id" => "1",
             ],
             [
-                "apartment_id" => "4",
+                "apartment_id" => "10",
                 "sponsor_id" => "1",
             ],
         ];

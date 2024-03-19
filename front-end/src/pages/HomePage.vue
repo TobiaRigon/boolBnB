@@ -9,6 +9,8 @@ export default {
       apartments: [],
       perPage: 8,
       currentPage: 1,
+      apartmentsInEvidence: [],
+
     };
   },
   methods: {
@@ -53,10 +55,21 @@ export default {
         return imagePath;
       }
     },
+    getInEvidenceApartments() {
+    axios.get('http://127.0.0.1:8000/api/apartments/in-evidence')
+    .then(response => {
+      this.apartmentsInEvidence = response.data; // Salva gli appartamenti in evidenza nell'array separato
+      console.log('Appartamenti in evidenza:', this.apartmentsInEvidence); // Aggiungi questo console.log
+    })
+    .catch(error => {
+      console.error('Error fetching in-evidence apartments:', error);
+    });
+}
   },
   mounted() {
     // posso visualizzare tutti gli appartamenti
     this.getApartments();
+    this.getInEvidenceApartments();
   },
 
   computed: {
@@ -71,7 +84,7 @@ export default {
 
 <template>
   <main>
-    <div class="container">
+    <!-- <div class="container">
       <div class="row">
         <div class="col">
           <div class="col">
@@ -92,9 +105,9 @@ export default {
           Cerca
         </button>
       </form>
-    </div>
-    <div class="container">
-      <div class="row">
+    </div> -->
+    <!-- <div class="container"> -->
+      <!-- <div class="row">
         <div
           class="col-lg-3 col-md-6"
           v-for="apartment in paginatedList"
@@ -111,11 +124,7 @@ export default {
               <h5 class="card-title p-2">{{ apartment.title }}</h5>
               <p class="card-text p-2">{{ apartment.description }}</p>
               <div class="d-flex justify-content-between">
-                <!-- <router-link
-                  :to="'/apartments/' + apartment.id"
-                  class="btn btn-primary m-2"
-                  >APRI</router-link
-                > -->
+             
               </div>
             </div>
           </router-link>
@@ -140,6 +149,37 @@ export default {
             Next >>
           </button>
         </div>
+      </div> -->
+    <!-- </div> -->
+    <div>
+      <h2>Appartamenti in evidenza</h2>
+      <div class="apartments-in-evidence">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6" v-for="apartment in apartmentsInEvidence" :key="apartment.id">
+            <router-link class="card my-3" :to="'/apartments/' + apartment.id">
+              <div class="card-container">
+                <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
+                <img
+                  :src="getImageUrl(apartment.main_img)"
+                  class="card-img-top"
+                  alt="Immagine dell'appartamento"
+                />
+                <h5 class="card-title p-2">{{ apartment.title }}</h5>
+                <p class="card-text p-2">{{ apartment.description }}</p>
+                <div class="d-flex justify-content-between">
+                  <!-- <router-link
+                    :to="'/apartments/' + apartment.id"
+                    class="btn btn-primary m-2"
+                    >APRI</router-link
+                  > -->
+                </div>
+              </div>
+            </router-link>
+          </div>
+
+        </div>
+        
       </div>
     </div>
   </main>
