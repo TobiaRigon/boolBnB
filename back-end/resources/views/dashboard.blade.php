@@ -29,13 +29,12 @@
                                 <!-- <a href="{{ route('apartments.show', $apartment->id) }}" class="btn btn-primary">APRI</a> -->
                                 @if (auth()->id() == $apartment->user_id)
                                     <a href="{{ route('apartments.edit', $apartment->id) }}"
-                                        class="btn btn-secondary">MODIFICA</a>
-                                    <form action="{{ route('apartment.delete', $apartment->id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input class="btn-delete" type="submit" value="ELIMINA">
-                                    </form>
+                                     class="btn btn-secondary">MODIFICA</a>
+                                    <form id="delete-form-{{ $apartment->id }}" action="{{ route('apartment.delete', $apartment->id) }}" method="POST" style="display:inline;">
+                                      @csrf
+                                      @method('DELETE')
+                                      <input class="btn-delete" type="button" value="ELIMINA" onclick="confirmDelete({{ $apartment->id }})">
+                                  </form>
                                 @endif
                             </div>
                         </div>
@@ -83,6 +82,14 @@ img {
   border-radius: 4px;
 }
 </style>
+
+<script>
+    function confirmDelete(apartmentId) {
+        if (confirm('Sei sicuro di voler eliminare questo appartamento?')) {
+            document.getElementById('delete-form-' + apartmentId).submit();
+        }
+    }
+</script>
     
     @endsection
     
