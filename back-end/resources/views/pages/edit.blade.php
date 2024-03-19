@@ -100,7 +100,7 @@
                         <input type="text" id="longitude" name="longitude" value="{{ old('longitude', $apartment->longitude) }}" required>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="submit" class="btn btn-success">Modifica</button>
                     </form>
                 </div>
             </div>

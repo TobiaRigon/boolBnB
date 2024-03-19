@@ -83,13 +83,13 @@ export default {
         <input
           class="form-control mr-sm-2"
           type="search"
-          placeholder="Search"
+          placeholder="Cerca"
           aria-label="Search"
           v-model="findApartment"
           @input="InputChange()"
         />
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
+          Cerca
         </button>
       </form>
     </div>

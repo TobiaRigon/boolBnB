@@ -100,7 +100,7 @@
                     <input type="text" id="longitude" name="longitude">
                 </div>
                 <!-- Bottone per inviare il form -->
-                <button type="submit" class="btn-submit">Submit</button>
+                <button type="submit" class="btn-submit">Crea</button>
                 </form>
             </div>
         </div>
