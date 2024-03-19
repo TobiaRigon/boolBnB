@@ -100,7 +100,7 @@
                     <input type="text" id="longitude" name="longitude">
                 </div>
                 <!-- Bottone per inviare il form -->
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn-submit">Submit</button>
                 </form>
             </div>
         </div>
@@ -214,6 +214,18 @@
         #AutoComplete ul li:hover {
             background-color: rgba(0, 0, 255, 0.1);
             border: 1px solid darkgrey;
+        }
+
+        .btn-submit{
+            background-color:white;
+            color:green;
+            padding: 8px;
+            border-radius: 4px;
+            transition-duration: 0.4s;
+        }
+        .btn-submit:hover {
+            background-color: green;
+            color: white;
         }
     </style>
 
