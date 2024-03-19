@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    
+
 
     <div class="container mt-4">
         <h1 class="text-center mb-5">Modifica appartamento</h1>
@@ -17,7 +17,7 @@
 @endif
 
         <div class="container">
-           
+
             <!-- Div che collassa -->
             <div id="newApartmentForm">
                 <div class="card card-body mt-3">
@@ -62,9 +62,20 @@
                             </label>
                             <input value="{{$apartment->main_img}}" type="file" class="form-control" id="main_img" name="main_img" >
                         </div>
-                      
+
+                        {{-- servizi --}}
+                        <div class="mb-3">
+                            @foreach($services as $service)
+                                <div>
+                                    <input type="checkbox" name="services[]" value="{{ $service->id }}" {{ in_array($service->id, $currentServices) ? 'checked' : '' }}>
+                                    <label>{{ $service->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+
+
                         {{-- address  --}}
-                                 
+
                                     <div class="mb-3">
                             <!-- scegli città -->
 
@@ -89,18 +100,18 @@
                         <input type="text" id="longitude" name="longitude" value="{{ old('longitude', $apartment->longitude) }}" required>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Submit</button>     
+                    <button type="submit" class="btn btn-success">Submit</button>
                     </form>
                 </div>
             </div>
         </div>
 
-        
+
     </div>
 
 
 <script>
-   
+
    //scegli città
    //scrivo una funzione che, in base al click mi da diversi valori di lat, long e radius
    Milano = document.getElementById('Milano')
@@ -108,14 +119,14 @@
    let lat = '';
    let lon = '';
    let radius = '';
-  
+
        Milano.addEventListener('change', function () {
            if (Milano.checked)
            {lat = '45.4642';
            lon = '9.1900';
            radius = '20000';}
        })
-   
+
        Roma.addEventListener('change', function () {
            if (Roma.checked)
            {lat = '41.9028';
@@ -124,13 +135,13 @@
        })
    // chiave API
    const keyApi = 'brzK3He1s61mi6MQycw8qJXnuSAtFOfx';
-   
+
 
    // Elementi nel DOM
    const searchEl = document.getElementById('address');
    const AutoCompleteEl = document.getElementById('AutoComplete');
-   const AutoCompleteClass = AutoCompleteEl.classList; 
-   const ulListEl = AutoCompleteEl.querySelector('ul.list'); 
+   const AutoCompleteClass = AutoCompleteEl.classList;
+   const ulListEl = AutoCompleteEl.querySelector('ul.list');
    //latitudine e longitudine
    const latitude = document.getElementById('latitude');
    const longitude = document.getElementById('longitude');
@@ -203,10 +214,10 @@
 
 <style>
    #AutoComplete ul li:hover {
-   background-color: rgba(0, 0, 255, 0.1); 
-   border: 1px solid darkgrey; 
+   background-color: rgba(0, 0, 255, 0.1);
+   border: 1px solid darkgrey;
 }
 
 </style>
 
-@endsection 
+@endsection

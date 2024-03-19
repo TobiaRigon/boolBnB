@@ -60,6 +60,15 @@
                             <input type="number" class="form-control" id="baths" name="baths" required
                                 min="1">
                         </div>
+                         <!-- servizi -->
+                        <div class="mb-3">
+                            @foreach($services as $service)
+                                <div>
+                                    <input type="checkbox" name="services[]" value="{{ $service->id }}">
+                                    <label>{{ $service->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
                         <!-- Immagine principale dell'appartamento -->
                         <div class="mb-3">
                             <label for="main_img" class="form-label">Immagine di coperina <span
