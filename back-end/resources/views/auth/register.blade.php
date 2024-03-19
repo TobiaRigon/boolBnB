@@ -45,7 +45,7 @@
             </a>
 
             <x-primary-button class="ml-4">
-                {{ __('Sing-in') }}
+                {{ __('Registrati') }}
             </x-primary-button>
         </div>
     </form>

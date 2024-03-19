@@ -33,6 +33,14 @@ class NewPasswordController extends Controller
             'token' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'token.required' => 'Il token di reset della password è obbligatorio.',
+            'email.required' => 'Il campo email è obbligatorio.',
+            'email.email' => 'Inserisci un indirizzo email valido.',
+            'password.required' => 'Il campo nuova password è obbligatorio.',
+            'password.confirmed' => 'La conferma della nuova password non corrisponde.',
+            'password.min' => 'La nuova password deve contenere almeno :min caratteri.',
+            'password.password' => 'La nuova password deve contenere almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale.',
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we

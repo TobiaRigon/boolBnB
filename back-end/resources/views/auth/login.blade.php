@@ -6,7 +6,7 @@
 
     <!-- Rotta to Register -->
     <x-primary-button class="ml-3 mb-3">
-    <a href="{{ route('register') }}" >Sing-in</a>
+    <a href="{{ route('register') }}" >Registrati</a>
     </x-primary-button>
 
     <form method="POST" action="{{ route('login') }}">

@@ -16,8 +16,15 @@ class PasswordController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $validated = $request->validateWithBag('updatePassword', [
-            'current_password' => ['required', 'current_password'],
+            'current_password' => ['required', 'password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
+        ], [
+            'current_password.required' => 'Il campo password attuale è obbligatorio.',
+            'current_password.password' => 'La password attuale non è corretta.',
+            'password.required' => 'Il campo nuova password è obbligatorio.',
+            'password.confirmed' => 'La conferma della nuova password non corrisponde.',
+            'password.min' => 'La nuova password deve contenere almeno :min caratteri.',
+            'password.password' => 'La nuova password deve contenere almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale.',
         ]);
 
         $request->user()->update([
