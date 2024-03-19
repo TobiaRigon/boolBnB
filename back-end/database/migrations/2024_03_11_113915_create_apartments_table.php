@@ -23,6 +23,7 @@ return new class extends Migration
             $table->tinyInteger('baths');
             $table->string('main_img');
             $table->string('address');
+            $table->boolean('in_evidence')->default(false);
             $table->decimal('longitude', 10, 8)->nullable();
             $table->decimal('latitude', 11, 8)->nullable();
             $table->timestamps();

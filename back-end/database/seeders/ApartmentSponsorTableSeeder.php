@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 use App\Models\Apartment;
 use App\Models\Sponsor;
@@ -23,38 +24,34 @@ class ApartmentSponsorTableSeeder extends Seeder
             [
                 "apartment_id" => "1",
                 "sponsor_id" => "3",
-                "deadline" => ""
             ],
             [
                 "apartment_id" => "2",
                 "sponsor_id" => "2",
-                "deadline" => ""
             ],
             [
                 "apartment_id" => "3",
                 "sponsor_id" => "1",
-                "deadline" => ""
             ],
             [
                 "apartment_id" => "4",
                 "sponsor_id" => "1",
-                "deadline" => ""
             ],
         ];
 
-        foreach ($apartmentSponsors as $key => $apartmentSponsor) {
-            $currentDate = date("Y-m-d H:i:s");
-            if ($apartmentSponsor['sponsor_id'] == 1) {
-                $currentDateMin = date("Y-m-d H:i:s", strtotime('+24 hours', strtotime($currentDate)));
-            } else if ($apartmentSponsor['sponsor_id'] == 2) {
-                $currentDateMin = date("Y-m-d H:i:s", strtotime('+72 hours', strtotime($currentDate)));
-            } else if ($apartmentSponsor['sponsor_id'] == 3) {
-                $currentDateMin = date("Y-m-d H:i:s", strtotime('+144 hours', strtotime($currentDate)));
-            }
+        foreach ($apartmentSponsors as $apartmentSponsor) {
+            // Calcola la data di scadenza in base all'ID dello sponsor
+            $currentDate = Carbon::now();
+            $currentDate->addHours($apartmentSponsor['sponsor_id'] == 1 ? 24 : ($apartmentSponsor['sponsor_id'] == 2 ? 72 : 144));
+            $apartmentSponsor['deadline'] = $currentDate;
 
-            $apartmentSponsor["deadline"] = $currentDateMin;
-
+            // Creazione della relazione appartamento-sponsor
             ApartmentSponsor::create($apartmentSponsor);
+
+            // Aggiornamento del campo in_evidence dell'appartamento
+            $apartment = Apartment::find($apartmentSponsor['apartment_id']);
+            $apartment->in_evidence = true;
+            $apartment->save();
         }
     }
 }
