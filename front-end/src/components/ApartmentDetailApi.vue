@@ -33,6 +33,9 @@
       </div>
     </div>
   </div>
+
+  
+ 
 </template>
 
 <script>
@@ -43,6 +46,8 @@ export default {
   data() {
     return {
       apartment: {},
+
+     
     };
   },
   methods: {
@@ -58,7 +63,9 @@ export default {
       const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
       return `${baseUrl}/${imagePath}`;
     },
+
   },
+
   mounted() {
     const apartmentId = this.$route.params.id;
     axios

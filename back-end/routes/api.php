@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ApiController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,6 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+
 Route::group(['prefix' => '/apartmentApi'] , function(){
 
     Route::get('/apartments', [ApiController::class, 'getApartments']);
@@ -31,4 +34,5 @@ Route::group(['prefix' => '/apartmentApi'] , function(){
 
 
 });
+
 
