@@ -20,9 +20,9 @@
       <li class="nav-item">
         <a class="nav-link" :href="loginUrl">Login/Dashboard</a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" :href="singinUrl">Singin</a>
-      </li>
+      </li> -->
     </ul>
   </nav>
 </template>

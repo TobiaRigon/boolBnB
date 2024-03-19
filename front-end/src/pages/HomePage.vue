@@ -83,13 +83,13 @@ export default {
         <input
           class="form-control mr-sm-2"
           type="search"
-          placeholder="Search"
+          placeholder="Cerca"
           aria-label="Search"
           v-model="findApartment"
           @input="InputChange()"
         />
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
+          Cerca
         </button>
       </form>
     </div>
@@ -155,9 +155,15 @@ img {
   width: 100%;
   object-fit: cover;
 }
+img:hover {
+  transform: scale(1.1);
+  transition: 1.7s;
+}
 
 .card {
   height: 500px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .card-container {

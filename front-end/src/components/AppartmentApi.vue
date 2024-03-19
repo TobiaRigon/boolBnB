@@ -110,9 +110,14 @@ img {
   width: 100%;
   object-fit: cover;
 }
+img:hover {
+  transform: scale(1.1);
+  transition: 1.7s;
+}
 
 .card {
   height: 500px;
+  overflow: hidden;
 }
 
 .card-container {

@@ -71,7 +71,7 @@
                         </div>
                         <!-- Immagine principale dell'appartamento -->
                         <div class="mb-3">
-                            <label for="main_img" class="form-label">Immagine di coperina <span
+                            <label for="main_img" class="form-label">Immagine di copertina <span
                                     class="text-danger">*</span></label>
                             <input type="file" name="main_img">
                         </div>
@@ -92,7 +92,7 @@
                     <input type="text" id="longitude" name="longitude">
                 </div>
                 <!-- Bottone per inviare il form -->
-                <button type="submit" class="btn-submit">Submit</button>
+                <button type="submit" class="btn-submit">Crea</button>
                 </form>
             </div>
         </div>
