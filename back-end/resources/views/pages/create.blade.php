@@ -91,7 +91,7 @@
                     <input type="text" id="longitude" name="longitude">
                 </div>
                 <!-- Bottone per inviare il form -->
-                <button type="submit" class="btn-success">Submit</button>
+                <button type="submit" class="btn-submit">Submit</button>
                 </form>
             </div>
         </div>
@@ -207,11 +207,16 @@
             border: 1px solid darkgrey;
         }
 
-        .btn-success{
-            background-color:green;
-            color:white;
-            padding:7px;
+        .btn-submit{
+            background-color:white;
+            color:green;
+            padding: 8px;
             border-radius: 4px;
+            transition-duration: 0.4s;
+        }
+        .btn-submit:hover {
+            background-color: green;
+            color: white;
         }
     </style>
 
