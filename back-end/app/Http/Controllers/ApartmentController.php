@@ -45,8 +45,9 @@ class ApartmentController extends Controller
     {
         $user = Auth::user(); // Recupera l'utente autenticato
         $apartments = Apartment::all();
+        $services = Service::all();
 
-        return view('pages.create', compact('apartments', 'user'));
+        return view('pages.create', compact('apartments', 'services','user'));
     }
 
     /**
@@ -59,26 +60,27 @@ class ApartmentController extends Controller
     {
         $data = $request->all();
         $user = Auth::user();
-    
+
         // ... Logica API TomTom qui
-    
+
         // Assumendo che StoreApartmentRequest validi tutti i campi necessari
         // $apartment->latitude = $latitude; // Se stai utilizzando i campi latitudine e longitudine
         // $apartment->longitude = $longitude;
-    
+
         $path = 'noimage.jpg'; // Imposta un'immagine predefinita
-    
+
         if ($request->hasFile('main_img')) {
             $filenameWithExt = $request->file('main_img')->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('main_img')->getClientOriginalExtension();
             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
             $path = $request->file('main_img')->storeAs('public/apartments', $fileNameToStore);
-    
+
             // Modifica il percorso per rimuovere "public/" e aggiungere "storage/"
             $path = str_replace('public/', 'storage/', $path);
         }
-    
+
+
         $apartment = new Apartment([
             'title' => $request->title,
             'description' => $request->description,
@@ -93,14 +95,19 @@ class ApartmentController extends Controller
             // Assicurati di includere qui eventuali altri campi richiesti
         ]);
         $apartment->user_id = auth()->id();
-    
+
+
         $apartment->save();
-    
+        if ($request->has('services')) {
+            $apartment->services()->sync($request->services, false); // Ensure existing associations are retained
+        }
+
+
         // Gestione dell'upload delle immagini della galleria
-    
+
         return redirect()->route('dashboard')->with('success', 'Appartamento creato con successo!');
     }
-    
+
 
 
     /**
@@ -132,8 +139,13 @@ class ApartmentController extends Controller
             return redirect()->back()->with('error', 'Non sei autorizzato a eliminare questo appartamento.');
         }
 
+        $services = Service::all();
 
-        return view('pages.edit', compact('apartment'));
+        // Recupera i servizi attualmente associati all'appartamento
+        $currentServices = $apartment->services->pluck('id')->toArray();
+
+
+        return view('pages.edit', compact('apartment', 'services', 'currentServices'));
     }
 
     /**
@@ -185,6 +197,12 @@ class ApartmentController extends Controller
         'latitude' => $request->latitude,
         // Assicurati di includere qui eventuali altri campi richiesti
     ]);
+    if ($request->has('services')) {
+        $apartment->services()->sync($request->services);
+    } else {
+        // Se non vengono selezionati nuovi servizi, disassocia tutti i servizi dall'appartamento
+        $apartment->services()->detach();
+    }
 
     return redirect()->route('apartments.show', $apartment->id)->with('success', 'Appartamento aggiornato con successo!');
 }
@@ -209,6 +227,6 @@ class ApartmentController extends Controller
         return redirect()->route('dashboard');
     }
 
- 
-    
+
+
 }
