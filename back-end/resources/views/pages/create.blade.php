@@ -80,14 +80,6 @@
                             <!-- scegli città -->
 
                             <label for="address" class="form-label"> Indirizzo dell'appartamento</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="city" id="Milano" value="Milano">
-                                <label class="form-check-label" for="Milano">Milano</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="city" id="Roma" value="Roma">
-                                <label class="form-check-label" for="Roma">Roma</label>
-                            </div>
                             <input type="text" class="form-control" id="address" name="address" value="">
                         </div>
                         <div id="AutoComplete" class="card position-absolute w-100 radius d-none">
@@ -110,27 +102,12 @@
     <script>
         //scegli città
         //scrivo una funzione che, in base al click mi da diversi valori di lat, long e radius
-        Milano = document.getElementById('Milano')
-        Roma = document.getElementById('Roma')
+
         let lat = '';
         let lon = '';
         let radius = '';
 
-        Milano.addEventListener('change', function() {
-            if (Milano.checked) {
-                lat = '45.4642';
-                lon = '9.1900';
-                radius = '20000';
-            }
-        })
-
-        Roma.addEventListener('change', function() {
-            if (Roma.checked) {
-                lat = '41.9028';
-                lon = '12.4964';
-                radius = '25000';
-            }
-        })
+  
         // chiave API
         const keyApi = 'brzK3He1s61mi6MQycw8qJXnuSAtFOfx';
 
@@ -155,7 +132,7 @@
 
         function searchAdress(adress) {
             fetch(
-                    `https://api.tomtom.com/search/2/search/${adress}.json?key=${keyApi}&countrySet=IT&limit=5&lat=${lat}&lon=${lon}&radius=${radius}`
+                    `https://api.tomtom.com/search/2/search/${adress}.json?key=${keyApi}`
                 )
                 .then(response => response.json())
                 .then(data => {
