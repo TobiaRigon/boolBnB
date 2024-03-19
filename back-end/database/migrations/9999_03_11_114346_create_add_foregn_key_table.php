@@ -31,10 +31,17 @@ return new class extends Migration
             $table->foreignId('apartment_id')->constrained('apartments')->onDelete('cascade');
         });
         // relazione molti molti appartamenti
-       Schema::table('apartment_sponsor', function (Blueprint $table){
-            $table->foreignId('apartment_id')->constrained();
-            $table->foreignId('sponsor_id')->constrained();
-       });
+        Schema::table('apartment_sponsor', function (Blueprint $table) {
+            // Aggiungi la colonna 'sponsor_id' solo se non esiste già
+            if (!Schema::hasColumn('apartment_sponsor', 'sponsor_id')) {
+                $table->foreignId('sponsor_id')->constrained();
+            }
+
+            // Aggiungi la colonna 'apartment_id' solo se non esiste già
+            if (!Schema::hasColumn('apartment_sponsor', 'apartment_id')) {
+                $table->foreignId('apartment_id')->constrained();
+            }
+        });
        Schema::table('apartment_service', function (Blueprint $table){
         $table->foreignId('apartment_id')->constrained();
         $table->foreignId('service_id')->constrained();
@@ -82,13 +89,18 @@ return new class extends Migration
             $table->dropForeign('apartment_service_service_id_foreign');
             $table->dropColumn('service_id');
         });
-        Schema::table('apartment_sponsor', function (Blueprint $table){
-            $table->dropForeign('apartment_sponsor_apartment_id_foreign');
-            $table->dropColumn('apartment_id');
+        Schema::table('apartment_sponsor', function (Blueprint $table) {
+            // Rimuovi la colonna 'sponsor_id' solo se è stata aggiunta dalla migrazione
+            if (Schema::hasColumn('apartment_sponsor', 'sponsor_id')) {
+                $table->dropForeign(['sponsor_id']);
+                $table->dropColumn('sponsor_id');
+            }
 
-            $table->dropForeign('apartment_sponsor_sponsor_id_foreign');
-            $table->dropColumn('sponsor_id');
+            // Rimuovi la colonna 'apartment_id' solo se è stata aggiunta dalla migrazione
+            if (Schema::hasColumn('apartment_sponsor', 'apartment_id')) {
+                $table->dropForeign(['apartment_id']);
+                $table->dropColumn('apartment_id');
+            }
         });
-
     }
 };

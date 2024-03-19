@@ -5,20 +5,21 @@
             {{ __('Dashboard') }}
         </h2>
 
-        
+
     </x-slot>
     @section('content')
-   
+
     <div class="container mt-4">
         <a class="btn btn-success my-3" href="{{ route('apartment.create') }}">NUOVO APPARTAMENTO</a>
+        <a class="btn btn-success my-3" href="{{ route('sponsors.index') }}">Sponsorizza i tuoi appartamenti</a>
         <h1 class="text-center mb-5">I miei appartamenti:  {{ count($apartments) }}</h1>
-        
+
         <div class="row">
             @foreach ($apartments as $apartment)
             <a href="{{ route('apartments.show', $apartment->id) }}">
                 <div class="col-12 col-md-6 col-lg-4 ">
                     <div class="card my-3">
-                    
+
                         <div class="card-container">
                           <img src="{{ asset($apartment->main_img) }}" class="card-img-top"
                             alt="...">
@@ -166,7 +167,7 @@ img {
         modal.style.display = 'none';
     }
 </script>
-    
+
     @endsection
-    
+
 </x-app-layout>

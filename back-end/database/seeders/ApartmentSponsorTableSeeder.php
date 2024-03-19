@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Apartment;
 use App\Models\Sponsor;
+use App\Models\ApartmentSponsor;
 
 
 class ApartmentSponsorTableSeeder extends Seeder
@@ -18,17 +19,44 @@ class ApartmentSponsorTableSeeder extends Seeder
      */
     public function run()
     {
-         // Retrieve all apartments and sponsors
-         $apartments = Apartment::all();
-         $sponsors = Sponsor::all();
+        $apartmentSponsors = [
+            [
+                "apartment_id" => "1",
+                "sponsor_id" => "3",
+                "deadline" => ""
+            ],
+            [
+                "apartment_id" => "2",
+                "sponsor_id" => "2",
+                "deadline" => ""
+            ],
+            [
+                "apartment_id" => "3",
+                "sponsor_id" => "1",
+                "deadline" => ""
+            ],
+            [
+                "apartment_id" => "4",
+                "sponsor_id" => "1",
+                "deadline" => ""
+            ],
+        ];
 
-         // Loop through each apartment
-         foreach ($apartments as $apartment) {
-             // Choose a random sponsor for the apartment
-             $randomSponsor = $sponsors->random();
+        foreach ($apartmentSponsors as $key => $apartmentSponsor) {
+            $currentDate = date("Y-m-d H:i:s");
+            if ($apartmentSponsor['sponsor_id'] == 1) {
+                $currentDateMin = date("Y-m-d H:i:s", strtotime('+24 hours', strtotime($currentDate)));
+            } else if ($apartmentSponsor['sponsor_id'] == 2) {
+                $currentDateMin = date("Y-m-d H:i:s", strtotime('+72 hours', strtotime($currentDate)));
+            } else if ($apartmentSponsor['sponsor_id'] == 3) {
+                $currentDateMin = date("Y-m-d H:i:s", strtotime('+144 hours', strtotime($currentDate)));
+            }
 
-             // Attach the sponsor to the apartment
-             $apartment->sponsors()->attach($randomSponsor);
-         }
+            $apartmentSponsor["deadline"] = $currentDateMin;
+
+            ApartmentSponsor::create($apartmentSponsor);
+        }
     }
 }
+
+
