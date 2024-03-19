@@ -71,7 +71,7 @@
                         </div>
                         <!-- Immagine principale dell'appartamento -->
                         <div class="mb-3">
-                            <label for="main_img" class="form-label">Immagine di coperina <span
+                            <label for="main_img" class="form-label">Immagine di copertina <span
                                     class="text-danger">*</span></label>
                             <input type="file" name="main_img">
                         </div>
