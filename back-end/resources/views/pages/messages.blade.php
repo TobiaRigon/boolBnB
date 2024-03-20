@@ -28,16 +28,31 @@
 
     <style>
         .message-preview {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
 
-.message-preview p {
-    margin: 5px 0;
-}
+        a{
+            color:black;
+            text-decoration:none;
+        }
+
+        a:hover{
+            color:black;
+            text-decoration:none;
+        }
+
+        .message-preview:hover {
+            background-color: #cce5ff; /* Cambia colore al passaggio del mouse */
+        }
+
+        .message-preview p {
+            margin: 5px 0;
+        }
     </style>
 
     @endsection
