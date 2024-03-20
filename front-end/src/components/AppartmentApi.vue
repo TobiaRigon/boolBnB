@@ -7,7 +7,7 @@
         v-for="apartment in paginatedList"
         :key="apartment.id"
       >
-        <router-link class="card my-3" :to="'/apartments/' + apartment.id">
+        <router-link class="card my-3" :to="`/apartments/${apartment.id}/${apartment.title}`">
           <div class="card-container">
             <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
             <img
@@ -18,11 +18,11 @@
             <h5 class="card-title p-2">{{ apartment.title }}</h5>
             <p class="card-text p-2">{{ apartment.description }}</p>
             <div class="d-flex justify-content-between">
-              <router-link
+              <!-- <router-link
                 :to="`/apartments/${apartment.id}/${apartment.title}`"
                 class="btn btn-primary m-2"
                 >APRI</router-link
-              > -->
+              > --> 
             </div>
           </div>
         </router-link>

@@ -48,6 +48,14 @@
 
 
 
+        <script>
+            function confirmDelete(apartmentId) {
+                if (confirm('Sei sicuro di voler eliminare questo appartamento?')) {
+                    document.getElementById('delete-form-' + apartmentId).submit();
+                }
+            }
+        </script>
+
         <style scoped>
             img {
                 height: 180px;
