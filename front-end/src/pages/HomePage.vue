@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import { store } from "../store";
 export default {
   name: "HomePage",
   data() {
@@ -7,7 +8,7 @@ export default {
       findApartment: "",
       AutoMenu: [],
       apartments: [],
-      filteredApartmetns: [],
+      // filteredApartments: [],
       research: [],
       perPage: 8,
       currentPage: 1,
@@ -97,26 +98,14 @@ export default {
           this.minLon <= apartment.longitude &&
           apartment.longitude <= this.maxLon
         ) {
-          this.filteredApartmetns.push(apartment);
+          store.filteredApartments.push(apartment);
         }
       }
-      console.log(this.filteredApartmetns);
+      console.log("questo è lo store:", store.filteredApartments);
     },
 
     handleSearch(event) {
       event.preventDefault(); // Evita il ricaricamento della pagina
-    },
-
-    getImageUrl(imagePath) {
-      // Verifica se il percorso restituito dal backend include il prefisso "storage"
-      if (imagePath.startsWith("storage")) {
-        // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
-        const baseUrl = "http://127.0.0.1:8000"; // Sostituisci con il tuo URL effettivo se diverso
-        return `${baseUrl}/${imagePath}`;
-      } else {
-        // Se il percorso non include "storage", restituisci direttamente il percorso
-        return imagePath;
-      }
     },
   },
   mounted() {
@@ -165,13 +154,22 @@ export default {
           v-model="findApartment"
           @input="autoComplete"
         />
-        <button
+        <!-- <button
           class="btn btn-outline-success my-2 my-sm-0"
           @click="searchItem()"
           type="submit"
         >
           Cerca
-        </button>
+        </button> -->
+        <router-link
+          :to="'/search/'"
+          @click="searchItem()"
+          class="btn btn-outline-success my-2 my-sm-0"
+          type="submit"
+        >
+          Search
+        </router-link>
+
         <!-- Inizio: Elemento per l'autocompletamento -->
         <div
           id="AutoComplete"
@@ -192,56 +190,7 @@ export default {
         <!-- Fine: Elemento per l'autocompletamento -->
       </form>
     </div>
-    <div class="container">
-      <div class="row">
-        <div
-          class="col-lg-3 col-md-6"
-          v-for="apartment in filteredApartmetns"
-          :key="apartment.id"
-        >
-          <div class="card my-3">
-            <div class="card-container">
-              <img
-                :src="getImageUrl(apartment.main_img)"
-                class="card-img-top"
-                alt="..."
-              />
-
-              <h5 class="card-title p-2">{{ apartment.title }}</h5>
-              <p class="card-text p-2">{{ apartment.description }}</p>
-              <div class="d-flex justify-content-between">
-                <router-link
-                  :to="'/apartments/' + apartment.id"
-                  class="btn btn-primary m-2"
-                  >APRI</router-link
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
-  <div class="btn-container">
-    <div class="btn-wrapper">
-      <button
-        class="btn"
-        type="button"
-        :disabled="currentPage === 1"
-        @click="changePage(-1)"
-      >
-        << Prev
-      </button>
-      <button
-        class="btn"
-        type="button"
-        :disabled="currentPage === 4"
-        @click="changePage(1)"
-      >
-        Next >>
-      </button>
-    </div>
-  </div>
 </template>
 
 <style>
