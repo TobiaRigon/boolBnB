@@ -33,10 +33,20 @@ Route::group(['prefix' => '/apartmentApi'] , function(){
     Route::get('search', [ApiController ::class, 'search']);
 
 
+    // // Rotte per i messaggi
+    // Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
 
 });
 
-// Rotte per i messaggi
-Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+Route::group(['prefix' => '/v1'] , function(){
+
+    
+
+
+    // Rotte per i messaggi
+    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+
+});
+
 
 

@@ -34,13 +34,11 @@ class MessageController extends Controller
         // CREAZIONE SALVATAGGIO MESSAGGIO IN DATABASE
         $message = new Message();
 
-        $message->nome =  $validatedData['nome'];
-        $message->email =  $validatedData['email'];
-        $message->object =  $validatedData['object'];
-        $message->testo =  $validatedData['testo'];
+        $message->sender_name = $validatedData['nome'];
+        $message->sender_email = $validatedData['email'];
+        $message->object = $validatedData['object'];
+        $message->sender_text = $validatedData['testo'];
         $message->apartment_id = $validatedData['apartment_id'];
-        
-        $message->fill($validatedData);
         
 
         $message->save();

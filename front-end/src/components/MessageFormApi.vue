@@ -1,6 +1,6 @@
 <template>
     <!-- Form per inviare un messaggio al proprietario -->
-    <form @submit.prevent="inviaMessaggio" action="/api/messages" method="POST">
+    <form @submit.prevent="inviaMessaggio" action="/api/v1/messages" method="POST">
       <div class="container mt-5">
 
         <h2>Contatta il proprietario:</h2>
@@ -54,7 +54,7 @@
         console.log('Messaggio inviato:', this.message);
   
         // Effettua una richiesta POST al backend
-        axios.post('/api/messages', {...this.message, apartment_id: this.apartmentId})
+        axios.post('/api/v1/messages', {...this.message, apartment_id: this.apartmentId})
           .then((res) => {
             console.log(res.data);
             // Azzera i campi del form dopo l'invio
