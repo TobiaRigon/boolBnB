@@ -10,8 +10,7 @@ export default {
       apartments: [],
       // filteredApartments: [],
       research: [],
-      perPage: 8,
-      currentPage: 1,
+      showAutoComplete: true,
       lat: "",
       lon: "",
       città: "",
@@ -31,6 +30,7 @@ export default {
       this.currentPage += num;
       console.log(this.currentPage);
     },
+    // metodo per autocomplete tomtom
     autoComplete() {
       const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
       let tomTomApi = `https://api.tomtom.com/search/2/search/${this.findApartment}.json?key=${keyApi}`;
@@ -39,18 +39,12 @@ export default {
         .get(tomTomApi)
         .then((res) => {
           this.AutoMenu = res.data.results;
-          console.log(this.AutoMenu);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     // voglio settare un raggio con queste info (lat e lon)
-    selectItem(item) {
-      this.findApartment = item.address.freeformAddress;
-      this.research = item;
-      console.log(this.research);
-    },
     searchItem() {
       this.lat = this.research.position.lat;
       console.log(this.lat);
@@ -107,6 +101,13 @@ export default {
     handleSearch(event) {
       event.preventDefault(); // Evita il ricaricamento della pagina
     },
+    selectItem(item) {
+      this.findApartment = item.address.freeformAddress;
+      this.research = item;
+      this.showAutoComplete = false; // Chiudi il menu dell'autocompletamento dopo la selezione
+      console.log("raggio aggiornato:", this.radius);
+      console.log("research:", this.research);
+    },
   },
   mounted() {
     // definisco variabile url
@@ -145,6 +146,18 @@ export default {
           </div>
         </div>
       </div>
+      <!-- input per il raggio -->
+      <div class="input-group mb-3">
+        <input
+          type="range"
+          class="form-range raggio me-5"
+          min="1"
+          max="100"
+          step="1"
+          v-model="radius"
+        />
+        <span class="input-group-text kilometri">{{ radius }} km</span>
+      </div>
       <form class="form-inline my-2 gap-2 d-flex" @submit="handleSearch">
         <input
           class="form-control mr-sm-2"
@@ -154,13 +167,6 @@ export default {
           v-model="findApartment"
           @input="autoComplete"
         />
-        <!-- <button
-          class="btn btn-outline-success my-2 my-sm-0"
-          @click="searchItem()"
-          type="submit"
-        >
-          Cerca
-        </button> -->
         <router-link
           :to="'/search/'"
           @click="searchItem()"
@@ -175,7 +181,11 @@ export default {
           id="AutoComplete"
           style="margin-top: 40px"
           class="card position-absolute w-80 h-50 radius"
-          v-show="AutoMenu.length > 0 && findApartment.trim() !== ''"
+          v-show="
+            showAutoComplete &&
+            AutoMenu.length > 0 &&
+            findApartment.trim() !== ''
+          "
         >
           <ul class="list" style="cursor: pointer">
             <li
@@ -242,4 +252,10 @@ li {
   background-color: rgba(0, 0, 255, 0.1);
   border: 1px solid darkgrey;
 }
+.raggio {
+  width: 30%;
+}
+/* .kilometri {
+  width: 70px;
+} */
 </style>

@@ -58,6 +58,8 @@ export default {
   data() {
     return {
       store,
+      perPage: 8,
+      currentPage: 1,
     };
   },
   methods: {
