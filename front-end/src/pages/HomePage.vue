@@ -4,17 +4,23 @@ export default {
   name: "HomePage",
   data() {
     return {
-      searchApi: "http://127.0.0.1:8000/api/apartmentApi/search?search=",
       findApartment: "",
       AutoMenu: [],
       apartments: [],
+      filteredApartmetns: [],
       perPage: 8,
       currentPage: 1,
       lat: "",
       lon: "",
       città: "",
       via: "",
-      raggio: "",
+      country: "",
+      // raggio di 20 km
+      radius: "20",
+      maxLat: "",
+      maxLon: "",
+      minLat: "",
+      minLon: "",
     };
   },
   methods: {
@@ -22,23 +28,6 @@ export default {
     changePage(num) {
       this.currentPage += num;
       console.log(this.currentPage);
-    },
-    // Metodo per eseguire la ricerca degli appartamenti
-    getApartments() {
-      // definisco variabile url
-      let searchUrl = `${this.searchApi}${this.findApartment}`;
-      // se non è vuoto aggiungo quello che trovo nell'input
-      console.log(searchUrl);
-
-      axios
-        .get(searchUrl)
-        .then((res) => {
-          this.apartments = res.data;
-          console.log(this.apartments);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
     autoComplete() {
       const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
@@ -53,6 +42,59 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    // voglio settare un raggio con queste info (lat e lon)
+    selectItem(item) {
+      this.lat = item.position.lat;
+      console.log(this.lat);
+      this.lon = item.position.lon;
+      console.log(this.lon);
+      this.via = item.address.freeformAddress;
+      this.city = item.municipality;
+      this.country = item.country;
+      console.log(item);
+      this.setRadius();
+      this.isInArea();
+    },
+    setRadius() {
+      // Converti le coordinate da stringhe a numeri
+      const lat = parseFloat(this.lat);
+      const lon = parseFloat(this.lon);
+
+      // Converti il raggio da km a gradi (approssimativamente)
+      const latDelta = this.radius / 110.574; // 1 grado di latitudine è circa 110.574 km
+      const lonDelta = this.radius / (111.32 * Math.cos(lat * (Math.PI / 180))); // 1 grado di longitudine varia in base alla latitudine
+
+      // Calcola le nuove coordinate
+      const newLatPlus = lat + latDelta;
+      const newLatMinus = lat - latDelta;
+      const newLonPlus = lon + lonDelta;
+      const newLonMinus = lon - lonDelta;
+
+      this.maxLat = newLatPlus;
+      this.minLat = newLatMinus;
+      this.minLon = newLonMinus;
+      this.maxLon = newLonPlus;
+
+      console.log("Nuove coordinate con raggio di 20 km:");
+      console.log("Latitudine massima:", newLatPlus);
+      console.log("Latitudine minima:", newLatMinus);
+      console.log("Longitudine massima:", newLonPlus);
+      console.log("Longitudine minima:", newLonMinus);
+    },
+    isInArea() {
+      for (let i = 0; i < this.apartments.length; i++) {
+        const apartment = this.apartments[i];
+        if (
+          this.minLat <= apartment.latitude &&
+          apartment.latitude <= this.maxLat &&
+          this.minLon <= apartment.longitude &&
+          apartment.longitude <= this.maxLon
+        ) {
+          this.filteredApartmetns.push(apartment);
+        }
+      }
+      console.log(this.filteredApartmetns);
     },
 
     handleSearch(event) {
@@ -72,6 +114,23 @@ export default {
       }
     },
   },
+  mounted() {
+    // definisco variabile url
+    let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
+    // se non è vuoto aggiungo quello che trovo nell'input
+    console.log(searchUrl);
+
+    axios
+      .get(searchUrl)
+      .then((res) => {
+        this.apartments = res.data;
+        console.log(this.apartments);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+
   computed: {
     paginatedList() {
       const start = (this.currentPage - 1) * this.perPage;
@@ -124,7 +183,7 @@ export default {
         <!-- Fine: Elemento per l'autocompletamento -->
       </form>
     </div>
-    <div class="container">
+    <!-- <div class="container">
       <div class="row">
         <div
           class="col-lg-3 col-md-6"
@@ -152,7 +211,7 @@ export default {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </main>
   <div class="btn-container">
     <div class="btn-wrapper">
