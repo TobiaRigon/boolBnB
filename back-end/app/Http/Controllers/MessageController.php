@@ -9,6 +9,25 @@ use App\Models\Message;
 
 class MessageController extends Controller
 {
+
+
+    public function index()
+    {
+        // $user = User ::all();
+        $user = Auth::user(); // Recupera l'utente autenticato
+
+        // Recupera gli appartamenti dell'utente con i messaggi associati
+        $apartments = $user->apartments()->with('messages')->get();
+
+    //      // Debug output
+    // dd($apartments);
+
+        // momentaneamente in pages , poi in Apartment front-end tramite API
+        return view('dashboard', compact ('apartments' , 'user' ));
+    }
+
+  
+
     public function store(Request $request) {
 
         //VALIDAZIONE DATI

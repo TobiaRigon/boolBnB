@@ -23,6 +23,14 @@
                             <h5 class="card-title">{{ $apartment->title }}</h5>
                             <p class="card-text">{{ Str::limit($apartment->description) }}</p>
 
+
+
+                                   <!-- Aggiungi un link per visualizzare i messaggi -->
+                <a href="{{ route('apartment.messages', $apartment->id) }}" class="btn btn-info">Mostra Messaggi</a>
+                
+
+
+
                             <div class="d-flex justify-content-between">
                                 <a href="{{ route('apartments.show', $apartment->id) }}" class="btn btn-primary">APRI</a>
                                 @if (auth()->id() == $apartment->user_id)

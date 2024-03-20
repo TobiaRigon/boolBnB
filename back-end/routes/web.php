@@ -54,6 +54,9 @@ Route::middleware('auth')->group(function () {
     // Modifica di un appartamento esistente
     Route::get('/apartment/edit/{id}', [ApartmentController::class, 'edit'])->name('apartments.edit');
     Route::put('/apartment/edit/{id}', [ApartmentController::class, 'update'])->name('apartments.update');
+
+     // Visualizzazione dettagliata dei messaggi associati a un appartamento
+     Route::get('/apartment/{id}/messages', [ApartmentController::class, 'showMessages'])->name('pages.messages');
 });
 
 require __DIR__.'/auth.php';
