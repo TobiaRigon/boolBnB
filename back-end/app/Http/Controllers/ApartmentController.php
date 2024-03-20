@@ -18,6 +18,8 @@ use App\Models\Service;
 use App\Models\Sponsor;
 use App\Models\User;
 use App\Models\View;
+use Illuminate\Support\Str;
+
 
 class ApartmentController extends Controller
 {
@@ -56,7 +58,7 @@ class ApartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreApartmentRequest $request, $title)
+    public function store(StoreApartmentRequest $request)
     {
         $data = $request->all();
         $user = Auth::user();
@@ -204,7 +206,7 @@ class ApartmentController extends Controller
         $apartment->services()->detach();
     }
 
-    return redirect()->route('apartments.show', $apartment->id)->with('success', 'Appartamento aggiornato con successo!');
+    return redirect()->route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)])->with('success', 'Appartamento aggiornato con successo!');
 }
 
     /**

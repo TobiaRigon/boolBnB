@@ -27,12 +27,13 @@
                                     @if (auth()->id() == $apartment->user_id)
                                         <a href="{{ route('apartments.edit', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}"
                                             class="btn btn-secondary">MODIFICA</a>
-                                        <form
-                                            action="{{ route('apartment.delete', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}""
+                                        <form id="delete-form-{{ $apartment->id }}"
+                                            action="{{ route('apartment.delete', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}"
                                             method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <input class="btn-delete" type="submit" value="ELIMINA">
+                                            <button type="button" onclick="confirmDelete({{ $apartment->id }})"
+                                                class="btn-delete">ELIMINA</button>
                                         </form>
                                     @endif
                                 </div>

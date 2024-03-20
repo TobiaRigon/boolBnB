@@ -35,7 +35,7 @@ Route::get('/dashboard', [ApartmentController::class, 'index'])->name('dashboard
 Route::get('/apartment/{id}/{title}', [ApartmentController::class, 'show'])->name('apartments.show');
 
 // Redirect dettagliata di un singolo appartamento in vue.js
-Route::redirect('/apartment/{id}/{title}', 'http://localhost:5173/#/apartments/{id}', 301);
+Route::redirect('/apartment/{id}/{title}', 'http://localhost:5173/#/apartments/{id}/{title}', 301);
 
 
 // Gruppo di rotte che richiedono autenticazione
