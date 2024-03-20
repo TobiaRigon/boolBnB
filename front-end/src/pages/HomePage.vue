@@ -8,6 +8,7 @@ export default {
       AutoMenu: [],
       apartments: [],
       filteredApartmetns: [],
+      research: [],
       perPage: 8,
       currentPage: 1,
       lat: "",
@@ -45,14 +46,19 @@ export default {
     },
     // voglio settare un raggio con queste info (lat e lon)
     selectItem(item) {
-      this.lat = item.position.lat;
+      this.findApartment = item.address.freeformAddress;
+      this.research = item;
+      console.log(this.research);
+    },
+    searchItem() {
+      this.lat = this.research.position.lat;
       console.log(this.lat);
-      this.lon = item.position.lon;
+      this.lon = this.research.position.lon;
       console.log(this.lon);
-      this.via = item.address.freeformAddress;
-      this.city = item.municipality;
-      this.country = item.country;
-      console.log(item);
+      this.via = this.research.address.freeformAddress;
+      this.city = this.research.municipality;
+      this.country = this.research.country;
+      console.log(this.research);
       this.setRadius();
       this.isInArea();
     },
@@ -99,7 +105,6 @@ export default {
 
     handleSearch(event) {
       event.preventDefault(); // Evita il ricaricamento della pagina
-      this.getApartments();
     },
 
     getImageUrl(imagePath) {
@@ -160,7 +165,11 @@ export default {
           v-model="findApartment"
           @input="autoComplete"
         />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        <button
+          class="btn btn-outline-success my-2 my-sm-0"
+          @click="searchItem()"
+          type="submit"
+        >
           Cerca
         </button>
         <!-- Inizio: Elemento per l'autocompletamento -->
@@ -183,11 +192,11 @@ export default {
         <!-- Fine: Elemento per l'autocompletamento -->
       </form>
     </div>
-    <!-- <div class="container">
+    <div class="container">
       <div class="row">
         <div
           class="col-lg-3 col-md-6"
-          v-for="apartment in paginatedList"
+          v-for="apartment in filteredApartmetns"
           :key="apartment.id"
         >
           <div class="card my-3">
@@ -211,7 +220,7 @@ export default {
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </main>
   <div class="btn-container">
     <div class="btn-wrapper">
