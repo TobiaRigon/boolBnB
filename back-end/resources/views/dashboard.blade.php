@@ -43,6 +43,23 @@
                     </div>
                 </div>
             @endforeach
+
+            <h2>Contatta il proprietario:</h2>
+        <form action="{{ route('messages.store') }}" method="POST">
+            @csrf
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="testo" class="form-label">Messaggio</label>
+                <textarea class="form-control" id="testo" name="testo" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Invia Messaggio</button>
+        </form>
+    </div>
         </div>
     </div>
 

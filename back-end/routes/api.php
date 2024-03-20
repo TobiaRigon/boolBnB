@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\MessageController;
 
 
 /*
@@ -34,5 +35,8 @@ Route::group(['prefix' => '/apartmentApi'] , function(){
 
 
 });
+
+// Rotte per i messaggi
+Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
 
 

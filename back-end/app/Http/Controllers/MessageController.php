@@ -6,21 +6,42 @@ use Illuminate\Http\Request;
 
 // IMPORTIAMO IL SUO MODEL
 use App\Models\Message;
+use App\Models\Apartment;
 
 class MessageController extends Controller
 {
+
+    
+    // //METODO PER VISUALIZZARE IL FORM PER CREATE UN NUOVO MESSAGGIO 
+    // public function create() {
+
+        
+
+    //     return view('create_message');
+    // }
+
     public function store(Request $request) {
 
         //VALIDAZIONE DATI
         $validatedData = $request->validate([
-            'nome' => 'required|string|max:255',
-            'testo' => 'required|string',
+            'apartment_id' => 'required|exists:apartments,id',
+            'sender_name' => 'required|string|max:255',
+            'sender_email' => 'required|email',
+            'object' => 'required|string|max:255',
+            'sender_text' => 'required|string',
         ]);
 
-        //SALVATAGGIO MESSAGGIO IN DATABASE
+        // CREAZIONE SALVATAGGIO MESSAGGIO IN DATABASE
         $message = new Message();
+
         $message->nome =  $validatedData['nome'];
-        $message->testo = $validatedData['testo'];
+        $message->email =  $validatedData['email'];
+        $message->object =  $validatedData['object'];
+        $message->testo =  $validatedData['testo'];
+        $message->apartment_id = $validatedData['apartment_id'];
+        
+        $message->fill($validatedData);
+        
 
         $message->save();
 
