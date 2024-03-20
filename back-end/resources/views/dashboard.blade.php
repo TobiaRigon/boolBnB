@@ -21,6 +21,14 @@
                                 <h5 class="card-title">{{ $apartment->title }}</h5>
                                 <p class="card-text">{{ Str::limit($apartment->description) }}</p>
 
+
+
+                                   <!-- Aggiungi un link per visualizzare i messaggi -->
+                                   <a href="{{ route('pages.messages', $apartment->id) }}" class="btn btn-info">Mostra Messaggi</a>
+                
+
+
+
                                 <div class="d-flex justify-content-between">
                                     <a href="{{ route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}"
                                         class="btn btn-primary">APRI</a>

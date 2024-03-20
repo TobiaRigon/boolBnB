@@ -38,6 +38,16 @@ class ApartmentController extends Controller
         return view('dashboard', compact ('apartments' , 'user' ));
     }
 
+    public function showMessages($id)
+    {
+        $apartment = Apartment::findOrFail($id);
+        $messages = Message::where('apartment_id', $id)
+                        ->orderBy('date', 'desc')
+                        ->get();
+    
+        return view('pages.messages', compact('apartment', 'messages'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -1,0 +1,19 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dettagli Messaggio') }}
+        </h2>
+    </x-slot>
+    @section('content')
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <p><strong>From:</strong> {{ $message->sender_name }} {{ $message->sender_surname }}</p>
+                <p><strong>Email:</strong> {{ $message->sender_mail }}</p>
+                <p><strong>Date:</strong> {{ $message->date }}</p>
+                <p><strong>Message:</strong> {{ $message->sender_text }}</p>
+            </div>
+        </div>
+    </div>
+    @endsection
+</x-app-layout>

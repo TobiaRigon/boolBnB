@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,11 @@ Route::middleware('auth')->group(function () {
     // Modifica di un appartamento esistente
     Route::get('/apartment/edit/{id}/{title}', [ApartmentController::class, 'edit'])->name('apartments.edit');
     Route::put('/apartment/edit/{id}/{title}', [ApartmentController::class, 'update'])->name('apartments.update');
+
+     // Visualizzazione dettagliata dei messaggi associati a un appartamento
+     Route::get('/apartment/{id}/messages', [ApartmentController::class, 'showMessages'])->name('pages.messages');
+     Route::get('/message/{id}', [MessageController::class, 'show'])->name('message.show');
+
 });
 
 require __DIR__.'/auth.php';
