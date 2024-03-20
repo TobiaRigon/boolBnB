@@ -19,6 +19,17 @@
                                     <p class="card-text text-center py-2 px-3">{{ $sponsor->description }}</p>
                                 </div>
                             </div>
+                            <!-- Form per la selezione dell'appartamento -->
+                            <form action="{{ route('applySponsor', ['sponsor_id' => $sponsor->id]) }}" method="POST" class="apply-sponsor-form">
+                                @csrf
+                                <select name="apartment_id" class="form-select mb-3">
+                                    <option value="">Seleziona un appartamento</option>
+                                    @foreach($userApartments as $apartment)
+                                    <option value="{{ $apartment->id }}">{{ $apartment->title }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-block">Applica sponsorizzazione</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -26,8 +37,35 @@
             </div>
         </div>
     </div>
-</div>
 
+    <div class="container mt-4">
+        <div class="text-center">
+            <h1 class="mb-5">I tuoi appartamenti sponsorizzati</h1>
+            <div class="row w-100 gy-5 mt-5 mt-md-0">
+                @foreach ($userApartments as $apartment)
+                    @if ($apartment->in_evidence)
+                        <div class="col-12 col-lg-4 d-flex justify-content-center">
+                            <div class="card border-0 shadow-lg">
+                                <div class="card-body">
+                                    <h2 class="card-title text-center fw-bold mb-4">{{ $apartment->title }}</h2>
+                                    @foreach ($apartment->sponsors as $sponsor)
+                                        <div class="details">
+                                            <div class="data">
+                                                <p class="card-text text-center py-2">Scadenza della sponsorizzazione: {{ $sponsor->pivot->deadline }}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+
+</div>
 <style scoped>
     .card {
         border: 0;

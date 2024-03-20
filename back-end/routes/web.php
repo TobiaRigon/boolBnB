@@ -41,6 +41,9 @@ Route::redirect('/apartment/{id}', 'http://localhost:5173/#/apartments/{id}', 30
 // Sponso momentaneamente qua
 Route::get('/sponsors', [SponsorController::class, 'index'])->name('sponsors.index');
 
+Route::post('/apply-sponsor', [SponsorController::class, 'applySponsor'])->name('applySponsor');
+
+
 
 // Gruppo di rotte che richiedono autenticazione
 Route::middleware('auth')->group(function () {
