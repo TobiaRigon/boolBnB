@@ -35,6 +35,16 @@
                                             <button type="button" onclick="confirmDelete({{ $apartment->id }})"
                                                 class="btn-delete">ELIMINA</button>
                                         </form>
+                                        <div id="confirmation-modal" class="modal">
+                                            <div class="modal-content">
+                                                <span class="close" onclick="closeModal()">&times;</span>
+                                                <p>Sei sicuro di voler eliminare questo appartamento?</p>
+                                                <div class="modal-buttons">
+                                                    <button onclick="deleteApartment()">Elimina</button>
+                                                    <button onclick="closeModal()">Annulla</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endif
                                 </div>
 
@@ -51,9 +61,20 @@
 
         <script>
             function confirmDelete(apartmentId) {
-                if (confirm('Sei sicuro di voler eliminare questo appartamento?')) {
-                    document.getElementById('delete-form-' + apartmentId).submit();
-                }
+                var modal = document.getElementById('confirmation-modal');
+                modal.style.display = 'block';
+                // Passa l'id dell'appartamento alla funzione deleteApartment
+                deleteApartment.apartmentId = apartmentId;
+            }
+
+            function deleteApartment() {
+                var apartmentId = deleteApartment.apartmentId;
+                document.getElementById('delete-form-' + apartmentId).submit();
+            }
+
+            function closeModal() {
+                var modal = document.getElementById('confirmation-modal');
+                modal.style.display = 'none';
             }
         </script>
 
@@ -98,6 +119,68 @@
                 padding: 7px;
                 border-radius: 4px;
             }
+
+            /* Modale */
+
+            .modal {
+                display: none;
+                /* Nascondi il modal per impostazione predefinita */
+                position: fixed;
+                /* Posizione fissa rispetto alla finestra del browser */
+                z-index: 1;
+                /* Posiziona il modal sopra il resto del contenuto */
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                /* Abilita lo scorrimento se il contenuto del modal è troppo lungo */
+                background-color: rgba(0, 0, 0, 0.4);
+                /* Sfondo scuro leggermente trasparente */
+            }
+
+            .modal-content {
+                background-color: #fefefe;
+                margin: 15% auto;
+                /* Posiziona il modal al centro dello schermo */
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+                /* Larghezza del modal */
+            }
+
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .modal-buttons {
+                text-align: center;
+            }
+
+            .modal-buttons button {
+                margin: 0 10px;
+                padding: 10px 20px;
+                background-color: #ccc;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .modal-buttons button:hover {
+                background-color: #ddd;
+            }
+
+            */
         </style>
     @endsection
 
