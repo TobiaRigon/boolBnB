@@ -56,7 +56,7 @@ class ApartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreApartmentRequest $request)
+    public function store(StoreApartmentRequest $request, $title)
     {
         $data = $request->all();
         $user = Auth::user();
@@ -116,7 +116,7 @@ class ApartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $title)
     {
 
         $apartment = Apartment :: findOrFail($id);
@@ -130,7 +130,7 @@ class ApartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $title)
     {
         $apartment = Apartment::findOrFail($id);
 
@@ -155,7 +155,7 @@ class ApartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateApartmentRequest $request, $id)
+    public function update(UpdateApartmentRequest $request, $id, $title)
 {
     $apartment = Apartment::findOrFail($id);
 
