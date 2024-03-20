@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,8 @@ Route::middleware('auth')->group(function () {
 
      // Visualizzazione dettagliata dei messaggi associati a un appartamento
      Route::get('/apartment/{id}/messages', [ApartmentController::class, 'showMessages'])->name('pages.messages');
+     Route::get('/message/{id}', [MessageController::class, 'show'])->name('message.show');
+
 });
 
 require __DIR__.'/auth.php';

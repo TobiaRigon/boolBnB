@@ -26,7 +26,7 @@
 
 
                                    <!-- Aggiungi un link per visualizzare i messaggi -->
-                <a href="{{ route('apartment.messages', $apartment->id) }}" class="btn btn-info">Mostra Messaggi</a>
+                                   <a href="{{ route('pages.messages', $apartment->id) }}" class="btn btn-info">Mostra Messaggi</a>
                 
 
 
