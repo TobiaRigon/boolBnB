@@ -32,10 +32,10 @@ Route::get('/dashboard', function () {
 Route::get('/dashboard', [ApartmentController::class, 'index'])->name('dashboard');
 
 // Visualizzazione dettagliata di un singolo appartamento
-Route::get('/apartment/{id}', [ApartmentController::class, 'show'])->name('apartments.show');
+Route::get('/apartment/{id}/{title}', [ApartmentController::class, 'show'])->name('apartments.show');
 
 // Redirect dettagliata di un singolo appartamento in vue.js
-Route::redirect('/apartment/{id}', 'http://localhost:5173/#/apartments/{id}', 301);
+Route::redirect('/apartment/{id}/{title}', 'http://localhost:5173/#/apartments/{id}', 301);
 
 
 // Gruppo di rotte che richiedono autenticazione
@@ -49,11 +49,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/create', [ApartmentController::class, 'create'])->name('apartment.create');
     Route::post('/create', [ApartmentController::class, 'store'])->name('apartment.store');
     // Cancellazione di un appartamento
-    Route::delete('/{id}', [ApartmentController::class, 'destroy'])->name('apartment.delete'); // Ho cambiato delete in destroy per seguire le convenzioni di Laravel
+    Route::delete('/{id}/{title}', [ApartmentController::class, 'destroy'])->name('apartment.delete'); // Ho cambiato delete in destroy per seguire le convenzioni di Laravel
 
     // Modifica di un appartamento esistente
-    Route::get('/apartment/edit/{id}', [ApartmentController::class, 'edit'])->name('apartments.edit');
-    Route::put('/apartment/edit/{id}', [ApartmentController::class, 'update'])->name('apartments.update');
+    Route::get('/apartment/edit/{id}/{title}', [ApartmentController::class, 'edit'])->name('apartments.edit');
+    Route::put('/apartment/edit/{id}/{title}', [ApartmentController::class, 'update'])->name('apartments.update');
 });
 
 require __DIR__.'/auth.php';

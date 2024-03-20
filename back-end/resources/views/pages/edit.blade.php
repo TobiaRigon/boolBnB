@@ -17,8 +17,9 @@
         <div class="container">
             <div id="newApartmentForm">
                 <div class="card card-body mt-3">
-                    <form action="{{ route('apartments.update', $apartment->id) }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form
+                        action="{{ route('apartments.update', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}"
+                        method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 

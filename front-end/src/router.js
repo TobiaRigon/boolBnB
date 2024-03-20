@@ -15,7 +15,7 @@ const routes = [
     {path: '/', component: HomePage} ,
     {path: '/search', component: AdvancedSearch}  ,
     {path: '/apartments', component: Apartments}  ,
-    {path: '/apartments/:id' , component: ApartmentDetail} ,
+    {path: '/apartments/:id/:title' , component: ApartmentDetail} ,
 
  ]
 

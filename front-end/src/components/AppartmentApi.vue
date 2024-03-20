@@ -19,7 +19,7 @@
             <p class="card-text p-2">{{ apartment.description }}</p>
             <div class="d-flex justify-content-between">
               <router-link
-                :to="'/apartments/' + apartment.id"
+                :to="`/apartments/${apartment.id}/${apartment.title}`"
                 class="btn btn-primary m-2"
                 >APRI</router-link
               >
