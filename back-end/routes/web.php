@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/apartment/edit/{id}/{title}', [ApartmentController::class, 'update'])->name('apartments.update');
 
      // Visualizzazione dettagliata dei messaggi associati a un appartamento
-     Route::get('/apartment/{id}/messages', [ApartmentController::class, 'showMessages'])->name('pages.messages');
+     Route::get('/messages/{id}', [ApartmentController::class, 'showMessages'])->name('pages.messages');
      Route::get('/message/{id}', [MessageController::class, 'show'])->name('message.show');
 
 });

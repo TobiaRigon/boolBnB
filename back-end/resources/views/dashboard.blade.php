@@ -15,6 +15,7 @@
             <div class="row">
                 @foreach ($apartments as $apartment)
                     <div class="col-12 col-md-6 col-lg-4 ">
+                    <a  href="{{ route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}">
                         <div class="card my-3">
                             <div class="card-container">
                                 <img src="{{ asset($apartment->main_img) }}" class="card-img-top" alt="...">
@@ -30,8 +31,7 @@
 
 
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}"
-                                        class="btn btn-primary">APRI</a>
+                                    
                                     @if (auth()->id() == $apartment->user_id)
                                         <a href="{{ route('apartments.edit', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}"
                                             class="btn btn-secondary">MODIFICA</a>
@@ -60,6 +60,7 @@
                             </div>
 
                         </div>
+                        </a>
                     </div>
                 @endforeach
             </div>
@@ -87,6 +88,10 @@
         </script>
 
         <style scoped>
+            a:hover{
+                color:black;
+                text-decoration:none;
+            }
             img {
                 height: 180px;
                 width: 100%;
