@@ -37,6 +37,13 @@ export default {
     },
     // voglio settare un raggio con queste info (lat e lon)
     searchItem() {
+      // Verifica se filteredApartments è vuoto prima di procedere
+      if (store.filteredApartments.length > 0) {
+        // Se non è vuoto, svuotalo prima di eseguire la nuova ricerca
+        store.filteredApartments = [];
+        store.appartamentiFiltrati = [];
+      }
+
       store.lat = this.research.position.lat;
       console.log(store.lat);
       store.lon = this.research.position.lon;
@@ -88,6 +95,7 @@ export default {
         ) {
           // li mando nello store
           store.filteredApartments.push(apartment);
+          store.appartamentiFiltrati.push(apartment);
         }
       }
       console.log("questo è lo store:", store.filteredApartments);
