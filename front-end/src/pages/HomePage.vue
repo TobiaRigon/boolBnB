@@ -302,7 +302,7 @@ export default {
       </div>
     </div>
 
-    <div>
+    <div class="mt-4">
       <h2>Appartamenti in evidenza</h2>
       <div class="apartments-in-evidence">
         <div class="row">
