@@ -31,7 +31,14 @@ class SponsorController extends Controller
         $latestSponsorOfType = $apartment->sponsors()->where('id', $sponsor->id)->latest()->first();
 
         // Determina la data di inizio della sponsorizzazione
-        $startDate = $latestSponsorOfType ? $latestSponsorOfType->pivot->deadline : Carbon::now();
+        if ($latestSponsorOfType) {
+            // Se esiste una sponsorizzazione dello stesso tipo, utilizza la sua scadenza come data di inizio
+            $startDate = $latestSponsorOfType->pivot->deadline;
+        } else {
+            // Altrimenti, cerca la sponsorizzazione più recente per questo appartamento e utilizza la sua scadenza come data di inizio
+            $latestSponsor = $apartment->sponsors()->latest()->first();
+            $startDate = $latestSponsor ? $latestSponsor->pivot->deadline : Carbon::now();
+        }
 
         // Calcola la durata della sponsorizzazione in base all'id del sponsor selezionato
         switch ($sponsor->id) {
@@ -61,6 +68,7 @@ class SponsorController extends Controller
 
         return redirect()->back()->with('success', 'Sponsorizzazione applicata con successo all\'appartamento.');
     }
+
 
 
     public function index()
