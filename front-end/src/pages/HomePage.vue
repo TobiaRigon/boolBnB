@@ -339,6 +339,12 @@ export default {
   max-width: 50%;
   min-width: 700px;
 }
+
+.apartments-in-evidence {
+  width: 90%;
+  margin: 0 auto; /* Imposta i margini automatici per centrare il div */
+}
+
 img {
   height: 180px;
   width: 100%;
