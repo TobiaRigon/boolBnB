@@ -2,7 +2,7 @@
   <h1>RISULTATI RICERCA:</h1>
   <div class="container">
     <div class="row">
-      <!-- <div class="input-group mb-3">
+      <div class="input-group mb-3">
         <input
           type="range"
           class="form-range raggio me-5"
@@ -13,7 +13,7 @@
           @input="changeRadius()"
         />
         <span class="input-group-text kilometri">{{ store.radius }} km</span>
-      </div> -->
+      </div>
       <div class="my-3">
         <span class="me-2">Letti</span>
         <input
@@ -111,95 +111,77 @@ export default {
           return lettoPass && stanzePass;
         }
       );
+      console.log(store.filteredApartments);
     },
-    // changeRadius() {
-    //   this.setRadius();
-    //   this.isInNewArea();
-    //   console.log("appartamenti del db:", store.apartments);
-    // },
-    // setRadius() {
-    //   // Converti le coordinate da stringhe a numeri
-    //   const lat = parseFloat(store.lat);
-    //   const lon = parseFloat(store.lon);
+    changeRadius() {
+      this.setRadius();
+      this.isInNewArea();
+      console.log("appartamenti del db:", store.apartments);
+    },
+    setRadius() {
+      // Converti le coordinate da stringhe a numeri
+      const lat = parseFloat(store.lat);
+      const lon = parseFloat(store.lon);
 
-    //   // Converti il raggio da km a gradi (approssimativamente)
-    //   const latDelta = store.radius / 110.574; // 1 grado di latitudine è circa 110.574 km
-    //   const lonDelta =
-    //     store.radius / (111.32 * Math.cos(lat * (Math.PI / 180))); // 1 grado di longitudine varia in base alla latitudine
+      // Converti il raggio da km a gradi (approssimativamente)
+      const latDelta = store.radius / 110.574; // 1 grado di latitudine è circa 110.574 km
+      const lonDelta =
+        store.radius / (111.32 * Math.cos(lat * (Math.PI / 180))); // 1 grado di longitudine varia in base alla latitudine
 
-    //   // Calcola le nuove coordinate
-    //   const newLatPlus = lat + latDelta;
-    //   const newLatMinus = lat - latDelta;
-    //   const newLonPlus = lon + lonDelta;
-    //   const newLonMinus = lon - lonDelta;
+      // Calcola le nuove coordinate
+      const newLatPlus = lat + latDelta;
+      const newLatMinus = lat - latDelta;
+      const newLonPlus = lon + lonDelta;
+      const newLonMinus = lon - lonDelta;
 
-    //   store.maxLat = newLatPlus;
-    //   store.minLat = newLatMinus;
-    //   store.minLon = newLonMinus;
-    //   store.maxLon = newLonPlus;
+      store.maxLat = newLatPlus;
+      store.minLat = newLatMinus;
+      store.minLon = newLonMinus;
+      store.maxLon = newLonPlus;
 
-    //   console.log(`Nuove coordinate con raggio di ${store.radius} km:`);
+      console.log(`Nuove coordinate con raggio di ${store.radius} km:`);
 
-    //   console.log("Latitudine massima :", store.maxLat);
-    //   console.log("Latitudine minima:", store.minLat);
-    //   console.log("Longitudine massima:", store.maxLon);
-    //   console.log("Longitudine minima:", store.minLon);
-    // },
-    // isInNewArea() {
-    //   // Array temporaneo per tracciare gli appartamenti nell'area delineata
-    //   const apartmentsInArea = [];
+      console.log("Latitudine massima :", store.maxLat);
+      console.log("Latitudine minima:", store.minLat);
+      console.log("Longitudine massima:", store.maxLon);
+      console.log("Longitudine minima:", store.minLon);
+    },
+    isInNewArea() {
+      // Array temporaneo per tracciare gli appartamenti nell'area delineata
+      const apartmentsInArea = [];
 
-    //   // Itera sugli appartamenti nel database
-    //   for (let i = 0; i < store.apartments.length; i++) {
-    //     const apartment = store.apartments[i];
+      // Itera sugli appartamenti nel database
+      for (let i = 0; i < store.apartments.length; i++) {
+        const apartment = store.apartments[i];
 
-    //     // Verifica se l'appartamento è nell'area delineata
-    //     const isInCurrentArea =
-    //       store.minLat <= apartment.latitude &&
-    //       apartment.latitude <= store.maxLat &&
-    //       store.minLon <= apartment.longitude &&
-    //       apartment.longitude <= store.maxLon;
+        // Verifica se l'appartamento è nell'area delineata
+        const isInCurrentArea =
+          store.minLat <= apartment.latitude &&
+          apartment.latitude <= store.maxLat &&
+          store.minLon <= apartment.longitude &&
+          apartment.longitude <= store.maxLon;
 
-    //     // Verifica se l'appartamento è già presente in filteredApartments
-    //     const isAlreadyFiltered = store.filteredApartments.some(
-    //       (filteredApartment) => filteredApartment.id === apartment.id
-    //     );
+        // Verifica se l'appartamento soddisfa anche i filtri stanze e letti
+        const lettoPass =
+          this.letti === "" || parseInt(this.letti) <= apartment.beds;
+        const stanzePass =
+          this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
 
-    //     if (isInCurrentArea && !isAlreadyFiltered) {
-    //       // Se l'appartamento è nell'area ma non è presente in filteredApartments, lo aggiungi
-    //       store.filteredApartments.push(apartment);
-    //     } else if (!isInCurrentArea && isAlreadyFiltered) {
-    //       // Se l'appartamento non è più nell'area ma è presente in filteredApartments, lo rimuovi
-    //       const indexToRemove = store.filteredApartments.findIndex(
-    //         (filteredApartment) => filteredApartment.id === apartment.id
-    //       );
-    //       store.filteredApartments.splice(indexToRemove, 1);
-    //     }
+        if (isInCurrentArea && lettoPass && stanzePass) {
+          apartmentsInArea.push(apartment);
+        }
+      }
 
-    //     // Aggiungi l'appartamento corrente agli appartamenti nell'area per evitare di aggiungerlo più volte
-    //     if (isInCurrentArea) {
-    //       apartmentsInArea.push(apartment);
-    //     }
-    //   }
+      // Aggiorna store.filteredApartments con gli appartamenti nell'area che soddisfano i filtri
+      store.filteredApartments = apartmentsInArea;
 
-    //   // Verifica se ci sono appartamenti in filteredApartments che non sono più nell'area e li rimuove
-    //   for (let j = store.filteredApartments.length - 1; j >= 0; j--) {
-    //     const filteredApartment = store.filteredApartments[j];
-    //     const isStillInArea = apartmentsInArea.some(
-    //       (apartment) => apartment.id === filteredApartment.id
-    //     );
-    //     if (!isStillInArea) {
-    //       store.filteredApartments.splice(j, 1);
-    //     }
-    //   }
-
-    //   console.log(
-    //     "Filtered apartments within the area:",
-    //     store.filteredApartments
-    //   );
-    //   console.log("Appartamenti nel database:", store.apartments);
-    //   console.log("Radius:", store.radius);
-    // },
+      console.log(
+        "Filtered apartments within the area:",
+        store.filteredApartments
+      );
+      console.log("Appartamenti nel database:", store.apartments);
+      console.log("Radius:", store.radius);
+    },
   },
 };
 </script>
