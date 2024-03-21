@@ -192,45 +192,6 @@ class ApartmentTableSeeder extends Seeder
                 "longitude" => "9.20384"
             ],
             [
-                "user_id" => "6",
-                "title" => "Attico Panoramico - Garibaldi",
-                "description" => "Attico con vista panoramica nel quartiere di Garibaldi a Milano. Arredato con eleganza e modernità, dispone di ampi spazi interni e esterni, tra cui una terrazza con vista mozzafiato sulla città. Perfetto per un soggiorno di lusso in una delle zone più trendy di Milano.",
-                "main_img" => "https://img3.idealista.it/blur/WEB_LISTING-M/0/id.pro.it.image.master/d9/1f/0b/394626989.jpg",
-                "max_guests" => "6",
-                "rooms" => "4",
-                "beds" => "3",
-                "baths" => "2",
-                "address" => "Via Pirelli, 20",
-                "latitude" => "45.48471",
-                "longitude" => "9.18762"
-            ],
-            [
-                "user_id" => "7",
-                "title" => "Casa Moderna - Isola",
-                "description" => "Splendida casa moderna nel quartiere dell'Isola a Milano. Arredata con gusto contemporaneo, dispone di ampi spazi living, cucina attrezzata, tre camere da letto e due bagni. Ideale per un soggiorno confortevole e di design nella Milano del futuro.",
-                "main_img" => "https://th.bing.com/th/id/OIP.kGaFkUGivYsTSstGxoINRgHaE8?rs=1&pid=ImgDetMain",
-                "max_guests" => "6",
-                "rooms" => "4",
-                "beds" => "3",
-                "baths" => "2",
-                "address" => "Via Borsieri, 30",
-                "latitude" => "45.48396",
-                "longitude" => "9.18342"
-            ],
-            [
-                "user_id" => "6",
-                "title" => "Attico Panoramico - Garibaldi",
-                "description" => "Attico con vista panoramica nel quartiere di Garibaldi a Milano. Arredato con eleganza e modernità, dispone di ampi spazi interni e esterni, tra cui una terrazza con vista mozzafiato sulla città. Perfetto per un soggiorno di lusso in una delle zone più trendy di Milano.",
-                "main_img" => "https://img3.idealista.it/blur/WEB_LISTING-M/0/id.pro.it.image.master/d9/1f/0b/394626989.jpg",
-                "max_guests" => "6",
-                "rooms" => "4",
-                "beds" => "3",
-                "baths" => "2",
-                "address" => "Via Pirelli, 20",
-                "latitude" => "45.48471",
-                "longitude" => "9.18762"
-            ],
-            [
                 "user_id" => "7",
                 "title" => "Casa Moderna - Isola",
                 "description" => "Splendida casa moderna nel quartiere dell'Isola a Milano. Arredata con gusto contemporaneo, dispone di ampi spazi living, cucina attrezzata, tre camere da letto e due bagni. Ideale per un soggiorno confortevole e di design nella Milano del futuro.",
