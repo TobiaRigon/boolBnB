@@ -1,60 +1,104 @@
 <template>
-    <!-- Form per inviare un messaggio al proprietario -->
-    <form @submit.prevent="inviaMessaggio">
-      <div class="container mt-5">
-        <h2>Contatta il proprietario:</h2>
-        <div class="mb-3">
-          <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" id="nome" v-model="message.nome" required>
-        </div>
-        
-        <div class="mb-3">
-          <label for="testo" class="form-label">Messaggio</label>
-          <textarea class="form-control" id="testo" v-model="message.testo" required></textarea>
-        </div>
-  
-        <button type="submit" class="btn btn-primary">Invia Messaggio</button>
+  <!-- Form per inviare un messaggio al proprietario -->
+  <form @submit.prevent="sendMessage">
+    <div class="container mt-5">
+      <h2>Contatta il proprietario:</h2>
+      <div class="mb-3">
+        <label for="sender_name" class="form-label">Nome</label>
+        <input
+          type="text"
+          class="form-control"
+          id="sender_name"
+          v-model="newMessage.sender_name"
+          required
+        />
       </div>
-    </form>
-  </template>
-  
-  <script>
-  import axios from "axios";
-  
-  export default {
-    name: "MessageFormApi",
-    data() {
-      return {
-        message: {
-          nome: '',
-          testo: '',
-        }
-      };
-    },
-    methods: {
-      inviaMessaggio() {
-        // Metodo per l'invio del messaggio
-        console.log('Messaggio inviato:', this.message);
-  
-        // Effettua una richiesta POST al backend
-        axios.post('http://localhost:8000/dashboard', this.message)
-          .then((res) => {
-            console.log(res.data);
-            // Azzera i campi del form dopo l'invio
-            this.message.nome = '';
-            this.message.testo = '';
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+
+      <div class="mb-3">
+        <label for="sender_surname" class="form-label">Cognome</label>
+        <input
+          type="text"
+          class="form-control"
+          id="sender_surname"
+          v-model="newMessage.sender_surname"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="sender_mail" class="form-label">Mail</label>
+        <input
+          type="text"
+          class="form-control"
+          id="sender_mail"
+          v-model="newMessage.sender_mail"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="sender_text" class="form-label">Messaggio</label>
+        <textarea
+          class="form-control"
+          id="sender_text"
+          v-model="newMessage.sender_text"
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Invia Messaggio</button>
+    </div>
+  </form>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  name: "MessageFormApi",
+  data() {
+    // Funzione per ottenere la data nel formato 'YYYY-MM-DD'
+    function getCurrentDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      let day = today.getDate();
+
+      // Aggiungi zero iniziale se il mese è inferiore a 10
+      if (month < 10) {
+        month = "0" + month;
       }
+
+      // Aggiungi zero iniziale se il giorno è inferiore a 10
+      if (day < 10) {
+        day = "0" + day;
+      }
+
+      return `${year}-${month}-${day}`;
     }
-  };
-  </script>
-  
-  <style scoped>
-  .my_card {
-    max-width: 1000px;
-    height: 100%;
-  }
-  </style>
+
+    return {
+      newMessage: {
+        id: 1,
+        sender_text: "test_message",
+        date: getCurrentDate(), // Ottieni la data odierna
+        sender_mail: "test@test.it",
+        sender_name: "test_name",
+        sender_surname: "sest_sur",
+      },
+    };
+  },
+  methods: {
+    sendMessage() {
+      console.log("submit with:", this.newMessage);
+    },
+  },
+};
+</script>
+
+<style scoped>
+.my_card {
+  max-width: 1000px;
+  height: 100%;
+}
+</style>

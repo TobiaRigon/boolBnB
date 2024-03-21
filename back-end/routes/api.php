@@ -24,15 +24,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group(['prefix' => '/apartmentApi'] , function(){
-
     Route::get('/apartments', [ApiController::class, 'getApartments']);
     Route::get('/apartments/{id}', [ApiController::class, 'getApartmentById']);
        //Rotta per la ricerca degli appartamenti
     // Route::get('/apartments/search', [ApiController ::class, 'search']);
     Route::get('search', [ApiController ::class, 'search']);
-
-
-
 });
+
+Route::group(['prefix' => '/v1'] , function(){
+    Route::post('messgae', [ApiController ::class, 'sendMessage']);
+});
+
 
 
