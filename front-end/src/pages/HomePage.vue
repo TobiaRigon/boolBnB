@@ -13,11 +13,6 @@ export default {
       research: [],
       // serve per chiudere autocomplete quando clicco su un risultato
       showAutoComplete: true,
-      // informazioni indirizzo scelto
-      //
-      // raggio di 20 km (valore base)
-
-      // valori di lat settati sul raggio scelto
     };
   },
   methods: {

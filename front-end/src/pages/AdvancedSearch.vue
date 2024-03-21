@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="input-group mb-3">
+      <!-- <div class="input-group mb-3">
         <input
           type="range"
           class="form-range raggio me-5"
@@ -12,17 +12,22 @@
           @input="changeRadius()"
         />
         <span class="input-group-text kilometri">{{ store.radius }} km</span>
-      </div>
+      </div> -->
       <div class="my-3">
-        <span class="me-2">letti</span>
+        <span class="me-2">Letti</span>
         <input
           v-model="letti"
           class="filtri"
           type="number"
-          @input="filterApartments"
+          @input="filtering()"
         />
         <span class="me-2">Stanze</span>
-        <input class="filtri" type="number" @input="filterApartments" />
+        <input
+          v-model="stanze"
+          class="filtri"
+          type="number"
+          @input="filtering()"
+        />
       </div>
       <div
         class="col-lg-3 col-md-6"
@@ -50,26 +55,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="btn-container">
-      <div class="btn-wrapper">
-        <button
-          class="btn"
-          type="button"
-          :disabled="currentPage === 1"
-          @click="changePage(-1)"
-        >
-          << Prev
-        </button>
-        <button
-          class="btn"
-          type="button"
-          :disabled="currentPage === 4"
-          @click="changePage(1)"
-        >
-          Next >>
-        </button>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -82,6 +67,7 @@ export default {
     return {
       store,
       letti: "",
+      stanze: "",
       perPage: 8,
       currentPage: 1,
     };
@@ -99,12 +85,59 @@ export default {
       }
     },
     filtering() {
-      console.log(this.letti);
+      if (this.letti < 1) {
+        this.letti = 1; // Imposta il valore a 1 se è inferiore a 1
+      }
+      if (this.stanze < 1) {
+        this.stanze = 1; // Imposta il valore a 1 se è inferiore a 1
+      }
+
+      // Filtra gli appartamenti in base al numero di letti e stanze inseriti
+      const filteredApartments = store.filteredApartments.filter(
+        (apartment) => {
+          // Controlla se il numero di letti specificato è minore o uguale al numero di letti dell'appartamento
+          const lettoPass =
+            this.letti === "" || parseInt(this.letti) <= apartment.beds;
+
+          // Controlla se il numero di stanze specificato è minore o uguale al numero di stanze dell'appartamento
+          const stanzePass =
+            this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
+
+          // Se almeno uno dei filtri non passa, aggiungi l'appartamento a store.removed
+          if (!lettoPass || !stanzePass) {
+            store.removed.push(apartment);
+          }
+
+          // Restituisce true solo se entrambi i filtri passano
+          return lettoPass && stanzePass;
+        }
+      );
+
+      // Aggiorna gli appartamenti filtrati in store.filteredApartments
+      store.filteredApartments = filteredApartments;
+
+      console.log("Appartamenti filtrati:", filteredApartments);
+      console.log("appartamenti rimossi:", store.removed);
+      store.removed.forEach((apartment, index) => {
+        // Controlla se l'appartamento soddisfa i nuovi criteri di filtraggio
+        const lettoPass =
+          this.letti === "" || parseInt(this.letti) <= apartment.beds;
+        const stanzePass =
+          this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
+
+        // Se l'appartamento soddisfa i criteri di filtraggio, riaggiungilo a store.filteredApartments
+        if (lettoPass && stanzePass) {
+          store.filteredApartments.push(apartment);
+          // Rimuovi l'appartamento da store.removed
+          store.removed.splice(index, 1);
+        }
+      });
+
+      console.log("Appartamenti filtrati:", store.filteredApartments);
     },
     changeRadius() {
       this.setRadius();
       this.isInNewArea();
-      console.log("porcodeddioooooooooo");
       console.log("appartamenti del db:", store.apartments);
     },
     setRadius() {
