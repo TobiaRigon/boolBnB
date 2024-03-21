@@ -3,6 +3,20 @@
   <form @submit.prevent="sendMessage">
     <div class="container mt-5">
       <h2>Contatta il proprietario:</h2>
+
+      <!-- Messaggio di conferma -->
+      <div v-if="messageSent" class="container mt-3">
+        <div class="alert alert-success" role="alert">
+          Messaggio inviato con successo!
+          <button
+            @click="closeMessage"
+            type="button"
+            class="btn-close"
+            aria-label="Chiudi"
+          ></button>
+        </div>
+      </div>
+
       <div class="mb-3">
         <label for="sender_name" class="form-label">Nome</label>
         <input
@@ -104,6 +118,7 @@ export default {
         sender_name: "",
         sender_surname: "",
       },
+      messageSent: false,
     };
   },
   methods: {
@@ -121,16 +136,23 @@ export default {
 
           if (data.status === "success") {
             // Aggiungi un messaggio di conferma
-            alert("Messaggio inviato con successo!");
-          }
+            this.messageSent = true;
 
-          // if (data.status == "success") {
-          //   this.messages.push(data.message);
-          // }
+            // Svuota i campi del form
+            this.newMessage.sender_name = "";
+            this.newMessage.sender_surname = "";
+            this.newMessage.sender_mail = "";
+            this.newMessage.sender_text = "";
+          }
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+
+    closeMessage() {
+      // Chiudi il messaggio di conferma
+      this.messageSent = false;
     },
   },
 };
