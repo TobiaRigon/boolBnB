@@ -17,50 +17,58 @@ class SponsorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function applySponsor(Request $request)
-    {
-        $request->validate([
-            'apartment_id' => 'required|exists:apartments,id',
-            'sponsor_id' => 'required|exists:sponsors,id',
-            'payment_method_nonce' => 'required', // Aggiungi validazione per il nonce del metodo di pagamento
-        ]);
+{
+    $request->validate([
+        'apartment_id' => 'required|exists:apartments,id',
+        'sponsor_id' => 'required|exists:sponsors,id',
+        'payment_method_nonce' => 'required', // Aggiungi validazione per il nonce del metodo di pagamento
+    ]);
 
-        $sponsor = Sponsor::findOrFail($request->sponsor_id);
-        $apartment = Apartment::findOrFail($request->apartment_id);
+    $sponsor = Sponsor::findOrFail($request->sponsor_id);
+    $apartment = Apartment::findOrFail($request->apartment_id);
 
-        // Verifica se c'è già una sponsorizzazione dello stesso tipo per questo appartamento
-        $latestSponsorOfType = $apartment->sponsors()->where('id', $sponsor->id)->latest()->first();
+    // Verifica se c'è già una sponsorizzazione dello stesso tipo per questo appartamento
+    $latestSponsorOfType = $apartment->sponsors()->where('id', $sponsor->id)->latest()->first();
 
-        // Determina la data di inizio della sponsorizzazione
-        $startDate = $latestSponsorOfType ? $latestSponsorOfType->pivot->deadline : Carbon::now();
-
-        // Calcola la durata della sponsorizzazione in base all'id del sponsor selezionato
-        switch ($sponsor->id) {
-            case 1:
-                $duration = 24; // 24 ore
-                break;
-            case 2:
-                $duration = 72; // 72 ore
-                break;
-            case 3:
-                $duration = 144; // 144 ore
-                break;
-            default:
-                $duration = 24; // Durata predefinita, se l'id dello sponsor non corrisponde a nessuna delle opzioni
-                break;
-        }
-
-        // Calcola la data e l'ora in cui la nuova sponsorizzazione scade
-        $expirationDate = Carbon::parse($startDate)->addHours($duration);
-
-        // Salva la data di scadenza nella tabella pivot "apartment_sponsor"
-        $apartment->sponsors()->attach($sponsor->id, ['deadline' => $expirationDate]);
-
-        // Imposta il campo "in_evidence" a 1
-        $apartment->in_evidence = 1;
-        $apartment->save();
-
-        return redirect()->back()->with('success', 'Sponsorizzazione applicata con successo all\'appartamento.');
+    // Determina la data di inizio della sponsorizzazione
+    if ($latestSponsorOfType) {
+        // Se esiste una sponsorizzazione dello stesso tipo, utilizza la sua scadenza come data di inizio
+        $startDate = $latestSponsorOfType->pivot->deadline;
+    } else {
+        // Altrimenti, cerca la sponsorizzazione più recente per questo appartamento e utilizza la sua scadenza come data di inizio
+        $latestSponsor = $apartment->sponsors()->latest()->first();
+        $startDate = $latestSponsor ? $latestSponsor->pivot->deadline : Carbon::now();
     }
+
+    // Calcola la durata della sponsorizzazione in base all'id del sponsor selezionato
+    switch ($sponsor->id) {
+        case 1:
+            $duration = 24; // 24 ore
+            break;
+        case 2:
+            $duration = 72; // 72 ore
+            break;
+        case 3:
+            $duration = 144; // 144 ore
+            break;
+        default:
+            $duration = 24; // Durata predefinita, se l'id dello sponsor non corrisponde a nessuna delle opzioni
+            break;
+    }
+
+    // Calcola la data e l'ora in cui la nuova sponsorizzazione scade
+    $expirationDate = Carbon::parse($startDate)->addHours($duration);
+
+    // Salva la data di scadenza nella tabella pivot "apartment_sponsor"
+    $apartment->sponsors()->attach($sponsor->id, ['deadline' => $expirationDate]);
+
+    // Imposta il campo "in_evidence" a 1
+    $apartment->in_evidence = 1;
+    $apartment->save();
+
+    return redirect()->back()->with('success', 'Sponsorizzazione applicata con successo all\'appartamento.');
+}
+
 
 
     public function index()
