@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                             <!-- Form per la selezione dell'appartamento -->
-                            <form action="{{ route('applySponsor', ['sponsor_id' => $sponsor->id]) }}" method="POST" class="apply-sponsor-form">
+                            <form action="{{ route('applySponsor', ['sponsor_id' => $sponsor->id]) }}" method="POST" id="apply-sponsor-form">
                                 @csrf
                                 <select name="apartment_id" class="form-select mb-3">
                                     <option value="">Seleziona un appartamento</option>
@@ -28,7 +28,9 @@
                                     <option value="{{ $apartment->id }}">{{ $apartment->title }}</option>
                                     @endforeach
                                 </select>
-                                <button type="submit" class="btn btn-primary btn-block">Applica sponsorizzazione</button>
+                                <!-- Contenitore per il form di pagamento Braintree -->
+                                <div id="dropin-container"></div>
+                                <button type="submit" class="btn btn-primary btn-block" id="submit-button">Applica sponsorizzazione</button>
                             </form>
                         </div>
                     </div>
@@ -37,6 +39,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <div class="container mt-4">
         <div class="text-center">
@@ -63,9 +66,45 @@
             </div>
         </div>
     </div>
-
-
 </div>
+{{-- script per braintree --}}
+<script src="https://js.braintreegateway.com/web/dropin/1.31.0/js/dropin.min.js"></script>
+<script>
+    var form = document.querySelector('#apply-sponsor-form');
+    var submitButton = document.querySelector('#submit-button');
+    var dropinContainer = document.querySelector('#dropin-container');
+
+    braintree.dropin.create({
+        authorization: '{{ $clientToken }}', // Passa il token del client Braintree generato dal controller
+        container: dropinContainer
+    }, function (createErr, instance) {
+        if (createErr) {
+            console.error('Errore durante la creazione del form di pagamento', createErr);
+            return;
+        }
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+                if (requestPaymentMethodErr) {
+                    console.error('Errore durante il recupero del metodo di pagamento', requestPaymentMethodErr);
+                    return;
+                }
+
+                // Aggiungi il nonce del metodo di pagamento al modulo
+                var nonceField = document.createElement('input');
+                nonceField.setAttribute('type', 'hidden');
+                nonceField.setAttribute('name', 'payment_method_nonce');
+                nonceField.setAttribute('value', payload.nonce);
+                form.appendChild(nonceField);
+
+                // Invia il modulo
+                form.submit();
+            });
+        });
+    });
+</script>
 <style scoped>
     .card {
         border: 0;
