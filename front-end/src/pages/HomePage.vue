@@ -9,26 +9,15 @@ export default {
       findApartment: "",
       // oggetti che vediamo nell'autocomplete
       AutoMenu: [],
-      // appartamenti database
-      apartments: [],
       //  località scelta dal menu autocomplete
       research: [],
       // serve per chiudere autocomplete quando clicco su un risultato
       showAutoComplete: true,
       // informazioni indirizzo scelto
-      lat: "",
-      lon: "",
-      città: "",
-      via: "",
-      country: "",
       //
       // raggio di 20 km (valore base)
-      radius: "20",
+
       // valori di lat settati sul raggio scelto
-      maxLat: "",
-      maxLon: "",
-      minLat: "",
-      minLon: "",
     };
   },
   methods: {
@@ -53,10 +42,10 @@ export default {
     },
     // voglio settare un raggio con queste info (lat e lon)
     searchItem() {
-      this.lat = this.research.position.lat;
-      console.log(this.lat);
-      this.lon = this.research.position.lon;
-      console.log(this.lon);
+      store.lat = this.research.position.lat;
+      console.log(store.lat);
+      store.lon = this.research.position.lon;
+      console.log(store.lon);
       this.via = this.research.address.freeformAddress;
       this.city = this.research.municipality;
       this.country = this.research.country;
@@ -66,12 +55,13 @@ export default {
     },
     setRadius() {
       // Converti le coordinate da stringhe a numeri
-      const lat = parseFloat(this.lat);
-      const lon = parseFloat(this.lon);
+      const lat = parseFloat(store.lat);
+      const lon = parseFloat(store.lon);
 
       // Converti il raggio da km a gradi (approssimativamente)
-      const latDelta = this.radius / 110.574; // 1 grado di latitudine è circa 110.574 km
-      const lonDelta = this.radius / (111.32 * Math.cos(lat * (Math.PI / 180))); // 1 grado di longitudine varia in base alla latitudine
+      const latDelta = store.radius / 110.574; // 1 grado di latitudine è circa 110.574 km
+      const lonDelta =
+        store.radius / (111.32 * Math.cos(lat * (Math.PI / 180))); // 1 grado di longitudine varia in base alla latitudine
 
       // Calcola le nuove coordinate
       const newLatPlus = lat + latDelta;
@@ -79,26 +69,27 @@ export default {
       const newLonPlus = lon + lonDelta;
       const newLonMinus = lon - lonDelta;
 
-      this.maxLat = newLatPlus;
-      this.minLat = newLatMinus;
-      this.minLon = newLonMinus;
-      this.maxLon = newLonPlus;
+      store.maxLat = newLatPlus;
+      store.minLat = newLatMinus;
+      store.minLon = newLonMinus;
+      store.maxLon = newLonPlus;
 
       console.log("Nuove coordinate con raggio di 20 km:");
-      console.log("Latitudine massima:", newLatPlus);
-      console.log("Latitudine minima:", newLatMinus);
-      console.log("Longitudine massima:", newLonPlus);
-      console.log("Longitudine minima:", newLonMinus);
+
+      console.log("Latitudine massima :", store.maxLat);
+      console.log("Latitudine minima:", store.minLat);
+      console.log("Longitudine massima:", store.maxLon);
+      console.log("Longitudine minima:", store.minLon);
     },
-    // metodo per cercare gli appartamenti nell'area sselezionata
+    // metodo per cercare gli appartamenti nell'area selezionata
     isInArea() {
-      for (let i = 0; i < this.apartments.length; i++) {
-        const apartment = this.apartments[i];
+      for (let i = 0; i < store.apartments.length; i++) {
+        const apartment = store.apartments[i];
         if (
-          this.minLat <= apartment.latitude &&
-          apartment.latitude <= this.maxLat &&
-          this.minLon <= apartment.longitude &&
-          apartment.longitude <= this.maxLon
+          store.minLat <= apartment.latitude &&
+          apartment.latitude <= store.maxLat &&
+          store.minLon <= apartment.longitude &&
+          apartment.longitude <= store.maxLon
         ) {
           // li mando nello store
           store.filteredApartments.push(apartment);
@@ -115,8 +106,10 @@ export default {
       this.findApartment = item.address.freeformAddress;
       this.research = item;
       this.showAutoComplete = false; // Chiudi il menu dell'autocompletamento dopo la selezione
-      console.log("raggio aggiornato:", this.radius);
+      console.log("raggio aggiornato:", store.radius);
       console.log("research:", this.research);
+      store.locationResearch.push(this.research);
+      console.log("store location:", store.locationResearch);
     },
   },
   // chiamata api al database
@@ -129,8 +122,8 @@ export default {
     axios
       .get(searchUrl)
       .then((res) => {
-        this.apartments = res.data;
-        console.log(this.apartments);
+        store.apartments = res.data;
+        console.log(store.apartments);
       })
       .catch((err) => {
         console.log(err);
@@ -148,18 +141,6 @@ export default {
             <h1>Cerca il tuo appartamento</h1>
           </div>
         </div>
-      </div>
-      <!-- input per il raggio -->
-      <div class="input-group mb-3">
-        <input
-          type="range"
-          class="form-range raggio me-5"
-          min="1"
-          max="100"
-          step="1"
-          v-model="radius"
-        />
-        <span class="input-group-text kilometri">{{ radius }} km</span>
       </div>
       <form class="form-inline my-2 gap-2 d-flex" @submit="handleSearch">
         <input
