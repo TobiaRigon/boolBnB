@@ -42,6 +42,13 @@ class ApiController extends Controller
         // Restituisci i risultati della query come risposta JSON
         return response()->json($apartments);
     }
-    
+    public function sendMessage(Request $request)
+    {
+       $data = $request ->all();
+       return response()->json([
+        'status'=>'success',
+        'data' => $data
+       ]);
+    }
 
 }

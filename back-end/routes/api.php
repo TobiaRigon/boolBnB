@@ -29,11 +29,14 @@ Route::group(['prefix' => '/apartmentApi'] , function(){
        //Rotta per la ricerca degli appartamenti
     // Route::get('/apartments/search', [ApiController ::class, 'search']);
     Route::get('search', [ApiController ::class, 'search']);
+
+    // Rotta post messages
+    Route::post('messages', [ApiController ::class, 'sendMessage']);
 });
 
-Route::group(['prefix' => '/v1'] , function(){
-    Route::post('messgae', [ApiController ::class, 'sendMessage']);
-});
+// Route::group(['prefix' => '/v1'] , function(){
+//     Route::post('message', [ApiController ::class, 'sendMessage']);
+// });
 
 
 

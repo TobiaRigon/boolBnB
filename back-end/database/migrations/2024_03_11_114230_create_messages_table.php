@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string('sender_mail');
             $table->string('sender_name');
             $table->string('sender_surname');
-
-
             $table->timestamps();
         });
     }
