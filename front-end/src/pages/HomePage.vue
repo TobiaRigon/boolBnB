@@ -14,6 +14,14 @@ export default {
       // serve per chiudere autocomplete quando clicco su un risultato
       showAutoComplete: true,
       apartmentsInEvidence: [],
+
+      // Metodo della foto in Home
+      // backgroundImages: [
+      //   "../assets/images/pexels-matteo-milan-18786201.jpg",
+      //   "../assets/images/pexels-pixabay-163864.jpg"
+      // ],
+      // currentBackgroundIndex: 0,
+      // intervalId: null,
     };
   },
   methods: {
@@ -187,6 +195,20 @@ export default {
       const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
       return `${baseUrl}/${imagePath}`;
     },
+    
+    // Metodo per far rotare le foto in HOME
+    // startBackgroundRotation() {
+    //   this.intervalId = setInterval(this.changeBackground, 5000); //Cambia immagine ogni 5 secondi 
+    // },
+    // stopBackgroundRotation() {
+    //   clearInterval(this.intervalId);
+    // },
+    // changeBackground() {
+    //   this.currentBackgroundIndex = (this.currentBackgroundIndex + 1) % this.backgroundImages.length;
+    //   const imageUrl = this.backgroundImages[this.currentBackgroundIndex];
+    //   document.querySelector('.jumbotron').style.backgroundImage = `url(${imageUrl})`;
+    // },
+
   },
   // chiamata api al database
   mounted() {
@@ -194,6 +216,9 @@ export default {
     let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
     // se non è vuoto aggiungo quello che trovo nell'input
     console.log(searchUrl);
+
+    // Funzione per far partire la rotazione
+    // this.startBackgroundRotation();
 
     this.getApartments();
     this.getInEvidenceApartments();
@@ -208,61 +233,68 @@ export default {
         console.log(err);
       });
   },
+  // Funzione per stop Background
+  // beforeDestroy() {
+  //   this.stopBackgroundRotation();
+  // }
 };
 </script>
 
 <template>
   <main>
-    <div class="container">
-      <div class="row">
-        <div class="col">
+    <div class="jumbotron  d-flex align-items-center justify-content-center">
+      <div class="container" id="sezione-ricerca">
+        <div class="row">
           <div class="col">
-            <h1>Cerca il tuo appartamento</h1>
+            <div class="col">
+              <h1>Cerca il tuo appartamento</h1>
+            </div>
           </div>
         </div>
-      </div>
-      <form class="form-inline my-2 gap-2 d-flex" @submit="handleSearch">
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Cerca"
-          aria-label="Search"
-          v-model="findApartment"
-          @input="autoComplete"
-        />
-        <router-link
-          :to="'/search/'"
-          @click="searchItem()"
-          class="btn btn-outline-success my-2 my-sm-0"
-          type="submit"
-        >
-          Search
-        </router-link>
+        <form class="form-inline my-2 gap-2 d-flex" @submit="handleSearch">
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Cerca"
+            aria-label="Search"
+            v-model="findApartment"
+            @input="autoComplete"
+          />
+          <router-link
+            :to="'/search/'"
+            @click="searchItem()"
+            class="btn btn-outline-success my-2 my-sm-0"
+            type="submit"
+          >
+            Search
+          </router-link>
 
-        <!-- Inizio: Elemento per l'autocompletamento -->
-        <div
-          id="AutoComplete"
-          style="margin-top: 40px"
-          class="card position-absolute w-80 h-50 radius"
-          v-show="
-            showAutoComplete &&
-            AutoMenu.length > 0 &&
-            findApartment.trim() !== ''
-          "
-        >
-          <ul class="list" style="cursor: pointer">
-            <li
-              v-for="(item, index) in AutoMenu"
-              :key="index"
-              @click="selectItem(item)"
-            >
-              {{ item.address.freeformAddress }}
-            </li>
-          </ul>
-        </div>
-        <!-- Fine: Elemento per l'autocompletamento -->
-      </form>
+          <!-- Inizio: Elemento per l'autocompletamento -->
+          <div
+            id="AutoComplete"
+            style="margin-top: 40px"
+            class="card position-absolute w-80 h-50 radius"
+            v-show="
+              showAutoComplete &&
+              AutoMenu.length > 0 &&
+              findApartment.trim() !== ''
+            "
+          >
+            <ul class="list" style="cursor: pointer">
+              <li
+                v-for="(item, index) in AutoMenu"
+                :key="index"
+                @click="selectItem(item)"
+              >
+                {{ item.address.freeformAddress }}
+              </li>
+            </ul>
+          </div>
+          <!-- Fine: Elemento per l'autocompletamento -->
+        </form>
+      </div>
     </div>
+      
 
     <div>
       <h2>Appartamenti in evidenza</h2>
@@ -355,6 +387,26 @@ li {
 }
 .raggio {
   width: 30%;
+}
+
+.jumbotron{
+  background-image: url("../assets/images/pexels-matteo-milan-18786201.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+}
+
+#sezione-ricerca {
+  background-color: rgb(250, 235, 215, 0.5);
+  padding: 20px;
+  border-radius: 20px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Aggiungi una transizione per un effetto più fluido */
+}
+
+#sezione-ricerca:hover {
+  background-color: rgba(250, 235, 215, 0.7); /* Cambia leggermente il colore di sfondo */
+  transform: scale(1.02); /* Applica una leggera trasformazione di scala */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra sottile */
 }
 /* .kilometri {
   width: 70px;
