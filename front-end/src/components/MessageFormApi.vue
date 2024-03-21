@@ -79,8 +79,8 @@ export default {
 
     return {
       newMessage: {
-        id: 1,
-        sender_text: "test_message",
+        apartment_id: 1,
+        sender_text: "ciaociaociaociaociaociaociaociaociao",
         date: getCurrentDate(), // Ottieni la data odierna
         sender_mail: "test@test.it",
         sender_name: "test_name",
@@ -100,6 +100,10 @@ export default {
         .then((res) => {
           const data = res.data;
           console.log(data);
+
+          // if (data.status == "success") {
+          //   this.messages.push(data.message);
+          // }
         })
         .catch((err) => {
           console.log(err);

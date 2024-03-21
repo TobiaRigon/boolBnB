@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 // IMPORTO I MODEL CHE MI SERVE
 use App\Models\Apartment;
+use App\Models\Message;
 
 class ApiController extends Controller
 {
@@ -44,10 +45,23 @@ class ApiController extends Controller
     }
     public function sendMessage(Request $request)
     {
-       $data = $request ->all();
+
+        $data = $request ->all();
+
+        $message = new Message;
+        $message-> apartment_id = $data['apartment_id'];
+        $message-> sender_name = $data['sender_name'];
+        $message-> sender_surname = $data['sender_surname'];
+        $message-> sender_mail = $data['sender_mail'];
+        $message-> date = $data['date'];
+        $message-> sender_text = $data['sender_text'];
+
+        $message -> save();
+
+      
        return response()->json([
         'status'=>'success',
-        'data' => $data
+        'message' => $message
        ]);
     }
 
