@@ -29,6 +29,7 @@ export default {
       maxLon: "",
       minLat: "",
       minLon: "",
+      apartmentsInEvidence: [],
     };
   },
   methods: {
@@ -118,13 +119,55 @@ export default {
       console.log("raggio aggiornato:", this.radius);
       console.log("research:", this.research);
     },
+    getApartments() {
+      // definisco variabile url
+      let searchUrl = `${this.searchApi}${this.findApartment}`;
+      // se non è vuoto aggiungo quello che trovo nell'input
+      console.log(searchUrl);
+
+      axios
+        .get(searchUrl)
+        .then((res) => {
+          this.apartments = res.data;
+          console.log(this.apartments);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getInEvidenceApartments() {
+    axios.get('http://127.0.0.1:8000/api/apartments/in-evidence')
+    .then(response => {
+      this.apartmentsInEvidence = response.data; // Salva gli appartamenti in evidenza nell'array separato
+      console.log('Appartamenti in evidenza:', this.apartmentsInEvidence); // Aggiungi questo console.log
+    })
+    .catch(error => {
+      console.error('Error fetching in-evidence apartments:', error);
+    })
   },
+
+  getImageUrl(imagePath) {
+      // Controlla se il percorso dell'immagine sembra essere un URL completo
+      if (
+        imagePath &&
+        (imagePath.startsWith("http://") || imagePath.startsWith("https://"))
+      ) {
+        return imagePath;
+      }
+      // Altrimenti, costruisci il percorso completo utilizzando il percorso di base del server Laravel
+      const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
+      return `${baseUrl}/${imagePath}`;
+    },
+},
   // chiamata api al database
   mounted() {
     // definisco variabile url
     let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
     // se non è vuoto aggiungo quello che trovo nell'input
     console.log(searchUrl);
+
+    this.getApartments();
+    this.getInEvidenceApartments();
 
     axios
       .get(searchUrl)
@@ -202,6 +245,38 @@ export default {
         </div>
         <!-- Fine: Elemento per l'autocompletamento -->
       </form>
+    </div>
+
+    <div>
+      <h2>Appartamenti in evidenza</h2>
+      <div class="apartments-in-evidence">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6" v-for="apartment in apartmentsInEvidence" :key="apartment.id">
+            <router-link class="card my-3" :to="`/apartments/${apartment.id}/${apartment.title}`">
+              <div class="card-container">
+                <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
+                <img
+                  :src="getImageUrl(apartment.main_img)"
+                  class="card-img-top"
+                  alt="Immagine dell'appartamento"
+                />
+                <h5 class="card-title p-2">{{ apartment.title }}</h5>
+                <p class="card-text p-2">{{ apartment.description }}</p>
+                <div class="d-flex justify-content-between">
+                  <!-- <router-link
+                    :to="'/apartments/' + apartment.id"
+                    class="btn btn-primary m-2"
+                    >APRI</router-link
+                  > -->
+                </div>
+              </div>
+            </router-link>
+          </div>
+
+        </div>
+        
+      </div>
     </div>
   </main>
 </template>

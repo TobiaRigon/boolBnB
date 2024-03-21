@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\MessageController;
 
 /*
@@ -37,6 +38,12 @@ Route::get('/apartment/{id}/{title}', [ApartmentController::class, 'show'])->nam
 
 // Redirect dettagliata di un singolo appartamento in vue.js
 Route::redirect('/apartment/{id}/{title}', 'http://localhost:5173/#/apartments/{id}/{title}', 301);
+
+// Sponso momentaneamente qua
+Route::get('/sponsors', [SponsorController::class, 'index'])->name('sponsors.index');
+
+Route::post('/apply-sponsor', [SponsorController::class, 'applySponsor'])->name('applySponsor');
+
 
 
 // Gruppo di rotte che richiedono autenticazione

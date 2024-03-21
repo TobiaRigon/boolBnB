@@ -6,32 +6,34 @@
         </h2>
 
 
+
     </x-slot>
     @section('content')
-        <div class="container mt-4">
-            <a class="btn btn-success my-3" href="{{ route('apartment.create') }}">NUOVO APPARTAMENTO</a>
-            <h1 class="text-center mb-5">I miei appartamenti: {{ count($apartments) }}</h1>
 
-            <div class="row">
-                @foreach ($apartments as $apartment)
-                    <div class="col-12 col-md-6 col-lg-4 ">
-                    <a  href="{{ route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}">
-                        <div class="card my-3">
-                            <div class="card-container">
-                                <img src="{{ asset($apartment->main_img) }}" class="card-img-top" alt="...">
-                                <h5 class="card-title">{{ $apartment->title }}</h5>
-                                <p class="card-text">{{ Str::limit($apartment->description) }}</p>
+    <div class="container mt-4">
+        <a class="btn btn-success my-3" href="{{ route('apartment.create') }}">NUOVO APPARTAMENTO</a>
+        <a class="btn btn-success my-3" href="{{ route('sponsors.index') }}">Sponsorizza i tuoi appartamenti</a>
+        <h1 class="text-center mb-5">I miei appartamenti:  {{ count($apartments) }}</h1>
 
 
+        <div class="row">
+            @foreach ($apartments as $apartment)
+            <a href="{{ route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}">
+                <div class="col-12 col-md-6 col-lg-4 ">
+                    <div class="card my-3">
 
-                                   <!-- Aggiungi un link per visualizzare i messaggi -->
-                                   <a href="{{ route('pages.messages', $apartment->id) }}" class="btn btn-info">Mostra Messaggi</a>
-                
+                        <div class="card-container">
+                          <img src="{{ asset($apartment->main_img) }}" class="card-img-top"
+                            alt="...">
+                            <h5 class="card-title">{{ $apartment->title }}</h5>
+                            <p class="card-text">{{ Str::limit($apartment->description) }}</p>
 
 
+                                <!-- Aggiungi un link per visualizzare i messaggi -->
+                                <a href="{{ route('pages.messages', $apartment->id) }}" class="btn btn-info">Mostra Messaggi</a>
 
                                 <div class="d-flex justify-content-between">
-                                    
+
                                     @if (auth()->id() == $apartment->user_id)
                                         <a href="{{ route('apartments.edit', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}"
                                             class="btn btn-secondary">MODIFICA</a>
@@ -193,8 +195,28 @@
                 background-color: #ddd;
             }
 
-            */
-        </style>
-    @endsection
+</style>
+
+<script>
+    function confirmDelete(apartmentId) {
+        var modal = document.getElementById('confirmation-modal');
+        modal.style.display = 'block';
+        // Passa l'id dell'appartamento alla funzione deleteApartment
+        deleteApartment.apartmentId = apartmentId;
+    }
+
+    function deleteApartment() {
+        var apartmentId = deleteApartment.apartmentId;
+        document.getElementById('delete-form-' + apartmentId).submit();
+    }
+
+    function closeModal() {
+        var modal = document.getElementById('confirmation-modal');
+        modal.style.display = 'none';
+    }
+</script>
+
+
+ @endsection
 
 </x-app-layout>

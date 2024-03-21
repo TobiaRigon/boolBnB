@@ -11,6 +11,12 @@ use App\Models\Message;
 
 class ApiController extends Controller
 {
+
+    public function getInEvidenceApartments()
+    {
+        $apartments = Apartment::where('in_evidence', 1)->get();
+        return response()->json($apartments);
+    }
     public function getApartments() {
         $apartments = Apartment::all(); // Voglio tutti gli appartamenti
         return response()->json($apartments); // Mi restituisce tutti gli appartamenti in formato json
@@ -33,13 +39,13 @@ class ApiController extends Controller
     {
         // Ottieni il parametro di ricerca dalla query string e rimuovi eventuali spazi bianchi extra
         $searchTerm = trim($request->query('search'));
-    
+
         // Esegui la query degli appartamenti basata sul termine di ricerca
         $apartments = Apartment::where('title', 'like', '%' . $searchTerm . '%')
                                ->orWhere('description', 'like', '%' . $searchTerm . '%')
                                ->orWhere('address', 'like', '%' . $searchTerm . '%')
                                ->get();
-    
+
         // Restituisci i risultati della query come risposta JSON
         return response()->json($apartments);
     }
@@ -58,7 +64,7 @@ class ApiController extends Controller
 
         $message -> save();
 
-      
+
        return response()->json([
         'status'=>'success',
         'message' => $message

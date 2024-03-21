@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+Route::get('/apartments/in-evidence', 'App\Http\Controllers\ApiController@getInEvidenceApartments');
 
 Route::group(['prefix' => '/apartmentApi'] , function(){
     Route::get('/apartments', [ApiController::class, 'getApartments']);
@@ -34,9 +34,6 @@ Route::group(['prefix' => '/apartmentApi'] , function(){
     Route::post('messages', [ApiController ::class, 'sendMessage']);
 });
 
-// Route::group(['prefix' => '/v1'] , function(){
-//     Route::post('message', [ApiController ::class, 'sendMessage']);
-// });
 
 
 
