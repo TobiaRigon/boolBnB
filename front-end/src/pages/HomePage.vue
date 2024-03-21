@@ -46,6 +46,13 @@ export default {
     },
     // voglio settare un raggio con queste info (lat e lon)
     searchItem() {
+      // Verifica se filteredApartments è vuoto prima di procedere
+      if (store.appartamentiFiltrati.length > 0) {
+        // Se non è vuoto, svuotalo prima di eseguire la nuova ricerca
+        store.filteredApartments = [];
+        store.appartamentiFiltrati = [];
+      }
+
       store.lat = this.research.position.lat;
       console.log(store.lat);
       store.lon = this.research.position.lon;
@@ -97,6 +104,7 @@ export default {
         ) {
           // li mando nello store
           store.filteredApartments.push(apartment);
+          store.appartamentiFiltrati.push(apartment);
         }
       }
       console.log("questo è lo store:", store.filteredApartments);
@@ -195,10 +203,10 @@ export default {
       const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
       return `${baseUrl}/${imagePath}`;
     },
-    
+
     // Metodo per far rotare le foto in HOME
     // startBackgroundRotation() {
-    //   this.intervalId = setInterval(this.changeBackground, 5000); //Cambia immagine ogni 5 secondi 
+    //   this.intervalId = setInterval(this.changeBackground, 5000); //Cambia immagine ogni 5 secondi
     // },
     // stopBackgroundRotation() {
     //   clearInterval(this.intervalId);
@@ -208,7 +216,6 @@ export default {
     //   const imageUrl = this.backgroundImages[this.currentBackgroundIndex];
     //   document.querySelector('.jumbotron').style.backgroundImage = `url(${imageUrl})`;
     // },
-
   },
   // chiamata api al database
   mounted() {
@@ -242,7 +249,7 @@ export default {
 
 <template>
   <main>
-    <div class="jumbotron  d-flex align-items-center justify-content-center">
+    <div class="jumbotron d-flex align-items-center justify-content-center">
       <div class="container" id="sezione-ricerca">
         <div class="row">
           <div class="col">
@@ -294,7 +301,6 @@ export default {
         </form>
       </div>
     </div>
-      
 
     <div>
       <h2>Appartamenti in evidenza</h2>
@@ -395,7 +401,7 @@ li {
   width: 30%;
 }
 
-.jumbotron{
+.jumbotron {
   background-image: url("../assets/images/pexels-matteo-milan-18786201.jpg");
   background-size: cover;
   background-position: center;
@@ -410,7 +416,12 @@ li {
 }
 
 #sezione-ricerca:hover {
-  background-color: rgba(250, 235, 215, 0.7); /* Cambia leggermente il colore di sfondo */
+  background-color: rgba(
+    250,
+    235,
+    215,
+    0.7
+  ); /* Cambia leggermente il colore di sfondo */
   transform: scale(1.02); /* Applica una leggera trasformazione di scala */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra sottile */
 }
