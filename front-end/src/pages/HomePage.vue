@@ -1,14 +1,34 @@
 <script>
 import axios from "axios";
+import { store } from "../store";
 export default {
   name: "HomePage",
   data() {
     return {
-      searchApi: "http://127.0.0.1:8000/api/apartmentApi/search?search=",
+      // prende le informazioni dalla searchbar; è necessario per l'autocomplete
       findApartment: "",
+      // oggetti che vediamo nell'autocomplete
+      AutoMenu: [],
+      // appartamenti database
       apartments: [],
-      perPage: 8,
-      currentPage: 1,
+      //  località scelta dal menu autocomplete
+      research: [],
+      // serve per chiudere autocomplete quando clicco su un risultato
+      showAutoComplete: true,
+      // informazioni indirizzo scelto
+      lat: "",
+      lon: "",
+      città: "",
+      via: "",
+      country: "",
+      //
+      // raggio di 20 km (valore base)
+      radius: "20",
+      // valori di lat settati sul raggio scelto
+      maxLat: "",
+      maxLon: "",
+      minLat: "",
+      minLon: "",
     };
   },
   methods: {
@@ -17,54 +37,104 @@ export default {
       this.currentPage += num;
       console.log(this.currentPage);
     },
-    // Metodo per eseguire la ricerca degli appartamenti
-    getApartments() {
-      // definisco variabile url
-      let searchUrl = `${this.searchApi}${this.findApartment}`;
-      // se non è vuoto aggiungo quello che trovo nell'input
-      console.log(searchUrl);
-
+    // metodo per autocomplete tomtom
+    autoComplete() {
+      const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
+      let tomTomApi = `https://api.tomtom.com/search/2/search/${this.findApartment}.json?key=${keyApi}`;
+      console.log(tomTomApi);
       axios
-        .get(searchUrl)
+        .get(tomTomApi)
         .then((res) => {
-          this.apartments = res.data;
-          console.log(this.apartments);
+          this.AutoMenu = res.data.results;
         })
         .catch((err) => {
           console.log(err);
         });
     },
+    // voglio settare un raggio con queste info (lat e lon)
+    searchItem() {
+      this.lat = this.research.position.lat;
+      console.log(this.lat);
+      this.lon = this.research.position.lon;
+      console.log(this.lon);
+      this.via = this.research.address.freeformAddress;
+      this.city = this.research.municipality;
+      this.country = this.research.country;
+      console.log(this.research);
+      this.setRadius();
+      this.isInArea();
+    },
+    setRadius() {
+      // Converti le coordinate da stringhe a numeri
+      const lat = parseFloat(this.lat);
+      const lon = parseFloat(this.lon);
+
+      // Converti il raggio da km a gradi (approssimativamente)
+      const latDelta = this.radius / 110.574; // 1 grado di latitudine è circa 110.574 km
+      const lonDelta = this.radius / (111.32 * Math.cos(lat * (Math.PI / 180))); // 1 grado di longitudine varia in base alla latitudine
+
+      // Calcola le nuove coordinate
+      const newLatPlus = lat + latDelta;
+      const newLatMinus = lat - latDelta;
+      const newLonPlus = lon + lonDelta;
+      const newLonMinus = lon - lonDelta;
+
+      this.maxLat = newLatPlus;
+      this.minLat = newLatMinus;
+      this.minLon = newLonMinus;
+      this.maxLon = newLonPlus;
+
+      console.log("Nuove coordinate con raggio di 20 km:");
+      console.log("Latitudine massima:", newLatPlus);
+      console.log("Latitudine minima:", newLatMinus);
+      console.log("Longitudine massima:", newLonPlus);
+      console.log("Longitudine minima:", newLonMinus);
+    },
+    // metodo per cercare gli appartamenti nell'area sselezionata
+    isInArea() {
+      for (let i = 0; i < this.apartments.length; i++) {
+        const apartment = this.apartments[i];
+        if (
+          this.minLat <= apartment.latitude &&
+          apartment.latitude <= this.maxLat &&
+          this.minLon <= apartment.longitude &&
+          apartment.longitude <= this.maxLon
+        ) {
+          // li mando nello store
+          store.filteredApartments.push(apartment);
+        }
+      }
+      console.log("questo è lo store:", store.filteredApartments);
+    },
+
     handleSearch(event) {
       event.preventDefault(); // Evita il ricaricamento della pagina
-      this.getApartments();
     },
-    InputChange() {
-      // Esegue la ricerca degli appartamenti quando l'utente digita nel campo di ricerca
-      this.getApartments();
-    },
-    getImageUrl(imagePath) {
-      // Verifica se il percorso restituito dal backend include il prefisso "storage"
-      if (imagePath.startsWith("storage")) {
-        // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
-        const baseUrl = "http://127.0.0.1:8000"; // Sostituisci con il tuo URL effettivo se diverso
-        return `${baseUrl}/${imagePath}`;
-      } else {
-        // Se il percorso non include "storage", restituisci direttamente il percorso
-        return imagePath;
-      }
+    // seleziona item nell'elenco di ricerca degli indirizzi
+    selectItem(item) {
+      this.findApartment = item.address.freeformAddress;
+      this.research = item;
+      this.showAutoComplete = false; // Chiudi il menu dell'autocompletamento dopo la selezione
+      console.log("raggio aggiornato:", this.radius);
+      console.log("research:", this.research);
     },
   },
+  // chiamata api al database
   mounted() {
-    // posso visualizzare tutti gli appartamenti
-    this.getApartments();
-  },
+    // definisco variabile url
+    let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
+    // se non è vuoto aggiungo quello che trovo nell'input
+    console.log(searchUrl);
 
-  computed: {
-    paginatedList() {
-      const start = (this.currentPage - 1) * this.perPage;
-      const end = start + this.perPage;
-      return this.apartments.slice(start, end);
-    },
+    axios
+      .get(searchUrl)
+      .then((res) => {
+        this.apartments = res.data;
+        console.log(this.apartments);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>
@@ -79,6 +149,18 @@ export default {
           </div>
         </div>
       </div>
+      <!-- input per il raggio -->
+      <div class="input-group mb-3">
+        <input
+          type="range"
+          class="form-range raggio me-5"
+          min="1"
+          max="100"
+          step="1"
+          v-model="radius"
+        />
+        <span class="input-group-text kilometri">{{ radius }} km</span>
+      </div>
       <form class="form-inline my-2 gap-2 d-flex" @submit="handleSearch">
         <input
           class="form-control mr-sm-2"
@@ -86,61 +168,40 @@ export default {
           placeholder="Cerca"
           aria-label="Search"
           v-model="findApartment"
-          @input="InputChange()"
+          @input="autoComplete"
         />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Cerca
-        </button>
-      </form>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div
-          class="col-lg-3 col-md-6"
-          v-for="apartment in paginatedList"
-          :key="apartment.id"
+        <router-link
+          :to="'/search/'"
+          @click="searchItem()"
+          class="btn btn-outline-success my-2 my-sm-0"
+          type="submit"
         >
-          <router-link :to="'/apartments/' + apartment.id" class="card my-3">
-            <div class="card-container">
-              <img
-                :src="getImageUrl(apartment.main_img)"
-                class="card-img-top"
-                alt="..."
-              />
+          Search
+        </router-link>
 
-              <h5 class="card-title p-2">{{ apartment.title }}</h5>
-              <p class="card-text p-2">{{ apartment.description }}</p>
-              <div class="d-flex justify-content-between">
-                <!-- <router-link
-                  :to="'/apartments/' + apartment.id"
-                  class="btn btn-primary m-2"
-                  >APRI</router-link
-                > -->
-              </div>
-            </div>
-          </router-link>
+        <!-- Inizio: Elemento per l'autocompletamento -->
+        <div
+          id="AutoComplete"
+          style="margin-top: 40px"
+          class="card position-absolute w-80 h-50 radius"
+          v-show="
+            showAutoComplete &&
+            AutoMenu.length > 0 &&
+            findApartment.trim() !== ''
+          "
+        >
+          <ul class="list" style="cursor: pointer">
+            <li
+              v-for="(item, index) in AutoMenu"
+              :key="index"
+              @click="selectItem(item)"
+            >
+              {{ item.address.freeformAddress }}
+            </li>
+          </ul>
         </div>
-      </div>
-      <div class="btn-container">
-        <div class="btn-wrapper">
-          <button
-            class="btn"
-            type="button"
-            :disabled="currentPage === 1"
-            @click="changePage(-1)"
-          >
-            << Prev
-          </button>
-          <button
-            class="btn"
-            type="button"
-            :disabled="currentPage === 4"
-            @click="changePage(1)"
-          >
-            Next >>
-          </button>
-        </div>
-      </div>
+        <!-- Fine: Elemento per l'autocompletamento -->
+      </form>
     </div>
   </main>
 </template>
@@ -184,4 +245,20 @@ img:hover {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+li {
+  list-style: none;
+}
+#AutoComplete {
+  width: 50%;
+}
+#AutoComplete ul li:hover {
+  background-color: rgba(0, 0, 255, 0.1);
+  border: 1px solid darkgrey;
+}
+.raggio {
+  width: 30%;
+}
+/* .kilometri {
+  width: 70px;
+} */
 </style>
