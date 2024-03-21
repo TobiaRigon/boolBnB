@@ -57,12 +57,15 @@ import axios from "axios";
 export default {
   name: "MessageFormApi",
   data() {
-    // Funzione per ottenere la data nel formato 'YYYY-MM-DD'
-    function getCurrentDate() {
+    // Funzione per ottenere la data e l'ora nel formato 'YYYY-MM-DD HH:MM:SS'
+    function getCurrentDateTime() {
       const today = new Date();
       const year = today.getFullYear();
       let month = today.getMonth() + 1;
       let day = today.getDate();
+      let hours = today.getHours();
+      let minutes = today.getMinutes();
+      let seconds = today.getSeconds();
 
       // Aggiungi zero iniziale se il mese è inferiore a 10
       if (month < 10) {
@@ -74,14 +77,29 @@ export default {
         day = "0" + day;
       }
 
-      return `${year}-${month}-${day}`;
+      // Aggiungi zero iniziale se l'ora è inferiore a 10
+      if (hours < 10) {
+        hours = "0" + hours;
+      }
+
+      // Aggiungi zero iniziale se i minuti sono inferiori a 10
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+
+      // Aggiungi zero iniziale se i secondi sono inferiori a 10
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
 
     return {
       newMessage: {
         apartment_id: this.$route.params.id,
         sender_text: "",
-        date: getCurrentDate(), // Ottieni la data odierna
+        date: getCurrentDateTime(), // Ottieni la data odierna
         sender_mail: "",
         sender_name: "",
         sender_surname: "",
