@@ -79,12 +79,12 @@ export default {
 
     return {
       newMessage: {
-        apartment_id: 1,
-        sender_text: "ciaociaociaociaociaociaociaociaociao",
+        apartment_id: this.$route.params.id,
+        sender_text: "",
         date: getCurrentDate(), // Ottieni la data odierna
-        sender_mail: "test@test.it",
-        sender_name: "test_name",
-        sender_surname: "sest_sur",
+        sender_mail: "",
+        sender_name: "",
+        sender_surname: "",
       },
     };
   },
