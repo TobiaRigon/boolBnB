@@ -29,7 +29,6 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->dateTime('deadline');
-            $table->primary(['apartment_id', 'sponsor_id']);
             $table->timestamps();
         });
     }

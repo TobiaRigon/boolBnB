@@ -84,7 +84,7 @@ export default {
 
 <template>
   <main>
-    <!-- <div class="container">
+    <div class="container">
       <div class="row">
         <div class="col">
           <div class="col">
@@ -105,9 +105,9 @@ export default {
           Cerca
         </button>
       </form>
-    </div> -->
-    <!-- <div class="container"> -->
-      <!-- <div class="row">
+    </div> 
+    <div class="container">
+      <div class="row">
         <div
           class="col-lg-3 col-md-6"
           v-for="apartment in paginatedList"
@@ -149,8 +149,8 @@ export default {
             Next >>
           </button>
         </div>
-      </div> -->
-    <!-- </div> -->
+      </div>
+     </div>
     <div>
       <h2>Appartamenti in evidenza</h2>
       <div class="apartments-in-evidence">

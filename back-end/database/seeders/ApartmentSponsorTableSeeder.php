@@ -13,6 +13,7 @@ use App\Models\ApartmentSponsor;
 
 class ApartmentSponsorTableSeeder extends Seeder
 {
+
     /**
      * Run the database seeds.
      *
@@ -38,22 +39,25 @@ class ApartmentSponsorTableSeeder extends Seeder
                 "sponsor_id" => "1",
             ],
         ];
-
         foreach ($apartmentSponsors as $apartmentSponsor) {
-            // Calcola la data di scadenza in base all'ID dello sponsor
-            $currentDate = Carbon::now();
-            $currentDate->addHours($apartmentSponsor['sponsor_id'] == 1 ? 24 : ($apartmentSponsor['sponsor_id'] == 2 ? 72 : 144));
-            $apartmentSponsor['deadline'] = $currentDate;
+            $apartment = Apartment::find($apartmentSponsor['apartment_id']);
 
-            // Creazione della relazione appartamento-sponsor
-            ApartmentSponsor::create($apartmentSponsor);
+            // Verifica se c'è già una sponsorizzazione attiva per questo appartamento
+            $latestSponsorship = $apartment->sponsors()->latest()->first();
+            $currentDate = $latestSponsorship ? Carbon::parse($latestSponsorship->pivot->deadline) : Carbon::now();
+
+            // Calcola la nuova data di scadenza in base all'ID dello sponsor
+            $currentDate->addHours($apartmentSponsor['sponsor_id'] == 1 ? 24 : ($apartmentSponsor['sponsor_id'] == 2 ? 72 : 144));
+
+            // Creazione o aggiornamento della relazione appartamento-sponsor
+            $apartment->sponsors()->syncWithoutDetaching([$apartmentSponsor['sponsor_id'] => ['deadline' => $currentDate]]);
 
             // Aggiornamento del campo in_evidence dell'appartamento
-            $apartment = Apartment::find($apartmentSponsor['apartment_id']);
             $apartment->in_evidence = true;
             $apartment->save();
         }
     }
+
 }
 
 
