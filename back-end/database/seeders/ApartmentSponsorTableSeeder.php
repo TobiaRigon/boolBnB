@@ -22,22 +22,7 @@ class ApartmentSponsorTableSeeder extends Seeder
     public function run()
     {
         $apartmentSponsors = [
-            [
-                "apartment_id" => "1",
-                "sponsor_id" => "3",
-            ],
-            [
-                "apartment_id" => "2",
-                "sponsor_id" => "2",
-            ],
-            [
-                "apartment_id" => "3",
-                "sponsor_id" => "1",
-            ],
-            [
-                "apartment_id" => "10",
-                "sponsor_id" => "1",
-            ],
+
         ];
         foreach ($apartmentSponsors as $apartmentSponsor) {
             $apartment = Apartment::find($apartmentSponsor['apartment_id']);
