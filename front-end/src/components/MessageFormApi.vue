@@ -119,6 +119,11 @@ export default {
           const data = res.data;
           console.log(data);
 
+          if (data.status === "success") {
+            // Aggiungi un messaggio di conferma
+            alert("Messaggio inviato con successo!");
+          }
+
           // if (data.status == "success") {
           //   this.messages.push(data.message);
           // }
