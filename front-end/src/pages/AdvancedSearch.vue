@@ -1,6 +1,17 @@
 <template>
   <div class="container">
     <div class="row">
+      <div class="my-3">
+        <span class="me-2">letti</span>
+        <input
+          v-model="letti"
+          class="filtri"
+          type="number"
+          @input="filterApartments"
+        />
+        <span class="me-2">Stanze</span>
+        <input class="filtri" type="number" @input="filterApartments" />
+      </div>
       <div
         class="col-lg-3 col-md-6"
         v-for="apartment in store.filteredApartments"
@@ -58,6 +69,7 @@ export default {
   data() {
     return {
       store,
+      letti: "",
       perPage: 8,
       currentPage: 1,
     };
@@ -74,15 +86,42 @@ export default {
         return imagePath;
       }
     },
+    filtering() {
+      console.log(this.letti);
+    },
   },
   mounted() {
     console.log("swag:", store.filteredApartments);
+  },
+
+  filterApartments() {
+    // Filtra gli appartamenti in base ai criteri selezionati
+    this.filteredApartments = this.store.filteredApartments.filter(
+      (apartment) => {
+        // Controlla se il filtro sui letti è attivo e, se sì, se l'appartamento soddisfa il criterio
+        const lettiFiltrati =
+          !this.letti || apartment.beds >= parseInt(this.letti);
+        // Controlla se il filtro sulle stanze è attivo e, se sì, se l'appartamento soddisfa il criterio
+        const stanzeFiltrate =
+          !this.stanze || apartment.rooms >= parseInt(this.stanze);
+        // Restituisci true solo se entrambi i filtri sono veri
+        return lettiFiltrati && stanzeFiltrate;
+      }
+    );
   },
   computed: {
     paginatedList() {
       const start = (this.currentPage - 1) * this.perPage;
       const end = start + this.perPage;
       return this.apartments.slice(start, end);
+    },
+    filteredApartments() {
+      return this.store.filteredApartments.filter((apartment) => {
+        return (
+          (!this.letti || apartment.beds >= this.letti) &&
+          (!this.stanze || apartment.rooms >= this.stanze)
+        );
+      });
     },
   },
 };
@@ -136,5 +175,9 @@ li {
 #AutoComplete ul li:hover {
   background-color: rgba(0, 0, 255, 0.1);
   border: 1px solid darkgrey;
+}
+.filtri {
+  width: 5%;
+  margin-right: 20px;
 }
 </style>

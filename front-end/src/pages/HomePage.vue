@@ -5,19 +5,26 @@ export default {
   name: "HomePage",
   data() {
     return {
+      // prende le informazioni dalla searchbar; è necessario per l'autocomplete
       findApartment: "",
+      // oggetti che vediamo nell'autocomplete
       AutoMenu: [],
+      // appartamenti database
       apartments: [],
-      // filteredApartments: [],
+      //  località scelta dal menu autocomplete
       research: [],
+      // serve per chiudere autocomplete quando clicco su un risultato
       showAutoComplete: true,
+      // informazioni indirizzo scelto
       lat: "",
       lon: "",
       città: "",
       via: "",
       country: "",
-      // raggio di 20 km
+      //
+      // raggio di 20 km (valore base)
       radius: "20",
+      // valori di lat settati sul raggio scelto
       maxLat: "",
       maxLon: "",
       minLat: "",
@@ -83,6 +90,7 @@ export default {
       console.log("Longitudine massima:", newLonPlus);
       console.log("Longitudine minima:", newLonMinus);
     },
+    // metodo per cercare gli appartamenti nell'area sselezionata
     isInArea() {
       for (let i = 0; i < this.apartments.length; i++) {
         const apartment = this.apartments[i];
@@ -92,6 +100,7 @@ export default {
           this.minLon <= apartment.longitude &&
           apartment.longitude <= this.maxLon
         ) {
+          // li mando nello store
           store.filteredApartments.push(apartment);
         }
       }
@@ -101,6 +110,7 @@ export default {
     handleSearch(event) {
       event.preventDefault(); // Evita il ricaricamento della pagina
     },
+    // seleziona item nell'elenco di ricerca degli indirizzi
     selectItem(item) {
       this.findApartment = item.address.freeformAddress;
       this.research = item;
@@ -109,6 +119,7 @@ export default {
       console.log("research:", this.research);
     },
   },
+  // chiamata api al database
   mounted() {
     // definisco variabile url
     let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
@@ -124,14 +135,6 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-  },
-
-  computed: {
-    paginatedList() {
-      const start = (this.currentPage - 1) * this.perPage;
-      const end = start + this.perPage;
-      return this.apartments.slice(start, end);
-    },
   },
 };
 </script>
