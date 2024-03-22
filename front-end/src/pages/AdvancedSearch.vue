@@ -56,6 +56,7 @@
 
             <h5 class="card-title p-2">{{ apartment.title }}</h5>
             <p class="card-text p-2">{{ apartment.description }}</p>
+            <p class="card-text p-2">Distanza: {{ apartment.distance }} km</p> <!-- Inserisci la distanza qui -->
             <div class="d-flex justify-content-between">
               <!-- <router-link
                 :to="'/apartments/' + apartment.id"
@@ -69,6 +70,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -101,43 +103,148 @@ export default {
 
     // LOGICA FILTRO IN BACK END
     filtering() {
-      if (this.letti <= 0) {
-        this.letti = 1;
-      }
-      if (this.stanze <= 0) {
-        this.stanze = 1;
-      }
+  if (this.letti <= 0) {
+    this.letti = 1;
+  }
+  if (this.stanze <= 0) {
+    this.stanze = 1;
+  }
 
-      // Ottieni i filtri selezionati
-      const selectedServiceIds = store.services
-        .filter((servizio) => servizio.selected)
-        .map((servizio) => servizio.id);
+  // Ottieni i filtri selezionati
+  const selectedServiceIds = store.services
+    .filter((servizio) => servizio.selected)
+    .map((servizio) => servizio.id);
 
-      // Costruisci l'oggetto dei parametri includendo tutti i filtri
-      const params = {
-        letti: this.letti,
-        stanze: this.stanze,
-        servizi: selectedServiceIds,
-        // Aggiungi qui eventuali altri filtri
-      };
+  // Costruisci l'oggetto dei parametri includendo tutti i filtri
+  const params = {
+    letti: this.letti,
+    stanze: this.stanze,
+    servizi: selectedServiceIds,
+    // Aggiungi qui eventuali altri filtri
+  };
 
-      // Effettua la chiamata API includendo tutti i filtri
-      axios
-        .get("http://127.0.0.1:8000/api/apartmentApi/filter", {
-          params: params,
-        })
-        .then((res) => {
-          store.filteredApartments = res.data;
-          // Gestisci la risposta qui
-          console.log("filtrati", res.data);
-        })
-        .catch((error) => {
-          console.error(
-            "Errore durante il filtraggio degli appartamenti:",
-            error
-          );
-        });
+  // Effettua la chiamata API includendo tutti i filtri
+  axios
+    .get("http://127.0.0.1:8000/api/apartmentApi/filter", {
+      params: params,
+    })
+    .then((res) => {
+      // Calcola la distanza per ciascun appartamento nella risposta
+      res.data.forEach((apartment) => {
+        const distance = this.calculateDistance(apartment.latitude, apartment.longitude, store.lat, store.lon);
+        apartment.distance = distance;
+      });
+
+      store.filteredApartments = res.data;
+      // Gestisci la risposta qui
+      console.log("filtrati", res.data);
+    })
+    .catch((error) => {
+      console.error(
+        "Errore durante il filtraggio degli appartamenti:",
+        error
+      );
+    });
+},
+changeRadius() {
+      this.setRadius();
+      this.isInNewArea();
+      console.log("appartamenti del db:", store.apartments);
     },
+    setRadius() {
+      // Converti le coordinate da stringhe a numeri
+      const lat = parseFloat(store.lat);
+      const lon = parseFloat(store.lon);
+
+      // Converti il raggio da km a gradi (approssimativamente)
+      const latDelta = store.radius / 110.574; // 1 grado di latitudine è circa 110.574 km
+      const lonDelta =
+        store.radius / (111.32 * Math.cos(lat * (Math.PI / 180))); // 1 grado di longitudine varia in base alla latitudine
+
+      // Calcola le nuove coordinate
+      const newLatPlus = lat + latDelta;
+      const newLatMinus = lat - latDelta;
+      const newLonPlus = lon + lonDelta;
+      const newLonMinus = lon - lonDelta;
+
+      store.maxLat = newLatPlus;
+      store.minLat = newLatMinus;
+      store.minLon = newLonMinus;
+      store.maxLon = newLonPlus;
+
+      console.log(`Nuove coordinate con raggio di ${store.radius} km:`);
+
+      console.log("Latitudine massima :", store.maxLat);
+      console.log("Latitudine minima:", store.minLat);
+      console.log("Longitudine massima:", store.maxLon);
+      console.log("Longitudine minima:", store.minLon);
+    },
+    isInNewArea() {
+    // Array temporaneo per tracciare gli appartamenti nell'area delineata
+    const apartmentsInArea = [];
+
+    // Itera sugli appartamenti nel database
+    for (let i = 0; i < store.apartments.length; i++) {
+    const apartment = store.apartments[i];
+
+    // Verifica se l'appartamento è nell'area delineata
+    const isInCurrentArea =
+    store.minLat <= apartment.latitude &&
+    apartment.latitude <= store.maxLat &&
+    store.minLon <= apartment.longitude &&
+    apartment.longitude <= store.maxLon;
+
+    // Verifica se l'appartamento soddisfa anche i filtri stanze e letti
+    const lettoPass =
+      this.letti === "" || parseInt(this.letti) <= apartment.beds;
+    const stanzePass =
+      this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
+
+    if (isInCurrentArea && lettoPass && stanzePass) {
+      // Calcola la distanza tra l'appartamento e il punto di ricerca
+      const distance = this.calculateDistance(apartment.latitude, apartment.longitude, store.lat, store.lon);
+      // Aggiungi la distanza come proprietà dell'appartamento
+      apartment.distance = distance;
+      apartmentsInArea.push(apartment);
+    }
+    }
+
+    // Aggiorna store.filteredApartments con gli appartamenti nell'area che soddisfano i filtri
+    store.filteredApartments = apartmentsInArea;
+
+    console.log(
+    "Filtered apartments within the area:",
+    store.filteredApartments
+    );
+    console.log("Appartamenti nel database:", store.apartments);
+    console.log("Radius:", store.radius);
+    },
+
+calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Radius of the earth in km
+
+  const dLat = this.deg2rad(lat2 - lat1);
+  const dLon = this.deg2rad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const distance = Math.ceil(R * c); // Round up to the nearest integer
+
+  return distance;
+},
+
+
+deg2rad(deg) {
+  return deg * (Math.PI / 180);
+},
+
+
+
   },
   mounted() {
     axios

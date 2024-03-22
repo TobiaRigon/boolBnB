@@ -46,25 +46,32 @@ export default {
     },
     // voglio settare un raggio con queste info (lat e lon)
     searchItem() {
-      // Verifica se filteredApartments è vuoto prima di procedere
-      if (store.appartamentiFiltrati.length > 0) {
+    // Verifica se filteredApartments è vuoto prima di procedere
+    if (store.appartamentiFiltrati.length > 0) {
         // Se non è vuoto, svuotalo prima di eseguire la nuova ricerca
         store.filteredApartments = [];
         store.appartamentiFiltrati = [];
-        store.radius = 20;
-      }
+    }
 
-      store.lat = this.research.position.lat;
-      console.log(store.lat);
-      store.lon = this.research.position.lon;
-      console.log(store.lon);
-      this.via = this.research.address.freeformAddress;
-      this.city = this.research.municipality;
-      this.country = this.research.country;
-      console.log(this.research);
-      this.setRadius();
-      this.isInArea();
-    },
+    store.lat = this.research.position.lat;
+    console.log(store.lat);
+    store.lon = this.research.position.lon;
+    console.log(store.lon);
+    this.via = this.research.address.freeformAddress;
+    this.city = this.research.municipality;
+    this.country = this.research.country;
+    console.log(this.research);
+    this.setRadius();
+    this.isInArea();
+
+    // Calcolo della distanza per ogni appartamento nella zona
+    for (let i = 0; i < store.filteredApartments.length; i++) {
+        const apartment = store.filteredApartments[i];
+        const distance = this.calculateDistance(apartment.latitude, apartment.longitude, store.lat, store.lon);
+        apartment.distance = distance;
+    }
+  },
+
     setRadius() {
       // Converti le coordinate da stringhe a numeri
       const lat = parseFloat(store.lat);
@@ -109,6 +116,47 @@ export default {
         }
       }
       console.log("questo è lo store:", store.filteredApartments);
+    },
+
+    isInNewArea() {
+    // Array temporaneo per tracciare gli appartamenti nell'area delineata
+    const apartmentsInArea = [];
+
+    // Itera sugli appartamenti nel database
+    for (let i = 0; i < store.apartments.length; i++) {
+    const apartment = store.apartments[i];
+
+    // Verifica se l'appartamento è nell'area delineata
+    const isInCurrentArea =
+      store.minLat <= apartment.latitude &&
+      apartment.latitude <= store.maxLat &&
+      store.minLon <= apartment.longitude &&
+      apartment.longitude <= store.maxLon;
+
+    // Verifica se l'appartamento soddisfa anche i filtri stanze e letti
+    const lettoPass =
+      this.letti === "" || parseInt(this.letti) <= apartment.beds;
+    const stanzePass =
+      this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
+
+    if (isInCurrentArea && lettoPass && stanzePass) {
+      // Calcola la distanza tra l'appartamento e il punto di ricerca
+      const distance = this.calculateDistance(apartment.latitude, apartment.longitude, store.lat, store.lon);
+      // Aggiungi la distanza come proprietà dell'appartamento
+      apartment.distance = distance;
+      apartmentsInArea.push(apartment);
+    }
+    }
+
+    // Aggiorna store.filteredApartments con gli appartamenti nell'area che soddisfano i filtri
+    store.filteredApartments = apartmentsInArea;
+
+    console.log(
+    "Filtered apartments within the area:",
+    store.filteredApartments
+    );
+    console.log("Appartamenti nel database:", store.apartments);
+    console.log("Radius:", store.radius);
     },
 
     handleSearch(event) {
@@ -189,6 +237,31 @@ export default {
       const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
       return `${baseUrl}/${imagePath}`;
     },
+
+        
+    calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Radius of the earth in km
+
+      const dLat = this.deg2rad(lat2 - lat1);
+      const dLon = this.deg2rad(lon2 - lon1);
+
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      const distance = Math.ceil(R * c); // Round up to the nearest integer
+
+      return distance;
+    },
+
+
+    deg2rad(deg) {
+      return deg * (Math.PI / 180);
+    },
+
 
     // Metodo per far rotare le foto in HOME
     // startBackgroundRotation() {
