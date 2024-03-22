@@ -72,11 +72,12 @@ class ApiController extends Controller
     
         // Applica il filtro per i servizi selezionati
         if (!empty($servizi)) {
-            $query->whereHas('services', function ($q) use ($servizi) {
-                $q->whereIn('services.id', $servizi); // Modifica qui per utilizzare il nome completo della colonna
-            });
+            foreach ($servizi as $servizio) {
+                $query->whereHas('services', function ($query) use ($servizio) {
+                    $query->where('services.id', $servizio);
+                });
+            }
         }
-        
     
         // Esegui la query e ottieni gli appartamenti filtrati
         $filteredApartments = $query->get();
@@ -84,7 +85,8 @@ class ApiController extends Controller
         // Restituisci in JSON i risultati del filtraggio
         return response()->json($filteredApartments);
     }
-
+    
+    
     public function getServices()
     {
         $services = Service::all();

@@ -107,25 +107,29 @@ export default {
       if (this.stanze <= 0) {
         this.stanze = 1;
       }
+
+      // Ottieni i filtri selezionati
       const selectedServiceIds = store.services
         .filter((servizio) => servizio.selected)
         .map((servizio) => servizio.id);
-      console.log(selectedServiceIds);
 
+      // Costruisci l'oggetto dei parametri includendo tutti i filtri
+      const params = {
+        letti: this.letti,
+        stanze: this.stanze,
+        servizi: selectedServiceIds,
+        // Aggiungi qui eventuali altri filtri
+      };
+
+      // Effettua la chiamata API includendo tutti i filtri
       axios
         .get("http://127.0.0.1:8000/api/apartmentApi/filter", {
-          params: {
-            letti: this.letti,
-            stanze: this.stanze,
-            servizi: selectedServiceIds,
-            // zona
-            // servizi
-          },
+          params: params,
         })
         .then((res) => {
           store.filteredApartments = res.data;
           // Gestisci la risposta qui
-          console.log(res.data);
+          console.log("filtrati", res.data);
         })
         .catch((error) => {
           console.error(
