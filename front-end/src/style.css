@@ -6,14 +6,43 @@
   box-sizing: border-box;
   
 }
-body{
-
+header{
+margin-bottom:20px ;
 }
 
-main{
-  min-height: 100vh;
+/* Reset dei margini e dei padding */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
 }
 
-a{
-  text-decoration: none;
+/* Impostazioni globali per il testo */
+body {
+  font-family: 'Poppins', sans-serif; /* Cambio del font principale */
+  font-size: 16px; /* Imposta la dimensione del carattere predefinita */
+  line-height: 1.5; /* Imposta l'altezza della riga predefinita */
+  color: #333; /* Imposta il colore del testo predefinito */
+}
+
+/* Imposta il font per gli elementi specifici */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif; /* Imposta il font per i titoli */
+}
+
+p {
+  margin-bottom: 1em; /* Aggiunge spazio inferiore ai paragrafi */
+}
+
+/* Link */
+a {
+  color: #000000; /* Colore predefinito per i link */
+  text-decoration: none; /* Rimuove il sottolineato predefinito */
+}
+
+a:hover {
+  color: #000000; /* Colore predefinito per i link */
+  text-decoration: none; /* Rimuove il sottolineato predefinito */
 }

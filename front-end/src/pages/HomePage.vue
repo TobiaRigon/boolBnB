@@ -31,12 +31,12 @@ export default {
       console.log(this.currentPage);
     },
     makeSlug(title) {
-    return title
-      .toLowerCase() // Converti tutto in minuscolo
-      .replace(/\s+/g, '-') // Sostituisci gli spazi con trattini
-      .replace(/[^\w\-]+/g, '') // Rimuovi tutti i caratteri non alfanumerici eccetto i trattini
-      .replace(/\-\-+/g, '-'); // Sostituisci multipli trattini con un singolo trattino
-  },
+      return title
+        .toLowerCase() // Converti tutto in minuscolo
+        .replace(/\s+/g, "-") // Sostituisci gli spazi con trattini
+        .replace(/[^\w\-]+/g, "") // Rimuovi tutti i caratteri non alfanumerici eccetto i trattini
+        .replace(/\-\-+/g, "-"); // Sostituisci multipli trattini con un singolo trattino
+    },
     // metodo per autocomplete tomtom
     autoComplete() {
       const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
@@ -256,88 +256,86 @@ export default {
 
 <template>
   <main>
-    <div class="jumbotron d-flex align-items-center justify-content-center">
-      <div class="container" id="sezione-ricerca">
-        <div class="row">
-          <div class="col">
+    <div class="container-fluid">
+      <div class="jumbotron d-flex align-items-center justify-content-center">
+        <div class="container" id="sezione-ricerca">
+          <div class="row">
             <div class="col">
-              <h1>Cerca il tuo appartamento</h1>
+              <div class="col">
+                <h1>Cerca il tuo appartamento</h1>
+              </div>
             </div>
           </div>
-        </div>
-        <form class="form-inline my-2 gap-2 d-flex" @submit="handleSearch">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Cerca"
-            aria-label="Search"
-            v-model="findApartment"
-            @input="autoComplete"
-          />
-          <router-link
-            :to="'/search/'"
-            @click="searchItem()"
-            class="btn btn-outline-success my-2 my-sm-0"
-            type="submit"
-          >
-            Search
-          </router-link>
-
-          <!-- Inizio: Elemento per l'autocompletamento -->
-          <div
-            id="AutoComplete"
-            style="margin-top: 40px"
-            class="card position-absolute w-80 h-50 radius"
-            v-show="
-              showAutoComplete &&
-              AutoMenu.length > 0 &&
-              findApartment.trim() !== ''
-            "
-          >
-            <ul class="list" style="cursor: pointer">
-              <li
-                v-for="(item, index) in AutoMenu"
-                :key="index"
-                @click="selectItem(item)"
-              >
-                {{ item.address.freeformAddress }}
-              </li>
-            </ul>
-          </div>
-          <!-- Fine: Elemento per l'autocompletamento -->
-        </form>
-      </div>
-    </div>
-
-    <div class="mt-4">
-      <h2>Appartamenti in evidenza</h2>
-      <div class="apartments-in-evidence">
-        <div class="row">
-          <div
-            class="col-lg-3 col-md-6"
-            v-for="apartment in apartmentsInEvidence"
-            :key="apartment.id"
-          >
-          <router-link class="card my-3" :to="`/apartments/${apartment.id}/${makeSlug(apartment.title)}`">
-
-              <div class="card-container">
-                <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
-                <img
-                  :src="getImageUrl(apartment.main_img)"
-                  class="card-img-top"
-                  alt="Immagine dell'appartamento"
-                />
-                <h5 class="card-title p-2">{{ apartment.title }}</h5>
-                <p class="card-text p-2">{{ apartment.description }}</p>
-                <div class="d-flex justify-content-between">
-                  <!-- <router-link
-                    :to="'/apartments/' + apartment.id"
-                    class="btn btn-primary m-2"
-                    >APRI</router-link
-                  > -->
-                </div>
-              </div>
+          <form class="form-inline my-2 gap-2 d-flex" @submit="handleSearch">
+            <input
+              class="form-control mr-sm-2"
+              type="search"
+              placeholder="Cerca"
+              aria-label="Search"
+              v-model="findApartment"
+              @input="autoComplete"
+            />
+            <router-link
+              :to="'/search/'"
+              @click="searchItem()"
+              class="btn my_btn my-sm-0"
+              type="submit"
+            >
+              Search
             </router-link>
+
+            <!-- Inizio: Elemento per l'autocompletamento -->
+            <div
+              id="AutoComplete"
+              style="margin-top: 40px"
+              class="card position-absolute w-80 h-50 radius"
+              v-show="
+                showAutoComplete &&
+                AutoMenu.length > 0 &&
+                findApartment.trim() !== ''
+              "
+            >
+              <ul class="list" style="cursor: pointer">
+                <li
+                  v-for="(item, index) in AutoMenu"
+                  :key="index"
+                  @click="selectItem(item)"
+                >
+                  {{ item.address.freeformAddress }}
+                </li>
+              </ul>
+            </div>
+            <!-- Fine: Elemento per l'autocompletamento -->
+          </form>
+        </div>
+      </div>
+
+      <div class="mt-4 container-fluid text-center">
+        <h2 class="my-3">Appartamenti in evidenza</h2>
+        <div class="apartments-in-evidence">
+          <div class="row">
+            <div
+              class="col-lg-3 col-md-6"
+              v-for="apartment in apartmentsInEvidence"
+              :key="apartment.id"
+            >
+              <router-link
+                class="card my-3"
+                :to="`/apartments/${apartment.id}/${makeSlug(apartment.title)}`"
+              >
+                <div class="card-container">
+                  <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
+                  <img
+                    :src="getImageUrl(apartment.main_img)"
+                    class="card-img-top"
+                    alt="Immagine dell'appartamento"
+                  />
+                  <h5 class="card-title p-2">{{ apartment.title }}</h5>
+                  <p class="card-text p-2">{{ apartment.description }}</p>
+                  <div class="d-flex justify-content-between"></div>
+                </div>
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -345,10 +343,11 @@ export default {
   </main>
 </template>
 
-<style>
+<style scoped>
 .form-control {
-  max-width: 50%;
-  min-width: 700px;
+  max-width: 100%; /* Larghezza massima al 100% */
+  width: 100%; /* Larghezza al 100% */
+  min-width: 200px; /* Larghezza minima */
 }
 
 .apartments-in-evidence {
@@ -393,6 +392,12 @@ img:hover {
 li {
   list-style: none;
 }
+
+.my_btn {
+  background-color: #63beec;
+  color: white;
+  font-weight: bold;
+}
 #AutoComplete {
   width: 50%;
   z-index: 999;
@@ -407,30 +412,21 @@ li {
 }
 
 .jumbotron {
+  border-radius: 30px;
   background-image: url("../assets/images/pexels-matteo-milan-18786201.jpg");
   background-size: cover;
   background-position: center;
   height: 500px;
 }
 
-#sezione-ricerca {
-  background-color: rgb(250, 235, 215, 0.5);
-  padding: 20px;
-  border-radius: 20px;
-  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Aggiungi una transizione per un effetto più fluido */
+h1 {
+  color: white;
+  font-size: 52px;
+  font-weight: bold;
 }
 
-#sezione-ricerca:hover {
-  background-color: rgba(
-    250,
-    235,
-    215,
-    0.7
-  ); /* Cambia leggermente il colore di sfondo */
-  transform: scale(1.02); /* Applica una leggera trasformazione di scala */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra sottile */
+#sezione-ricerca {
+  padding: 20px;
+  border-radius: 20px;
 }
-/* .kilometri {
-  width: 70px;
-} */
 </style>

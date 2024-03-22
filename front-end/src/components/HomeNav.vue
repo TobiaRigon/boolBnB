@@ -1,9 +1,11 @@
 <template>
-  <div class="container-fluid pt-3">
+  <div class="container-fluid py-3">
     <nav class="px-2 navbar navbar-expand-lg">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav align-items-center">
         <li class="px-1 nav-item">
-          <img src="../../public/BoolBnB_Logo.svg" alt="Logo" id="logo" />
+          <router-link class="nav-link" to="/">
+            <img src="../../public/BoolBnB_Logo.svg" alt="Logo" id="logo" />
+          </router-link>
         </li>
         <li class="px-1 nav-item">
           <router-link class="nav-link" to="/">Home</router-link>
@@ -35,7 +37,7 @@ export default {
 
 <style scoped>
 #logo {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 50px;
 }
 </style>

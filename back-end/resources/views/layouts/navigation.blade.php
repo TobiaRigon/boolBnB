@@ -5,7 +5,7 @@
             <ul class="navbar-nav mr-auto align-items-center">
                  <li class="nav-item">
                     <a class="navbar-brand" href="http://localhost:5173/#/">
-                        <img src="../BoolBnB_Logo.svg" alt="Logo" id="logo" class="d-inline-block align-top" style="width: 40px; height: 40px;">
+                        <img src="../BoolBnB_Logo.svg" alt="Logo" class="logo"  >
                     </a>
                 </li>
                 <li class="nav-item">
@@ -35,11 +35,11 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">Log in</a>
+                        <a class="nav-link btn" href="{{ route('login') }}">Log in</a>
                     </li>
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Register</a>
+                            <a class="nav-link" href="{{ route('register') }}">Registrati</a>
                         </li>
                     @endif
                 @endauth
@@ -48,3 +48,9 @@
     </div>
 </nav>
 
+<style scoped>
+    .logo{
+        width: 60px;
+        height: 50px;
+    }
+</style>
