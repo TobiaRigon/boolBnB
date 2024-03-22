@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { store } from "../store";
 export default {
   name: "AdvancedSearch",
@@ -88,31 +89,43 @@ export default {
         return imagePath;
       }
     },
+    // filtering() {
+    //   if (this.letti < 1) {
+    //     this.letti = 1;
+    //   }
+    //   if (this.letti > 30) {
+    //     this.letti = 30;
+    //   }
+    //   if (this.stanze < 1) {
+    //     this.stanze = 1;
+    //   }
+    //   if (this.stanze > 10) {
+    //     this.stanze = 10;
+    //   }
+    //   // Filtra gli appartamenti in base ai nuovi criteri di filtraggio
+    //   store.filteredApartments = store.appartamentiFiltrati.filter(
+    //     (apartment) => {
+    //       const lettoPass =
+    //         this.letti === "" || parseInt(this.letti) <= apartment.beds;
+    //       const stanzePass =
+    //         this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
+    //       return lettoPass && stanzePass;
+    //     }
+    //   );
+    //   console.log(store.filteredApartments);
+    // },
+
+    // LOGICA FILTRO IN BACK END 
     filtering() {
-      if (this.letti < 1) {
-        this.letti = 1;
-      }
-      if (this.letti > 30) {
-        this.letti = 30;
-      }
-      if (this.stanze < 1) {
-        this.stanze = 1;
-      }
-      if (this.stanze > 10) {
-        this.stanze = 10;
-      }
-      // Filtra gli appartamenti in base ai nuovi criteri di filtraggio
-      store.filteredApartments = store.appartamentiFiltrati.filter(
-        (apartment) => {
-          const lettoPass =
-            this.letti === "" || parseInt(this.letti) <= apartment.beds;
-          const stanzePass =
-            this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
-          return lettoPass && stanzePass;
-        }
-      );
-      console.log(store.filteredApartments);
+      axios.get(`/api/apartments/filter?letti=${this.letti}&stanze=${this.stanze}`)
+        .then(response => {
+          store.filteredApartments = response.data;
+        })
+        .catch(error => {
+          console.error('Error filtering apartments:', error);
+        });
     },
+
     changeRadius() {
       this.setRadius();
       this.isInNewArea();

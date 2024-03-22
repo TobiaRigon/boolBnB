@@ -49,6 +49,27 @@ class ApiController extends Controller
         // Restituisci i risultati della query come risposta JSON
         return response()->json($apartments);
     }
+
+    public function filter(Request $request)
+    {
+        // Esegui la logica di filtraggio utilizzando i dati forniti dalla richiesta
+        $letti = $request->input('letti');
+        $stanze = $request->input('stanze');
+
+        // Esegui la query per filtrare gli appartamenti
+        $filteredApartments = Apartment::where(function ($query) use ($letti) {
+            if (!empty($letti)) {
+                $query->where('beds', '>=', $letti);
+            }
+        })->where(function ($query) use ($stanze) {
+            if (!empty($stanze)) {
+                $query->where('rooms', '>=', $stanze);
+            }
+        })->get();
+        
+        // Restituisci in JSON risultati del filtraggio
+        return response()->json($filteredApartments);
+    }
     public function sendMessage(Request $request)
     {
 
