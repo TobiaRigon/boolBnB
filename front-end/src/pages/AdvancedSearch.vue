@@ -48,6 +48,7 @@
 
             <h5 class="card-title p-2">{{ apartment.title }}</h5>
             <p class="card-text p-2">{{ apartment.description }}</p>
+            <p class="card-text p-2">Distanza: {{ apartment.distance }} km</p> <!-- Inserisci la distanza qui -->
             <div class="d-flex justify-content-between">
               <!-- <router-link
                 :to="'/apartments/' + apartment.id"
@@ -61,6 +62,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import { store } from "../store";
@@ -89,30 +91,35 @@ export default {
       }
     },
     filtering() {
-      if (this.letti < 1) {
-        this.letti = 1;
+    if (this.letti < 1) {
+      this.letti = 1;
+    }
+    if (this.letti > 30) {
+      this.letti = 30;
+    }
+    if (this.stanze < 1) {
+      this.stanze = 1;
+    }
+    if (this.stanze > 10) {
+      this.stanze = 10;
+    }
+    // Filtra gli appartamenti in base ai nuovi criteri di filtraggio
+    store.filteredApartments = store.appartamentiFiltrati.filter(
+      (apartment) => {
+        const lettoPass =
+          this.letti === "" || parseInt(this.letti) <= apartment.beds;
+        const stanzePass =
+          this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
+
+        // Calcola la distanza tra l'appartamento e il punto di ricerca
+        const distance = this.calculateDistance(apartment.latitude, apartment.longitude, store.lat, store.lon);
+        // Aggiungi la distanza come proprietà dell'appartamento
+        apartment.distance = distance;
+
+        return lettoPass && stanzePass;
       }
-      if (this.letti > 30) {
-        this.letti = 30;
-      }
-      if (this.stanze < 1) {
-        this.stanze = 1;
-      }
-      if (this.stanze > 10) {
-        this.stanze = 10;
-      }
-      // Filtra gli appartamenti in base ai nuovi criteri di filtraggio
-      store.filteredApartments = store.appartamentiFiltrati.filter(
-        (apartment) => {
-          const lettoPass =
-            this.letti === "" || parseInt(this.letti) <= apartment.beds;
-          const stanzePass =
-            this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
-          return lettoPass && stanzePass;
-        }
-      );
-      console.log(store.filteredApartments);
-    },
+    );
+  },
     changeRadius() {
       this.setRadius();
       this.isInNewArea();
@@ -147,41 +154,70 @@ export default {
       console.log("Longitudine minima:", store.minLon);
     },
     isInNewArea() {
-      // Array temporaneo per tracciare gli appartamenti nell'area delineata
-      const apartmentsInArea = [];
+    // Array temporaneo per tracciare gli appartamenti nell'area delineata
+    const apartmentsInArea = [];
 
-      // Itera sugli appartamenti nel database
-      for (let i = 0; i < store.apartments.length; i++) {
-        const apartment = store.apartments[i];
+    // Itera sugli appartamenti nel database
+    for (let i = 0; i < store.apartments.length; i++) {
+    const apartment = store.apartments[i];
 
-        // Verifica se l'appartamento è nell'area delineata
-        const isInCurrentArea =
-          store.minLat <= apartment.latitude &&
-          apartment.latitude <= store.maxLat &&
-          store.minLon <= apartment.longitude &&
-          apartment.longitude <= store.maxLon;
+    // Verifica se l'appartamento è nell'area delineata
+    const isInCurrentArea =
+      store.minLat <= apartment.latitude &&
+      apartment.latitude <= store.maxLat &&
+      store.minLon <= apartment.longitude &&
+      apartment.longitude <= store.maxLon;
 
-        // Verifica se l'appartamento soddisfa anche i filtri stanze e letti
-        const lettoPass =
-          this.letti === "" || parseInt(this.letti) <= apartment.beds;
-        const stanzePass =
-          this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
+    // Verifica se l'appartamento soddisfa anche i filtri stanze e letti
+    const lettoPass =
+      this.letti === "" || parseInt(this.letti) <= apartment.beds;
+    const stanzePass =
+      this.stanze === "" || parseInt(this.stanze) <= apartment.rooms;
 
-        if (isInCurrentArea && lettoPass && stanzePass) {
-          apartmentsInArea.push(apartment);
-        }
-      }
+    if (isInCurrentArea && lettoPass && stanzePass) {
+      // Calcola la distanza tra l'appartamento e il punto di ricerca
+      const distance = this.calculateDistance(apartment.latitude, apartment.longitude, store.lat, store.lon);
+      // Aggiungi la distanza come proprietà dell'appartamento
+      apartment.distance = distance;
+      apartmentsInArea.push(apartment);
+    }
+    }
 
-      // Aggiorna store.filteredApartments con gli appartamenti nell'area che soddisfano i filtri
-      store.filteredApartments = apartmentsInArea;
+    // Aggiorna store.filteredApartments con gli appartamenti nell'area che soddisfano i filtri
+    store.filteredApartments = apartmentsInArea;
 
-      console.log(
-        "Filtered apartments within the area:",
-        store.filteredApartments
-      );
-      console.log("Appartamenti nel database:", store.apartments);
-      console.log("Radius:", store.radius);
+    console.log(
+    "Filtered apartments within the area:",
+    store.filteredApartments
+    );
+    console.log("Appartamenti nel database:", store.apartments);
+    console.log("Radius:", store.radius);
     },
+
+calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Radius of the earth in km
+
+  const dLat = this.deg2rad(lat2 - lat1);
+  const dLon = this.deg2rad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const distance = Math.ceil(R * c); // Round up to the nearest integer
+
+  return distance;
+},
+
+
+deg2rad(deg) {
+  return deg * (Math.PI / 180);
+},
+
+
   },
 };
 </script>
