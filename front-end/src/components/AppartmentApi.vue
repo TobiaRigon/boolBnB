@@ -7,7 +7,11 @@
         v-for="apartment in paginatedList"
         :key="apartment.id"
       >
-        <router-link class="card my-3" :to="`/apartments/${apartment.id}/${apartment.title}`">
+          <router-link
+            class="card my-3"
+            :class="{'sponsored-apartment': apartment.in_evidence === 1}"
+            :to="`/apartments/${apartment.id}/${apartment.title}`"
+          >
           <div class="card-container">
             <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
             <img
