@@ -282,7 +282,7 @@ export default {
               class="btn my_btn my-sm-0"
               type="submit"
             >
-              Search
+              Trova
             </router-link>
 
             <!-- Inizio: Elemento per l'autocompletamento -->

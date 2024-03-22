@@ -47,7 +47,7 @@ a:hover {
   color: #1c3a4a; 
   text-decoration: none; /* Rimuove il sottolineato predefinito */
 }
-.btn{
+.form-control, .btn{
   border-radius: 10px;
 }
 
