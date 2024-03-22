@@ -30,6 +30,13 @@ export default {
       this.currentPage += num;
       console.log(this.currentPage);
     },
+    makeSlug(title) {
+    return title
+      .toLowerCase() // Converti tutto in minuscolo
+      .replace(/\s+/g, '-') // Sostituisci gli spazi con trattini
+      .replace(/[^\w\-]+/g, '') // Rimuovi tutti i caratteri non alfanumerici eccetto i trattini
+      .replace(/\-\-+/g, '-'); // Sostituisci multipli trattini con un singolo trattino
+  },
     // metodo per autocomplete tomtom
     autoComplete() {
       const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
@@ -311,10 +318,8 @@ export default {
             v-for="apartment in apartmentsInEvidence"
             :key="apartment.id"
           >
-            <router-link
-              class="card my-3"
-              :to="`/apartments/${apartment.id}/${apartment.title}`"
-            >
+          <router-link class="card my-3" :to="`/apartments/${apartment.id}/${makeSlug(apartment.title)}`">
+
               <div class="card-container">
                 <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
                 <img

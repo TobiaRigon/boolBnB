@@ -7,7 +7,7 @@
         v-for="apartment in paginatedList"
         :key="apartment.id"
       >
-        <router-link class="card my-3" :to="`/apartments/${apartment.id}/${apartment.title}`">
+      <router-link class="card my-3" :to="`/apartments/${apartment.id}/${makeSlug(apartment.title)}`">
           <div class="card-container">
             <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
             <img
@@ -76,6 +76,13 @@ export default {
         return imagePath;
       }
     },
+    makeSlug(title) {
+    return title
+      .toLowerCase() // Converti tutto in minuscolo
+      .replace(/\s+/g, '-') // Sostituisci gli spazi con trattini
+      .replace(/[^\w\-]+/g, '') // Rimuovi tutti i caratteri non alfanumerici eccetto i trattini
+      .replace(/\-\-+/g, '-'); // Sostituisci multipli trattini con un singolo trattino
+  },
 
     changePage(num) {
       this.currentPage += num;
