@@ -52,38 +52,38 @@ class ApiController extends Controller
     }
 
     public function filter(Request $request)
-{
-    // Esegui la logica di filtraggio utilizzando i dati forniti dalla richiesta
-    $letti = $request->input('letti');
-    $stanze = $request->input('stanze');
-    $servizi = $request->input('servizi');
-
-    // Esegui la query per filtrare gli appartamenti
-    $query = Apartment::query();
-
-    // Applica i filtri se sono presenti
-    if (!empty($letti)) {
-        $query->where('beds', '>=', $letti);
-    }
+    {
+        // Esegui la logica di filtraggio utilizzando i dati forniti dalla richiesta
+        $letti = $request->input('letti');
+        $stanze = $request->input('stanze');
+        $servizi = $request->input('servizi');
     
-    if (!empty($stanze)) {
-        $query->where('rooms', '>=', $stanze);
-    }
-
-    // Applica i filtri per i servizi
-    if (!empty($servizi)) {
-        $query->whereHas('services', function ($q) use ($servizi) {
-            $q->whereIn('id', $servizi);
-        });
-    }
-
-    // Esegui la query e ottieni gli appartamenti filtrati
-    $filteredApartments = $query->get();
+        // Esegui la query per filtrare gli appartamenti
+        $query = Apartment::query();
     
-    // Restituisci in JSON i risultati del filtraggio
-    return response()->json($filteredApartments);
-}
-
+        // Applica i filtri se sono presenti
+        if (!empty($letti)) {
+            $query->where('beds', '>=', $letti);
+        }
+        
+        if (!empty($stanze)) {
+            $query->where('rooms', '>=', $stanze);
+        }
+    
+        // Applica il filtro per i servizi selezionati
+        if (!empty($servizi)) {
+            $query->whereHas('services', function ($q) use ($servizi) {
+                $q->whereIn('services.id', $servizi); // Modifica qui per utilizzare il nome completo della colonna
+            });
+        }
+        
+    
+        // Esegui la query e ottieni gli appartamenti filtrati
+        $filteredApartments = $query->get();
+        
+        // Restituisci in JSON i risultati del filtraggio
+        return response()->json($filteredApartments);
+    }
 
     public function getServices()
     {
