@@ -2,7 +2,7 @@
     <!-- Primary Navigation Menu -->
     <div class="container-fluid pt-3 align-items-start">
         
-            <ul class="navbar-nav mr-auto align-items-center">
+    <ul class="navbar-nav mr-auto " >
                  <li class="nav-item">
                     <a class="navbar-brand" href="http://localhost:5173/#/">
                         <img src="../BoolBnB_Logo.svg" alt="Logo" class="logo"  >
@@ -52,5 +52,11 @@
     .logo{
         width: 60px;
         height: 50px;
+    }
+
+    @media (min-width: 991.98px) {
+        .navbar-nav {
+            align-items: center; /* Allinea gli elementi al centro quando il viewport è inferiore a lg */
+        }
     }
 </style>
