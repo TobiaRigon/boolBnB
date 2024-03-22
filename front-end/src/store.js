@@ -11,6 +11,8 @@ export const store = reactive({
   research: [],
   // serve per chiudere autocomplete quando clicco su un risultato
   //  showAutoComplete: true,
+  // tutti i servizi chiamatai con axios per popolare dom
+  services: [],
   // informazioni indirizzo scelto
   lat: "",
   lon: "",

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 // IMPORTO I MODEL CHE MI SERVE
 use App\Models\Apartment;
 use App\Models\Message;
+use App\Models\Service;
 
 class ApiController extends Controller
 {
@@ -51,25 +52,46 @@ class ApiController extends Controller
     }
 
     public function filter(Request $request)
-    {
-        // Esegui la logica di filtraggio utilizzando i dati forniti dalla richiesta
-        $letti = $request->input('letti');
-        $stanze = $request->input('stanze');
+{
+    // Esegui la logica di filtraggio utilizzando i dati forniti dalla richiesta
+    $letti = $request->input('letti');
+    $stanze = $request->input('stanze');
+    $servizi = $request->input('servizi');
 
-        // Esegui la query per filtrare gli appartamenti
-        $filteredApartments = Apartment::where(function ($query) use ($letti) {
-            if (!empty($letti)) {
-                $query->where('beds', '>=', $letti);
-            }
-        })->where(function ($query) use ($stanze) {
-            if (!empty($stanze)) {
-                $query->where('rooms', '>=', $stanze);
-            }
-        })->get();
-        
-        // Restituisci in JSON risultati del filtraggio
-        return response()->json($filteredApartments);
+    // Esegui la query per filtrare gli appartamenti
+    $query = Apartment::query();
+
+    // Applica i filtri se sono presenti
+    if (!empty($letti)) {
+        $query->where('beds', '>=', $letti);
     }
+    
+    if (!empty($stanze)) {
+        $query->where('rooms', '>=', $stanze);
+    }
+
+    // Applica i filtri per i servizi
+    if (!empty($servizi)) {
+        $query->whereHas('services', function ($q) use ($servizi) {
+            $q->whereIn('id', $servizi);
+        });
+    }
+
+    // Esegui la query e ottieni gli appartamenti filtrati
+    $filteredApartments = $query->get();
+    
+    // Restituisci in JSON i risultati del filtraggio
+    return response()->json($filteredApartments);
+}
+
+
+    public function getServices()
+    {
+        $services = Service::all();
+      
+        return response()->json($services);
+    }
+
     public function sendMessage(Request $request)
     {
 

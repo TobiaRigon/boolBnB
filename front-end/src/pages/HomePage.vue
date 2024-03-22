@@ -51,6 +51,7 @@ export default {
         // Se non è vuoto, svuotalo prima di eseguire la nuova ricerca
         store.filteredApartments = [];
         store.appartamentiFiltrati = [];
+        store.radius = 20;
       }
 
       store.lat = this.research.position.lat;
@@ -123,22 +124,7 @@ export default {
       store.locationResearch.push(this.research);
       console.log("store location:", store.locationResearch);
     },
-    getApartments() {
-      // definisco variabile url
-      let searchUrl = `${this.searchApi}${this.findApartment}`;
-      // se non è vuoto aggiungo quello che trovo nell'input
-      console.log(searchUrl);
 
-      axios
-        .get(searchUrl)
-        .then((res) => {
-          this.apartments = res.data;
-          console.log(this.apartments);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     getInEvidenceApartments() {
       axios
         .get("http://127.0.0.1:8000/api/apartments/in-evidence")
@@ -163,22 +149,22 @@ export default {
       const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
       return `${baseUrl}/${imagePath}`;
     },
-    getApartments() {
-      // definisco variabile url
-      let searchUrl = `${this.searchApi}${this.findApartment}`;
-      // se non è vuoto aggiungo quello che trovo nell'input
-      console.log(searchUrl);
+    // getApartments() {
+    // definisco variabile url
+    //   let searchUrl = `${this.searchApi}${this.findApartment}`;
+    //   // se non è vuoto aggiungo quello che trovo nell'input
+    //   console.log(searchUrl);
 
-      axios
-        .get(searchUrl)
-        .then((res) => {
-          this.apartments = res.data;
-          console.log(this.apartments);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    //   axios
+    //     .get(searchUrl)
+    //     .then((res) => {
+    //       this.apartments = res.data;
+    //       console.log(this.apartments);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
     getInEvidenceApartments() {
       axios
         .get("http://127.0.0.1:8000/api/apartments/in-evidence")
@@ -222,12 +208,9 @@ export default {
     // definisco variabile url
     let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
     // se non è vuoto aggiungo quello che trovo nell'input
-    console.log(searchUrl);
-
     // Funzione per far partire la rotazione
     // this.startBackgroundRotation();
-
-    this.getApartments();
+    // this.getApartments();
     this.getInEvidenceApartments();
 
     axios

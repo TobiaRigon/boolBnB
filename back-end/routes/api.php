@@ -34,9 +34,9 @@ Route::group(['prefix' => '/apartmentApi'] , function(){
     Route::post('messages', [ApiController ::class, 'sendMessage']);
 
     // Rotta per gestire il filtro 
-    Route::get('/apartments/filter', [ApiController::class, 'filter']);
+    Route::get('filter', [ApiController::class, 'filter']);
+    Route::get('services',[ApiController::class, 'getServices']);
 });
-
 
 
 
