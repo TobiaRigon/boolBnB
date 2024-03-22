@@ -1,5 +1,5 @@
 <template>
-  <HomeNav />
+  <HomeNav class="home_nav" />
 </template>
 
 <script>
@@ -11,3 +11,5 @@ export default {
   },
 };
 </script>
+
+<style></style>
