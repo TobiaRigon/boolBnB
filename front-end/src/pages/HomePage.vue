@@ -257,6 +257,7 @@ export default {
 <template>
   <main>
     <div class="container-fluid">
+      <!-- Jumbo + ricerca -->
       <div class="jumbotron d-flex align-items-center justify-content-center">
         <div class="container" id="sezione-ricerca">
           <div class="row">
@@ -310,8 +311,10 @@ export default {
         </div>
       </div>
 
+      <!-- Appartamenti in evidenza -->
+
       <div class="mt-4 container-fluid text-center">
-        <h2 class="my-3">Appartamenti in evidenza</h2>
+        <h2 class="my-3 h2">Appartamenti in evidenza</h2>
         <div class="apartments-in-evidence">
           <div class="row">
             <div

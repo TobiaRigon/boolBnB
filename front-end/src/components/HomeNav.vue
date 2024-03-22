@@ -11,9 +11,7 @@
           <router-link class="nav-link" to="/">Home</router-link>
         </li>
         <li class="px-1 nav-item">
-          <router-link class="nav-link" to="/apartments"
-            >Appartamenti</router-link
-          >
+          <router-link class="nav-link" to="/search">Appartamenti</router-link>
         </li>
         <li class="nav-item">
           <a class="nav-link" :href="loginUrl">Login/Dashboard</a>

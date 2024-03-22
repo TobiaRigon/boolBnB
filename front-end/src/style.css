@@ -28,7 +28,6 @@ body {
   color: #1c3a4a; /* Cambio del colore del testo principale */
 }
 
-
 /* Imposta il font per gli elementi specifici */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Poppins', sans-serif; /* Imposta il font per i titoli */
@@ -40,11 +39,42 @@ p {
 
 /* Link */
 a {
-  color: #1c3a4a; /* Cambio del colore predefinito per i link */
+  color: #1c3a4a; /* Colore predefinito per i link */
   text-decoration: none; /* Rimuove il sottolineato predefinito */
 }
 
 a:hover {
-  color: #1c3a4a; /* Cambio del colore predefinito per i link al passaggio del mouse */
+  color: #1c3a4a; 
   text-decoration: none; /* Rimuove il sottolineato predefinito */
 }
+.btn{
+  border-radius: 10px;
+}
+
+.card{
+  border-radius: 10px;
+  box-shadow: none;
+}
+.card-img-top{
+  border-radius: 10px;
+}
+
+.my_btn{
+  background-color: #63beec;
+  border-radius: 10px;
+  color: white;
+}
+.my_btn:hover{
+ 
+  background-color: #5cb2dd;
+  border-radius: 10px;
+  color: white;
+}
+.my_btn a{
+  color: white;
+}
+.my_btn a:hover{
+  color: white;
+}
+
+

@@ -12,7 +12,7 @@
                     <a class="nav-link" href="http://localhost:5173/#/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:5173/#/apartments">Appartamenti</a>
+                    <a class="nav-link" href="http://localhost:5173/#/search">Appartamenti</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>

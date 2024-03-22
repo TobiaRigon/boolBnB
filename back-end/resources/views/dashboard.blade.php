@@ -10,84 +10,76 @@
     </x-slot>
     @section('content')
 
-    <div class="container mt-4">
-        <a class="btn btn-success my-3" href="{{ route('apartment.create') }}">NUOVO APPARTAMENTO</a>
-        <a class="btn btn-success my-3" href="{{ route('sponsors.index') }}">Sponsorizza i tuoi appartamenti</a>
-        <h1 class="text-center mb-5">I miei appartamenti:  {{ count($apartments) }}</h1>
+    <div class="container">
+        <!-- Bottoni Sponsor + crea -->
+    <div class="my-2">
+        <a class="btn my-2 my_btn" href="{{ route('apartment.create') }}">NUOVO APPARTAMENTO</a>
+        <a class="btn my-2 my_btn" href="{{ route('sponsors.index') }}">Sponsorizza i tuoi appartamenti</a>
+    </div>
+
+    <!-- i miei appartamenti -->
+   
+    <h1 class="text-center my-3 h3">I miei appartamenti: {{ count($apartments) }}</h1>
+
+    <div class="row justify-content-center">
+
+    <!-- Cards -->
+        @foreach ($apartments as $apartment)
+        <a href="{{ route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card my_card my-3">
+                    <div class="card-container text-center">
+                        <!-- immagine card -->
+                        <img src="{{ asset($apartment->main_img) }}" class="card-img-top h-80" alt="...">
+                        <h5 class="card-title">{{ $apartment->title }}</h5>
+                        <p class="card-text">{{ Str::limit($apartment->description) }}</p>
 
 
-        <div class="row">
-            @foreach ($apartments as $apartment)
-            <a href="{{ route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}">
-                <div class="col-12 col-md-6 col-lg-4 ">
-                    <div class="card my-3">
-
-                        <div class="card-container">
-                          <img src="{{ asset($apartment->main_img) }}" class="card-img-top"
-                            alt="...">
-                            <h5 class="card-title">{{ $apartment->title }}</h5>
-                            <p class="card-text">{{ Str::limit($apartment->description) }}</p>
-
-
-                                <!-- Aggiungi un link per visualizzare i messaggi -->
-                                <a href="{{ route('pages.messages', $apartment->id) }}" class="btn btn-info">Mostra Messaggi</a>
-
-                                <div class="d-flex justify-content-between">
-
-                                    @if (auth()->id() == $apartment->user_id)
-                                        <a href="{{ route('apartments.edit', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}"
-                                            class="btn btn-secondary">MODIFICA</a>
-                                        <form id="delete-form-{{ $apartment->id }}"
-                                            action="{{ route('apartment.delete', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}"
-                                            method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" onclick="confirmDelete({{ $apartment->id }})"
-                                                class="btn-delete">ELIMINA</button>
-                                        </form>
-                                        <div id="confirmation-modal" class="modal">
-                                            <div class="modal-content">
-                                                <span class="close" onclick="closeModal()">&times;</span>
-                                                <p>Sei sicuro di voler eliminare questo appartamento?</p>
-                                                <div class="modal-buttons">
-                                                    <button onclick="deleteApartment()">Elimina</button>
-                                                    <button onclick="closeModal()">Annulla</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
+                        <!-- tasti card -->
+                        <div class="container-fluid pb-3">
+                            <div class="row">
+                                @if (auth()->id() == $apartment->user_id)
+                                <div class="col-4">
+                                    <a href="{{ route('apartments.edit', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}" class="btn my_btn">MODIFICA</a>
                                 </div>
-
-
+                                <div class="col-4">
+                                    <a class="btn my_btn" href="{{ route('pages.messages', $apartment->id) }}">Messaggi</a>
+                                </div>
+                                <div class="col-4">
+                                    <form id="delete-form-{{ $apartment->id }}" action="{{ route('apartment.delete', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" onclick="confirmDelete({{ $apartment->id }})" class="btn btn-danger">ELIMINA</button>
+                                    </form>
+                                </div>  
                             </div>
-
                         </div>
-                        </a>
+
+
+                        <!-- conferma elimina messaggio -->
+                        <div id="confirmation-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal()">&times;</span>
+                                <p>Sei sicuro di voler eliminare questo appartamento?</p>
+                                <div class="modal-buttons">
+                                    <button onclick="deleteApartment()">Elimina</button>
+                                    <button onclick="closeModal()">Annulla</button>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </div>
-                @endforeach
+                </div>
             </div>
-        </div>
+        </a>
+        @endforeach
+    </div>
+</div>
 
 
 
-        <script>
-            function confirmDelete(apartmentId) {
-                var modal = document.getElementById('confirmation-modal');
-                modal.style.display = 'block';
-                // Passa l'id dell'appartamento alla funzione deleteApartment
-                deleteApartment.apartmentId = apartmentId;
-            }
 
-            function deleteApartment() {
-                var apartmentId = deleteApartment.apartmentId;
-                document.getElementById('delete-form-' + apartmentId).submit();
-            }
-
-            function closeModal() {
-                var modal = document.getElementById('confirmation-modal');
-                modal.style.display = 'none';
-            }
-        </script>
+   
 
         <style scoped>
             a:hover{

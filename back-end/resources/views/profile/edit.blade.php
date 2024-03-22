@@ -1,13 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-    <div class=" container-fluid">
-        <h2 class="py-3 h2 pl-4 font-weight-bold font-size-big">
+    <div class=" ">
+        <h2 class="">
             {{ __('Profilo') }}
         </h2>
 
-        
+        </x-slot>
 
-        <div class="">
+        @section('content')
+        <div class="container-fluid">
         <div class="">
             <div class="p-4 ">
                 <div class="">
@@ -32,5 +33,5 @@
     
 
    
-    </x-slot>
+        @endsection
 </x-app-layout>
