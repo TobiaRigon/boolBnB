@@ -17,6 +17,7 @@
     border: 0;
     font: inherit;
     vertical-align: baseline;
+    color: #1c3a4a; /* Cambio del colore del testo principale */
   }
   
   /* Impostazioni globali per il testo */
@@ -24,7 +25,7 @@
     font-family: 'Poppins', sans-serif; /* Cambio del font principale */
     font-size: 16px; /* Imposta la dimensione del carattere predefinita */
     line-height: 1.5; /* Imposta l'altezza della riga predefinita */
-    color: #333; /* Imposta il colore del testo predefinito */
+    color: #1c3a4a; /* Cambio del colore del testo principale */
   }
   
   /* Imposta il font per gli elementi specifici */
@@ -38,12 +39,12 @@
   
   /* Link */
   a {
-    color: #000000; /* Colore predefinito per i link */
+    color: #1c3a4a; /* Colore predefinito per i link */
     text-decoration: none; /* Rimuove il sottolineato predefinito */
   }
   
   a:hover {
-    color: #000000; /* Colore predefinito per i link */
+    color: #1c3a4a; /* Colore predefinito per i link */
     text-decoration: none; /* Rimuove il sottolineato predefinito */
   }
 

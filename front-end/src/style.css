@@ -17,6 +17,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   border: 0;
   font: inherit;
   vertical-align: baseline;
+  color: #1c3a4a; /* Cambio del colore del testo principale */
 }
 
 /* Impostazioni globali per il testo */
@@ -24,8 +25,9 @@ body {
   font-family: 'Poppins', sans-serif; /* Cambio del font principale */
   font-size: 16px; /* Imposta la dimensione del carattere predefinita */
   line-height: 1.5; /* Imposta l'altezza della riga predefinita */
-  color: #333; /* Imposta il colore del testo predefinito */
+  color: #1c3a4a; /* Cambio del colore del testo principale */
 }
+
 
 /* Imposta il font per gli elementi specifici */
 h1, h2, h3, h4, h5, h6 {
@@ -38,11 +40,11 @@ p {
 
 /* Link */
 a {
-  color: #000000; /* Colore predefinito per i link */
+  color: #1c3a4a; /* Cambio del colore predefinito per i link */
   text-decoration: none; /* Rimuove il sottolineato predefinito */
 }
 
 a:hover {
-  color: #000000; /* Colore predefinito per i link */
+  color: #1c3a4a; /* Cambio del colore predefinito per i link al passaggio del mouse */
   text-decoration: none; /* Rimuove il sottolineato predefinito */
 }

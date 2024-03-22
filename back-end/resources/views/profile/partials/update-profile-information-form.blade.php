@@ -1,6 +1,6 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
+        <h2 class="font-weight-bold">
             {{ __('Informazioni Profilo') }}
         </h2>
 
@@ -17,48 +17,55 @@
         @csrf
         @method('patch')
 
-        <div>
-            <x-input-label for="name" :value="__('Nome')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
-        </div>
+    <div class="row">
+        <div class="col">
 
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <div>
+                <x-input-label for="name" :value="__('Nome')" />
+                <x-text-input id="name" name="name" type="text" class="form-control my-2" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+                <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            </div>
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800">
-                        {{ __('Il tuo indirizzo email non è verificato.') }}
+            <div>
+                <x-input-label for="email" :value="__('Email')" />
+                <x-text-input id="email" name="email" type="email" class="form-control my-2" :value="old('email', $user->email)" required autocomplete="username" />
+                <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {{ __('Clicca qui per re-inviare l\'email di verifica.') }}
-                        </button>
-                    </p>
+                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                    <div>
+                        <p class="">
+                            {{ __('Il tuo indirizzo email non è verificato.') }}
 
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            {{ __('È stata inviata una nuova email di verifica al tuo indirizzo.') }}
+                            <button form="send-verification" class="">
+                                {{ __('Clicca qui per re-inviare l\'email di verifica.') }}
+                            </button>
                         </p>
-                    @endif
-                </div>
-            @endif
+
+                        @if (session('status') === 'verification-link-sent')
+                            <p class="mt-2 font-medium text-sm text-green-600">
+                                {{ __('È stata inviata una nuova email di verifica al tuo indirizzo.') }}
+                            </p>
+                        @endif
+                    </div>
+                @endif
+            </div>
+
+            <div class="flex mt-3 items-center gap-4">
+                <x-primary-button class="my_btn">{{ __('Salva') }}</x-primary-button>
+
+                @if (session('status') === 'profile-updated')
+                    <p
+                        x-data="{ show: true }"
+                        x-show="show"
+                        x-transition
+                        x-init="setTimeout(() => show = false, 2000)"
+                        class="text-sm text-gray-600"
+                    >{{ __('Salvato.') }}</p>
+                @endif
+            </div>
+
         </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Salva') }}</x-primary-button>
-
-            @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('Salvato.') }}</p>
-            @endif
-        </div>
+    </div>
     </form>
 </section>
