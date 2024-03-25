@@ -1,8 +1,8 @@
 <template>
   <!-- Form per inviare un messaggio al proprietario -->
   <form @submit.prevent="sendMessage">
-    <div class="container mt-5">
-      <h2>Contatta il proprietario:</h2>
+    <div class="mt-5">
+      <h2 class="h3">Contatta il proprietario:</h2>
 
       <!-- Messaggio di conferma -->
       <div v-if="messageSent" class="container mt-3">
@@ -60,7 +60,7 @@
         ></textarea>
       </div>
 
-      <button type="submit" class="btn btn-primary">Invia Messaggio</button>
+      <button type="submit" class="btn my_btn mt-2">Invia Messaggio</button>
     </div>
   </form>
 </template>
