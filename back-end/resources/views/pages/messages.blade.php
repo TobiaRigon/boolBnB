@@ -16,7 +16,7 @@
 <a href="#" class="card p-3 my-3" data-toggle="modal" data-target="#messageModal{{ $message->id }}">
     <p><strong>From:</strong> {{ $message->sender_name }} {{ $message->sender_surname }}</p>
     <p><strong>Email:</strong> {{ $message->sender_mail }}</p>
-    <p><strong>Date:</strong> {{ $message->date->format('Y-m-d H:i:s') }}</p>
+    <p><strong>Date:</strong> {{ $message->date->format('D-m-y H:i') }}</p>
 </a>
 
 <!-- Modale per i dettagli del messaggio -->
