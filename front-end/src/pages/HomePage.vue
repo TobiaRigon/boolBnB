@@ -204,6 +204,10 @@ export default {
       const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
       return `${baseUrl}/${imagePath}`;
     },
+    formattedPath(apartment) {
+    const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, '-');
+    return `/apartments/${apartment.id}/${titleFormatted}`;
+  }
   
     // Metodo per far rotare le foto in HOME
     // startBackgroundRotation() {
@@ -240,6 +244,7 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+      
   },
   // Funzione per stop Background
   // beforeDestroy() {
@@ -313,10 +318,10 @@ export default {
             :key="apartment.id"
           >
           <router-link
-            class="card my-3"
-            :class="{'sponsored-apartment': apartment.in_evidence === 1}"
-            :to="`/apartments/${apartment.id}/${apartment.title}`"
-          >
+        class="card my-3"
+        :class="{'sponsored-apartment': apartment.in_evidence === 1}"
+        :to="formattedPath(apartment)"
+      >
               <div class="card-container">
                 <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
                 <img
