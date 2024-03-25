@@ -338,7 +338,7 @@ export default {
                     class="card-img-top"
                     alt="Immagine dell'appartamento"
                   />
-                  <h5 class="card-title p-2">{{ apartment.title }}</h5>
+                  <h5 class="card-title h6 p-2">{{ apartment.title }}</h5>
                   <p class="card-text p-2">{{ apartment.description }}</p>
                   <div class="d-flex justify-content-between"></div>
                 </div>
@@ -376,7 +376,6 @@ img:hover {
 .card {
   height: 500px;
   overflow: hidden;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .card-container {
@@ -432,27 +431,4 @@ h1 {
   font-size: 52px;
   font-weight: bold;
 }
-
-#sezione-ricerca {
-  padding: 20px;
-  border-radius: 20px;
-  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Aggiungi una transizione per un effetto più fluido */
-}
-
-#sezione-ricerca:hover {
-  background-color: rgba(
-    250,
-    235,
-    215,
-    0.7
-  ); /* Cambia leggermente il colore di sfondo */
-  transform: scale(1.02); /* Applica una leggera trasformazione di scala */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra sottile */
-}
-.sponsored-apartment {
-  border: 2px solid #ffd700; /* Giallo Oro per sponsorizzazione */
-}
-/* .kilometri {
-  width: 70px;
-} */
 </style>

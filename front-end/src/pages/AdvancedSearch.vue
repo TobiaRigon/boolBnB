@@ -35,11 +35,11 @@
         v-for="apartment in store.filteredApartments"
         :key="apartment.id"
       >
-      <router-link
-        class="card my-3"
-        :class="{'sponsored-apartment': apartment.in_evidence === 1}"
-        :to="formattedPath(apartment)"
-      >
+        <router-link
+          class="card my-3"
+          :class="{ 'sponsored-apartment': apartment.in_evidence === 1 }"
+          :to="formattedPath(apartment)"
+        >
           <div class="card-container">
             <img
               :src="getImageUrl(apartment.main_img)"
@@ -90,9 +90,9 @@ export default {
       }
     },
     formattedPath(apartment) {
-    const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, '-');
-    return `/apartments/${apartment.id}/${titleFormatted}`;
-  },
+      const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, "-");
+      return `/apartments/${apartment.id}/${titleFormatted}`;
+    },
     filtering() {
       if (this.letti < 1) {
         this.letti = 1;
@@ -188,9 +188,9 @@ export default {
       console.log("Radius:", store.radius);
     },
     formattedPath(apartment) {
-    const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, '-');
-    return `/apartments/${apartment.id}/${titleFormatted}`;
-  }
+      const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, "-");
+      return `/apartments/${apartment.id}/${titleFormatted}`;
+    },
   },
 };
 </script>
@@ -213,7 +213,6 @@ img:hover {
 .card {
   height: 500px;
   overflow: hidden;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .card-container {
@@ -247,8 +246,5 @@ li {
 .filtri {
   width: 5%;
   margin-right: 20px;
-}
-.sponsored-apartment {
-  border: 2px solid #FFD700; /* Giallo Oro per sponsorizzazione */
 }
 </style>

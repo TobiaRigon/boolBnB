@@ -81,6 +81,12 @@
     color: white;
   }
 
+  .sponsored-apartment {
+    border: 1px solid  #5cb2dd; /* Giallo Oro per sponsorizzazione */
+    box-shadow: 0 0 7px #5cb2dd; 
+  }
+  
+
 
  
   
