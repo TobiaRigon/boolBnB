@@ -45,7 +45,9 @@
             </div>
         </div>
     </div>
-
+    <div id="payment-confirmation" class="alert alert-success d-none" role="alert">
+        Pagamento avvenuto con successo!
+    </div>
     <div class="container mt-4">
         <div class="text-center">
             <h1 class="mb-5">I tuoi appartamenti sponsorizzati</h1>
@@ -88,7 +90,18 @@
                 formToShow.classList.remove('d-none');
             }
 
-            // Inizializza il form di pagamento Braintree per il form mostrato
+            // Pulizia precedente istanza di Braintree se esiste
+            if (window.braintreeInstance) {
+                window.braintreeInstance.teardown(function() {
+                    window.braintreeInstance = null;
+                    createBraintreeInstance(sponsorId, formToShow);
+                });
+            } else {
+                createBraintreeInstance(sponsorId, formToShow);
+            }
+        }
+
+        function createBraintreeInstance(sponsorId, formToShow) {
             var submitButton = formToShow.querySelector('button[type="submit"]');
             var dropinContainer = formToShow.querySelector('#dropin-container-' + sponsorId);
 
@@ -96,6 +109,8 @@
                 authorization: '{{ $clientToken }}', // Passa il token del client Braintree generato dal controller
                 container: dropinContainer
             }, function(createErr, instance) {
+                window.braintreeInstance = instance;
+
                 if (createErr) {
                     console.error('Errore durante la creazione del form di pagamento', createErr);
                     return;
@@ -118,14 +133,29 @@
                         nonceField.setAttribute('value', payload.nonce);
                         formToShow.appendChild(nonceField);
 
-                        // Disabilita il pulsante di invio e invia il modulo
-                        submitButton.setAttribute('disabled', true);
-                        formToShow.submit();
+                        // Nascondi il form di pagamento
+                        dropinContainer.style.display = 'none';
+                        submitButton.style.display = 'none';
+
+                        // Mostra il messaggio di conferma del pagamento
+                        var confirmationMessage = document.getElementById('payment-confirmation');
+                        confirmationMessage.classList.remove('d-none');
+
+                        // Imposta un timer per nascondere il messaggio dopo 5 secondi
+                        setTimeout(function() {
+                            confirmationMessage.classList.add('d-none');
+                        }, 5000);
+
+                        // Ascolta il click sul messaggio per nasconderlo immediatamente se l'utente interagisce
+                        confirmationMessage.addEventListener('click', function() {
+                            confirmationMessage.classList.add('d-none');
+                        });
                     });
                 });
             });
         }
     </script>
+
 
     <style scoped>
         .card {
