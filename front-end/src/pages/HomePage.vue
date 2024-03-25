@@ -14,6 +14,9 @@ export default {
       // serve per chiudere autocomplete quando clicco su un risultato
       showAutoComplete: true,
       apartmentsInEvidence: [],
+      
+      // Inizializza la variabile per controllare se si è scrollati verso il basso
+      isScrolled: false,
 
       // Metodo della foto in Home
       // backgroundImages: [
@@ -25,6 +28,18 @@ export default {
     };
   },
   methods: {
+
+    handleScroll() {
+                // Gestisce lo scrolling della finestra
+                if (window.scrollY > 100) { // Imposta un valore di soglia per lo scrolling
+                    this.isScrolled = true; // Se si è scrollati oltre la soglia, imposta isScrolled a true
+                } else {
+                    this.isScrolled = false; // Altrimenti, imposta isScrolled a false
+                }
+    },
+          
+
+
     // Metodo per cambiare pagina
     changePage(num) {
       this.currentPage += num;
@@ -37,6 +52,8 @@ export default {
         .replace(/[^\w\-]+/g, "") // Rimuovi tutti i caratteri non alfanumerici eccetto i trattini
         .replace(/\-\-+/g, "-"); // Sostituisci multipli trattini con un singolo trattino
     },
+
+    
     // metodo per autocomplete tomtom
     autoComplete() {
       const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
@@ -230,6 +247,9 @@ export default {
   },
   // chiamata api al database
   mounted() {
+
+    window.addEventListener('scroll', this.handleScroll); // Aggiunge un event listener per lo scrolling della finestra
+
     // definisco variabile url
     let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
     // se non è vuoto aggiungo quello che trovo nell'input
@@ -251,6 +271,13 @@ export default {
         console.log(err);
       });
   },
+
+  beforeDestroy() {
+            window.removeEventListener('scroll', this.handleScroll); 
+            // Rimuove l'event listener prima della distruzione del componente
+  },
+
+
   // Funzione per stop Background
   // beforeDestroy() {
   //   this.stopBackgroundRotation();
@@ -260,9 +287,14 @@ export default {
 
 <template>
   <main>
+
+    
     <div class="container-fluid">
       <!-- Jumbo + ricerca -->
-      <div class="jumbotron d-flex align-items-center justify-content-center">
+
+     
+
+      <div class="jumbotron d-flex align-items-center justify-content-center" id="top">
         <div class="container">
           <div class="row">
             <div class="col">
@@ -314,6 +346,50 @@ export default {
           </form>
         </div>
       </div>
+
+      <div v-show="isScrolled">
+          <a href="#top">
+              <i class="fa-solid fa-arrow-up-long"></i>
+          </a>
+      </div>
+
+      <!-- Roba nuova -->
+     
+      <div class="container text-center my-5">
+    <div class="row justify-content-center rounded bg-white shadow-lg">
+        <div class="col-md-4">
+            <div class="text-center p-4">
+                <i class="fa-solid fa-earth-americas fa-3x"></i>
+                <h5 class="font-weight-bold mt-4 mb-3">Trova l'ispirazione per il tuo viaggio</h5>
+                <p class="mb-4 text-muted">
+                    Sfoglia case vacanza, chalet, case al mare, appartamenti, condomini, case galleggianti, castelli, agriturismi e tutto il resto.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="text-center p-4">
+                <i class="fa-solid fa-user-check fa-3x"></i>
+                <h5 class="mt-4 mb-3">Scopri milioni di offerte</h5>
+                <p class="mb-4 text-muted">
+                    Trova e confronta offerte uniche da migliaia di partner fidati. BoolBnB ha la più vasta selezione di case vacanza in tutto il mondo.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="text-center p-4">
+                <i class="fa-solid fa-house fa-3x"></i>
+                <h5 class="mt-4 mb-3">Prenota l'alloggio perfetto</h5>
+                <p class="mb-4 text-muted">
+                    Con BoolBnB è facile e veloce prenotare la sistemazione giusta per qualsiasi viaggio, indipendentemente dal tuo budget.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
       <!-- Appartamenti in evidenza -->
 
@@ -451,6 +527,10 @@ h1 {
 }
 .sponsored-apartment {
   border: 2px solid #ffd700; /* Giallo Oro per sponsorizzazione */
+}
+
+i {
+  font-size: 40px;
 }
 /* .kilometri {
   width: 70px;
