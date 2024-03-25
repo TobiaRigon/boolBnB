@@ -295,6 +295,10 @@ export default {
   min-width: 200px; /* Larghezza minima */
 }
 
+a {
+  text-decoration: none;
+}
+
 .apartments-in-evidence {
   width: 90%;
   margin: 0 auto; /* Imposta i margini automatici per centrare il div */
