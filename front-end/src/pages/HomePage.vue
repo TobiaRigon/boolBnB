@@ -5,8 +5,9 @@ export default {
   name: "HomePage",
   data() {
     return {
+      store,
       // prende le informazioni dalla searchbar; è necessario per l'autocomplete
-      findApartment: "",
+      // findApartment: "",
       // oggetti che vediamo nell'autocomplete
       AutoMenu: [],
       //  località scelta dal menu autocomplete
@@ -14,14 +15,6 @@ export default {
       // serve per chiudere autocomplete quando clicco su un risultato
       showAutoComplete: true,
       apartmentsInEvidence: [],
-
-      // Metodo della foto in Home
-      // backgroundImages: [
-      //   "../assets/images/pexels-matteo-milan-18786201.jpg",
-      //   "../assets/images/pexels-pixabay-163864.jpg"
-      // ],
-      // currentBackgroundIndex: 0,
-      // intervalId: null,
     };
   },
   methods: {
@@ -32,8 +25,9 @@ export default {
     },
     // metodo per autocomplete tomtom
     autoComplete() {
+      this.showAutoComplete = true;
       const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
-      let tomTomApi = `https://api.tomtom.com/search/2/search/${this.findApartment}.json?key=${keyApi}`;
+      let tomTomApi = `https://api.tomtom.com/search/2/search/${store.findApartment}.json?key=${keyApi}`;
       console.log(tomTomApi);
       axios
         .get(tomTomApi)
@@ -46,7 +40,7 @@ export default {
     },
     search() {
       // Esegui il filtraggio solo se l'area è stata selezionata
-      if (this.findApartment) {
+      if (store.findApartment) {
         this.filtering();
       } else {
         console.log("Seleziona un'area prima di effettuare la ricerca");
@@ -87,7 +81,7 @@ export default {
             error
           );
         });
-      this.findApartment = "";
+      store.findApartment = "";
       this.showAutoComplete = true;
     },
     handleSearch(event) {
@@ -95,7 +89,7 @@ export default {
     },
     // seleziona item nell'elenco di ricerca degli indirizzi
     selectItem(item) {
-      this.findApartment = item.address.freeformAddress;
+      store.findApartment = item.address.freeformAddress;
       this.showAutoComplete = false;
       store.lat = item.position.lat;
       store.lon = item.position.lon;
@@ -207,7 +201,7 @@ export default {
             type="search"
             placeholder="Cerca"
             aria-label="Search"
-            v-model="findApartment"
+            v-model="store.findApartment"
             @input="autoComplete"
           />
           <router-link
@@ -227,7 +221,7 @@ export default {
             v-show="
               showAutoComplete &&
               AutoMenu.length > 0 &&
-              findApartment.trim() !== ''
+              store.findApartment.trim() !== ''
             "
           >
             <ul class="list" style="cursor: pointer">

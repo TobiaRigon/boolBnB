@@ -5,6 +5,8 @@ export const store = reactive({
   appartamentiFiltrati: [],
   removed: [],
   locationResearch: [],
+  findApartment: "",
+
   // appartamenti database
   apartments: [],
   //  località scelta dal menu autocomplete

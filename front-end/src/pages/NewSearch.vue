@@ -8,7 +8,7 @@
           type="search"
           placeholder="Cerca"
           aria-label="Search"
-          v-model="findApartment"
+          v-model="store.findApartment"
           @input="autoComplete"
         />
         <button
@@ -26,7 +26,9 @@
         style="margin-top: 40px"
         class="card position-absolute w-80 h-50 radius"
         v-show="
-          showAutoComplete && AutoMenu.length > 0 && findApartment.trim() !== ''
+          showAutoComplete &&
+          AutoMenu.length > 0 &&
+          store.findApartment.trim() !== ''
         "
       >
         <ul class="list" style="cursor: pointer">
@@ -120,7 +122,6 @@
         </div>
       </div>
     </div>
-
     <!-- Sezione per i risultati degli appartamenti -->
     <div class="container">
       <div class="row">
@@ -179,8 +180,9 @@ export default {
   },
   methods: {
     autoComplete() {
+      this.showAutoComplete = true;
       const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
-      let tomTomApi = `https://api.tomtom.com/search/2/search/${this.findApartment}.json?key=${keyApi}`;
+      let tomTomApi = `https://api.tomtom.com/search/2/search/${store.findApartment}.json?key=${keyApi}`;
 
       axios
         .get(tomTomApi)
@@ -204,7 +206,7 @@ export default {
     },
 
     selectItem(item) {
-      this.findApartment = item.address.freeformAddress;
+      store.findApartment = item.address.freeformAddress;
       this.showAutoComplete = false;
       store.lat = item.position.lat;
       store.lon = item.position.lon;
@@ -212,7 +214,7 @@ export default {
 
     search() {
       // Esegui il filtraggio solo se l'area è stata selezionata
-      if (this.findApartment) {
+      if (store.findApartment) {
         this.filtering();
       } else {
         console.log("Seleziona un'area prima di effettuare la ricerca");
@@ -269,7 +271,7 @@ export default {
             error
           );
         });
-      this.findApartment = "";
+      store.findApartment = "";
       this.showAutoComplete = true;
     },
     calculateDistance(lat1, lon1, lat2, lon2) {
