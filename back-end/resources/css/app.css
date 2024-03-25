@@ -36,6 +36,10 @@
   p {
     margin-bottom: 1em; /* Aggiunge spazio inferiore ai paragrafi */
   }
+
+  ul{
+    list-style-type: none;
+  }
   
   /* Link */
   a {
