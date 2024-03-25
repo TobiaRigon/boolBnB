@@ -62,6 +62,9 @@ class ApiController extends Controller
         $letti = $request->input('letti');
         $stanze = $request->input('stanze');
         $servizi = $request->input('servizi');
+        $lat = $request->input('lat');
+        $lon = $request->input('lon');
+        $raggio = $request->input('raggio');
     
         // Esegui la query per filtrare gli appartamenti
         $query = Apartment::query();
@@ -73,6 +76,13 @@ class ApiController extends Controller
         
         if (!empty($stanze)) {
             $query->where('rooms', '>=', $stanze);
+        }
+    
+        // Calcola la distanza e ordinamento per distanza
+        if (!empty($lat) && !empty($lon) && !empty($raggio)) {
+            $query->selectRaw(
+                '*, (6371 * acos(cos(radians(' . $lat . ')) * cos(radians(latitude)) * cos(radians(longitude) - radians(' . $lon . ')) + sin(radians(' . $lat . ')) * sin(radians(latitude)))) AS distance'
+            )->havingRaw('distance <= ' . $raggio)->orderBy('distance', 'ASC');
         }
     
         // Applica il filtro per i servizi selezionati
@@ -90,6 +100,9 @@ class ApiController extends Controller
         // Restituisci in JSON i risultati del filtraggio
         return response()->json($filteredApartments);
     }
+    
+    
+    
     
     
     public function getServices()

@@ -29,3 +29,5 @@ export const store = reactive({
   minLon: "",
 });
 //
+// http://127.0.0.1:8000/api/apartmentApi/filter?letti=2&stanze=2&lat=41.9028&lon=12.4964&raggio=10
+// http://127.0.0.1:8000/api/apartmentApi/filter?lat=41.9028&lon=12.4964&radius=10

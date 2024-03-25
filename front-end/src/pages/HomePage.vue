@@ -149,22 +149,7 @@ export default {
       const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
       return `${baseUrl}/${imagePath}`;
     },
-    // getApartments() {
-    // definisco variabile url
-    //   let searchUrl = `${this.searchApi}${this.findApartment}`;
-    //   // se non è vuoto aggiungo quello che trovo nell'input
-    //   console.log(searchUrl);
 
-    //   axios
-    //     .get(searchUrl)
-    //     .then((res) => {
-    //       this.apartments = res.data;
-    //       console.log(this.apartments);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
     getInEvidenceApartments() {
       axios
         .get("http://127.0.0.1:8000/api/apartments/in-evidence")
@@ -275,7 +260,7 @@ export default {
             @input="autoComplete"
           />
           <router-link
-            :to="'/search/'"
+            :to="'/newsearch/'"
             @click="searchItem()"
             class="btn btn-outline-success my-2 my-sm-0"
             type="submit"
