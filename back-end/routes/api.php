@@ -32,8 +32,11 @@ Route::group(['prefix' => '/apartmentApi'] , function(){
 
     // Rotta post messages
     Route::post('messages', [ApiController ::class, 'sendMessage']);
-});
 
+    // Rotta per gestire il filtro 
+    Route::get('filter', [ApiController::class, 'filter']);
+    Route::get('services',[ApiController::class, 'getServices']);
+});
 
 
 

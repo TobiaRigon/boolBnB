@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 // IMPORTO I MODEL CHE MI SERVE
 use App\Models\Apartment;
 use App\Models\Message;
+use App\Models\Service;
 
 class ApiController extends Controller
 {
@@ -37,18 +38,80 @@ class ApiController extends Controller
     }
     public function search(Request $request)
     {
-        // Ottieni il parametro di ricerca dalla query string e rimuovi eventuali spazi bianchi extra
         $searchTerm = trim($request->query('search'));
 
-        // Esegui la query degli appartamenti basata sul termine di ricerca
-        $apartments = Apartment::where('title', 'like', '%' . $searchTerm . '%')
-                               ->orWhere('description', 'like', '%' . $searchTerm . '%')
-                               ->orWhere('address', 'like', '%' . $searchTerm . '%')
-                               ->get();
+        // Ottieni le coordinate di longitudine e latitudine del luogo cercato dall'app
+        $userLongitude = $request->input('user_longitude');
+        $userLatitude = $request->input('user_latitude');
+
+        // Esegui la query degli appartamenti basata sul termine di ricerca e calcola la distanza
+        $apartments = Apartment::selectRaw('*, ST_DISTANCE(POINT(?, ?), POINT(longitude, latitude)) AS distance', [$userLongitude, $userLatitude])
+            ->where('title', 'like', '%' . $searchTerm . '%')
+            ->orWhere('description', 'like', '%' . $searchTerm . '%')
+            ->orWhere('address', 'like', '%' . $searchTerm . '%')
+            ->orderBy('distance')
+            ->get();
 
         // Restituisci i risultati della query come risposta JSON
         return response()->json($apartments);
     }
+
+    public function filter(Request $request)
+    {
+        // Esegui la logica di filtraggio utilizzando i dati forniti dalla richiesta
+        $letti = $request->input('letti');
+        $stanze = $request->input('stanze');
+        $servizi = $request->input('servizi');
+        $lat = $request->input('lat');
+        $lon = $request->input('lon');
+        $raggio = $request->input('raggio');
+    
+        // Esegui la query per filtrare gli appartamenti
+        $query = Apartment::query();
+    
+        // Applica i filtri se sono presenti
+        if (!empty($letti)) {
+            $query->where('beds', '>=', $letti);
+        }
+        
+        if (!empty($stanze)) {
+            $query->where('rooms', '>=', $stanze);
+        }
+    
+        // Calcola la distanza e ordinamento per distanza
+        if (!empty($lat) && !empty($lon) && !empty($raggio)) {
+            $query->selectRaw(
+                '*, (6371 * acos(cos(radians(' . $lat . ')) * cos(radians(latitude)) * cos(radians(longitude) - radians(' . $lon . ')) + sin(radians(' . $lat . ')) * sin(radians(latitude)))) AS distance'
+            )->havingRaw('distance <= ' . $raggio)->orderBy('distance', 'ASC');
+        }
+    
+        // Applica il filtro per i servizi selezionati
+        if (!empty($servizi)) {
+            foreach ($servizi as $servizio) {
+                $query->whereHas('services', function ($query) use ($servizio) {
+                    $query->where('services.id', $servizio);
+                });
+            }
+        }
+    
+        // Esegui la query e ottieni gli appartamenti filtrati
+        $filteredApartments = $query->get();
+        
+        // Restituisci in JSON i risultati del filtraggio
+        return response()->json($filteredApartments);
+    }
+    
+    
+    
+    
+    
+    public function getServices()
+    {
+        $services = Service::all();
+      
+        return response()->json($services);
+    }
+
     public function sendMessage(Request $request)
     {
 
