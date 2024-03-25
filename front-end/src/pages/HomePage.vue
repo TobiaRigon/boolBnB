@@ -1,4 +1,3 @@
-
 <script>
 import axios from "axios";
 import { store } from "../store";
@@ -212,10 +211,10 @@ export default {
       return `${baseUrl}/${imagePath}`;
     },
     formattedPath(apartment) {
-    const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, '-');
-    return `/apartments/${apartment.id}/${titleFormatted}`;
-  }
-  
+      const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, "-");
+      return `/apartments/${apartment.id}/${titleFormatted}`;
+    },
+
     // Metodo per far rotare le foto in HOME
     // startBackgroundRotation() {
     //   this.intervalId = setInterval(this.changeBackground, 5000); //Cambia immagine ogni 5 secondi
@@ -251,7 +250,6 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-      
   },
   // Funzione per stop Background
   // beforeDestroy() {
@@ -265,7 +263,7 @@ export default {
     <div class="container-fluid">
       <!-- Jumbo + ricerca -->
       <div class="jumbotron d-flex align-items-center justify-content-center">
-        <div class="container" id="sezione-ricerca">
+        <div class="container">
           <div class="row">
             <div class="col">
               <div class="col">
@@ -328,11 +326,11 @@ export default {
               v-for="apartment in apartmentsInEvidence"
               :key="apartment.id"
             >
-            <router-link
-        class="card my-3"
-        :class="{'sponsored-apartment': apartment.in_evidence === 1}"
-        :to="formattedPath(apartment)"
-      >
+              <router-link
+                class="card my-3"
+                :class="{ 'sponsored-apartment': apartment.in_evidence === 1 }"
+                :to="formattedPath(apartment)"
+              >
                 <div class="card-container">
                   <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
                   <img
@@ -452,16 +450,9 @@ h1 {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra sottile */
 }
 .sponsored-apartment {
-  border: 2px solid #FFD700; /* Giallo Oro per sponsorizzazione */
+  border: 2px solid #ffd700; /* Giallo Oro per sponsorizzazione */
 }
 /* .kilometri {
   width: 70px;
 } */
 </style>
-
-
-
-
-
-
-
