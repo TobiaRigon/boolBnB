@@ -1,93 +1,199 @@
 <template>
-  <h1>RISULTATI RICERCA:</h1>
-  <div v-for="servizio in store.services" :key="servizio.id" class="ms-4 mb-1">
-    <input
-      type="checkbox"
-      v-model="servizio.selected"
-      @change="filtering(servizio.id)"
-    />
-    <label class="ms-2">{{ servizio.name }}</label>
-  </div>
-  <div class="container mt-5">
-    <div class="row">
-      <div class="input-group mb-3">
+  <main>
+    <div class="container">
+      <form class="form-inline my-2 gap-2 d-flex">
+        <!-- Barra di ricerca -->
         <input
-          type="range"
-          class="form-range raggio me-5"
-          min="1"
-          max="100"
-          step="1"
-          v-model="store.radius"
-          @input="filtering()"
+          class="form-control mr-sm-2"
+          type="search"
+          placeholder="Cerca"
+          aria-label="Search"
+          v-model="store.findApartment"
+          @input="autoComplete"
         />
-        <span class="input-group-text kilometri">{{ store.radius }} km</span>
-      </div>
-      <div class="my-3">
-        <span class="me-2">Letti</span>
-        <input
-          v-model="letti"
-          class="filtri"
-          type="number"
-          @input="filtering()"
-        />
-        <span class="me-2">Stanze</span>
-        <input
-          v-model="stanze"
-          class="filtri"
-          type="number"
-          @input="filtering()"
-        />
-      </div>
-      <div
-        class="col-lg-3 col-md-6"
-        v-for="apartment in store.filteredApartments"
-        :key="apartment.id"
-      >
-        <router-link
-          class="card my-3"
-          :to="`/apartments/${apartment.id}/${apartment.title}`"
+        <button
+          @click.prevent="search()"
+          class="btn btn-outline-success my-2 my-sm-0"
+          type="button"
         >
-          <div class="card-container">
-            <img
-              :src="getImageUrl(apartment.main_img)"
-              class="card-img-top"
-              alt="..."
-            />
+          Cerca
+        </button>
+      </form>
 
-            <h5 class="card-title p-2">{{ apartment.title }}</h5>
-            <p class="card-text p-2">{{ apartment.description }}</p>
-            <p class="card-text p-2">Distanza: {{ apartment.distance }} km</p>
-            <!-- Inserisci la distanza qui -->
-            <div class="d-flex justify-content-between">
-              <!-- <router-link
+      <!-- Autocompletamento -->
+      <div
+        id="AutoComplete"
+        style="margin-top: 40px"
+        class="card position-absolute w-80 h-50 radius"
+        v-show="
+          showAutoComplete &&
+          AutoMenu.length > 0 &&
+          store.findApartment.trim() !== ''
+        "
+      >
+        <ul class="list" style="cursor: pointer">
+          <li
+            v-for="(item, index) in AutoMenu"
+            :key="index"
+            @click="selectItem(item)"
+          >
+            {{ item.address.freeformAddress }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottone per aprire l'off-canvas per i filtri -->
+    <button
+      class="btn btn-primary"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#filtersSidebar"
+      aria-controls="filtersSidebar"
+    >
+      Filtri
+    </button>
+
+    <!-- Off-canvas per i filtri -->
+    <div id="filtersSidebar" class="offcanvas offcanvas-start" tabindex="-1">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Filtri</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <!-- Inserisci qui i tuoi filtri -->
+        <!-- Assicurati che i filtri siano separati dalla sezione dei risultati degli appartamenti -->
+        <!-- ... -->
+        <!-- Esempio di filtri -->
+        <div class="container mt-3">
+          <div class="row">
+            <div
+              v-for="servizio in store.services"
+              :key="servizio.id"
+              class="ms-4 mb-1"
+            >
+              <input
+                type="checkbox"
+                v-model="servizio.selected"
+                @change="filtering(servizio.id)"
+              />
+              <label class="ms-2">{{ servizio.name }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="container mt-5">
+          <div class="row">
+            <div class="input-group mb-3">
+              <input
+                type="range"
+                class="form-range raggio me-5"
+                min="1"
+                max="100"
+                step="1"
+                v-model="store.radius"
+                @input="filtering()"
+              />
+              <span class="input-group-text kilometri"
+                >{{ store.radius }} km</span
+              >
+            </div>
+            <div class="my-3">
+              <span class="me-2">Letti</span>
+              <input
+                v-model="letti"
+                class="filtri"
+                type="number"
+                @input="filtering()"
+              />
+              <span class="me-2">Stanze</span>
+              <input
+                v-model="stanze"
+                class="filtri"
+                type="number"
+                @input="filtering()"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sezione per i risultati degli appartamenti -->
+    <div class="container">
+      <div class="row">
+        <div
+          class="col-lg-3 col-md-6"
+          v-for="apartment in store.filteredApartments"
+          :key="apartment.id"
+        >
+          <router-link
+            class="card my-3"
+            :to="`/apartments/${apartment.id}/${apartment.title}`"
+          >
+            <div class="card-container">
+              <img
+                :src="getImageUrl(apartment.main_img)"
+                class="card-img-top"
+                alt="..."
+              />
+
+              <h5 class="card-title p-2">{{ apartment.title }}</h5>
+              <p class="card-text p-2">{{ apartment.description }}</p>
+              <p class="card-text p-2">Distanza: {{ apartment.distance }} km</p>
+              <!-- Inserisci la distanza qui -->
+              <div class="d-flex justify-content-between">
+                <!-- <router-link
                 :to="'/apartments/' + apartment.id"
                 class="btn btn-primary m-2"
                 >APRI</router-link
               > -->
+              </div>
             </div>
-          </div>
-        </router-link>
+          </router-link>
+        </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
 import axios from "axios";
 import { store } from "../store";
-export default {
-  name: "AdvancedSearch",
 
+export default {
+  name: "NewSearch",
   data() {
     return {
       store,
       letti: "",
       stanze: "",
-      perPage: 8,
-      currentPage: 1,
+      findApartment: "",
+      AutoMenu: [],
+      research: [],
+      appartamentiFiltrati: [],
+      showAutoComplete: true,
     };
   },
   methods: {
+    autoComplete() {
+      this.showAutoComplete = true;
+      const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
+      let tomTomApi = `https://api.tomtom.com/search/2/search/${store.findApartment}.json?key=${keyApi}`;
+
+      axios
+        .get(tomTomApi)
+        .then((res) => {
+          this.AutoMenu = res.data.results;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     getImageUrl(imagePath) {
       // Verifica se il percorso restituito dal backend include il prefisso "storage"
       if (imagePath.startsWith("storage")) {
@@ -100,7 +206,21 @@ export default {
       }
     },
 
-    // LOGICA FILTRO IN BACK END
+    selectItem(item) {
+      store.findApartment = item.address.freeformAddress;
+      this.showAutoComplete = false;
+      store.lat = item.position.lat;
+      store.lon = item.position.lon;
+    },
+
+    search() {
+      // Esegui il filtraggio solo se l'area è stata selezionata
+      if (store.findApartment) {
+        this.filtering();
+      } else {
+        console.log("Seleziona un'area prima di effettuare la ricerca");
+      }
+    },
     filtering() {
       if (this.letti <= 0) {
         this.letti = 1;
@@ -152,8 +272,9 @@ export default {
             error
           );
         });
+      store.findApartment = "";
+      this.showAutoComplete = true;
     },
-
     calculateDistance(lat1, lon1, lat2, lon2) {
       const R = 6371; // Radius of the earth in km
 
@@ -198,6 +319,12 @@ export default {
   max-width: 50%;
   min-width: 700px;
 }
+
+.apartments-in-evidence {
+  width: 90%;
+  margin: 0 auto; /* Imposta i margini automatici per centrare il div */
+}
+
 img {
   height: 180px;
   width: 100%;
@@ -208,42 +335,27 @@ img:hover {
   transition: 1.7s;
 }
 
-.card {
-  height: 500px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.card-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-.card-text {
-  overflow-y: auto;
-  height: 50%;
-}
-
-.card-text::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
-}
-.card-text {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 li {
   list-style: none;
 }
 #AutoComplete {
   width: 50%;
+  z-index: 999;
 }
+
 #AutoComplete ul li:hover {
   background-color: rgba(0, 0, 255, 0.1);
   border: 1px solid darkgrey;
 }
-.filtri {
-  width: 5%;
-  margin-right: 20px;
+.raggio {
+  width: 30%;
+}
+
+/* .kilometri {
+  width: 70px;
+} */
+
+.card-text::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }
 </style>

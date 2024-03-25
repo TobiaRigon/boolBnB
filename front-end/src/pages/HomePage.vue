@@ -205,7 +205,7 @@ export default {
             @input="autoComplete"
           />
           <router-link
-            :to="'/newsearch/'"
+            :to="'/search/'"
             @click="search()"
             class="btn btn-outline-success my-2 my-sm-0"
             type="submit"
