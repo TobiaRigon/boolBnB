@@ -35,10 +35,11 @@
         v-for="apartment in store.filteredApartments"
         :key="apartment.id"
       >
-        <router-link
-          class="card my-3"
-          :to="`/apartments/${apartment.id}/${apartment.title}`"
-        >
+      <router-link
+        class="card my-3"
+        :class="{'sponsored-apartment': apartment.in_evidence === 1}"
+        :to="formattedPath(apartment)"
+      >
           <div class="card-container">
             <img
               :src="getImageUrl(apartment.main_img)"
@@ -182,6 +183,10 @@ export default {
       console.log("Appartamenti nel database:", store.apartments);
       console.log("Radius:", store.radius);
     },
+    formattedPath(apartment) {
+    const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, '-');
+    return `/apartments/${apartment.id}/${titleFormatted}`;
+  }
   },
 };
 </script>
