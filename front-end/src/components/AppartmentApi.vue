@@ -7,7 +7,11 @@
         v-for="apartment in paginatedList"
         :key="apartment.id"
       >
-      <router-link class="card my-3" :to="`/apartments/${apartment.id}/${makeSlug(apartment.title)}`">
+      <router-link
+        class="card my-3"
+        :class="{'sponsored-apartment': apartment.in_evidence === 1}"
+        :to="formattedPath(apartment)"
+      >
           <div class="card-container">
             <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
             <img
@@ -88,16 +92,33 @@ export default {
       this.currentPage += num;
       console.log(this.currentPage);
     },
+    formattedPath(apartment) {
+    const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, '-');
+    return `/apartments/${apartment.id}/${titleFormatted}`;
+  }
   },
   mounted() {
     axios
-      .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
-      .then((res) => {
-        this.apartments = res.data;
-      })
-      .catch((err) => {
-        console.error(err);
+    .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
+    .then((res) => {
+      // Prima di assegnare gli appartamenti a `this.apartments`,
+      // li ordini in modo che quelli sponsorizzati siano in cima.
+      this.apartments = res.data.sort((a, b) => {
+        // Se `a` è sponsorizzato e `b` no, `a` viene prima (ritorna -1)
+        if (a.in_evidence === 1 && b.in_evidence !== 1) {
+          return -1;
+        }
+        // Se `b` è sponsorizzato e `a` no, `b` viene prima (ritorna 1)
+        if (b.in_evidence === 1 && a.in_evidence !== 1) {
+          return 1;
+        }
+        // Se entrambi sono sponsorizzati o non lo sono, rimangono nella stessa posizione (ritorna 0)
+        return 0;
       });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   },
   computed: {
     paginatedList() {

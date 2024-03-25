@@ -1,3 +1,4 @@
+
 <script>
 import axios from "axios";
 import { store } from "../store";
@@ -210,7 +211,11 @@ export default {
       const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
       return `${baseUrl}/${imagePath}`;
     },
-
+    formattedPath(apartment) {
+    const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, '-');
+    return `/apartments/${apartment.id}/${titleFormatted}`;
+  }
+  
     // Metodo per far rotare le foto in HOME
     // startBackgroundRotation() {
     //   this.intervalId = setInterval(this.changeBackground, 5000); //Cambia immagine ogni 5 secondi
@@ -246,6 +251,7 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+      
   },
   // Funzione per stop Background
   // beforeDestroy() {
@@ -431,5 +437,30 @@ h1 {
 #sezione-ricerca {
   padding: 20px;
   border-radius: 20px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Aggiungi una transizione per un effetto più fluido */
 }
+
+#sezione-ricerca:hover {
+  background-color: rgba(
+    250,
+    235,
+    215,
+    0.7
+  ); /* Cambia leggermente il colore di sfondo */
+  transform: scale(1.02); /* Applica una leggera trasformazione di scala */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra sottile */
+}
+.sponsored-apartment {
+  border: 2px solid #FFD700; /* Giallo Oro per sponsorizzazione */
+}
+/* .kilometri {
+  width: 70px;
+} */
 </style>
+
+
+
+
+
+
+
