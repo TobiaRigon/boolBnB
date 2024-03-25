@@ -1,21 +1,19 @@
 <template>
-  <!-- Form per inviare un messaggio al proprietario -->
-  <form @submit.prevent="sendMessage">
-    <div class="container mt-5">
-      <h2>Contatta il proprietario:</h2>
+  <div class="container mt-5">
+    <!-- Messaggio di conferma -->
+    <div v-if="messageSent" class="alert alert-success" role="alert">
+      Messaggio inviato con successo!
+      <button
+        @click="closeMessage"
+        type="button"
+        class="btn-close"
+        aria-label="Chiudi"
+      ></button>
+    </div>
 
-      <!-- Messaggio di conferma -->
-      <div v-if="messageSent" class="container mt-3">
-        <div class="alert alert-success" role="alert">
-          Messaggio inviato con successo!
-          <button
-            @click="closeMessage"
-            type="button"
-            class="btn-close"
-            aria-label="Chiudi"
-          ></button>
-        </div>
-      </div>
+    <!-- Form per inviare un messaggio al proprietario -->
+    <form @submit.prevent="sendMessage" v-else>
+      <h2>Contatta il proprietario:</h2>
 
       <div class="mb-3">
         <label for="sender_name" class="form-label">Nome</label>
@@ -61,8 +59,8 @@
       </div>
 
       <button type="submit" class="btn btn-primary">Invia Messaggio</button>
-    </div>
-  </form>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -164,3 +162,7 @@ export default {
   height: 100%;
 }
 </style>
+
+
+
+
