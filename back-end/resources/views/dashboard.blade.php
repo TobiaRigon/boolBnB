@@ -61,9 +61,9 @@
                             <div class="modal-content">
                                 <span class="close" onclick="closeModal()">&times;</span>
                                 <p>Sei sicuro di voler eliminare questo appartamento?</p>
-                                <div class="modal-buttons">
-                                    <button onclick="deleteApartment()">Elimina</button>
-                                    <button onclick="closeModal()">Annulla</button>
+                                <div >
+                                    <button class="btn my_btn" onclick="deleteApartment()">Elimina</button>
+                                    <button class="btn btn-danger" onclick="closeModal()">Annulla</button>
                                 </div>
                             </div>
                         </div>
