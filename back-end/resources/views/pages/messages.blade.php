@@ -3,6 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
            Messaggi per l'appartamento: {{ $apartment->title }}
         </h2>
+        <span class="text-sm text-gray-500">({{ count($messages) }} messaggi)</span>
     </x-slot>
     @section('content')
     <div class="container mt-4">
