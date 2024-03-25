@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mt-4">
-        <h1 class="text-center mb-5">Modifica appartamento</h1>
+        <h1 class="h2 text-center mb-5">Modifica appartamento</h1>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -24,51 +24,56 @@
                         @method('PUT')
 
                         <div class="mb-3">
-                            <label for="title" class="form-label">Titolo</label>
+                            <label class="h5" for="title" class="form-label">Titolo</label>
                             <input type="text" class="form-control" id="title" name="title"
                                 value="{{ old('title', $apartment->title) }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="description" class="form-label">Descrizione</label>
+                            <label class="h5" for="description" class="form-label">Descrizione</label>
                             <textarea class="form-control" id="description" name="description" required>{{ old('description', $apartment->description) }}</textarea>
                         </div>
 
                         <div class="mb-3">
-                            <label for="max_guests" class="form-label">Numero ospiti</label>
+                            <label class="h5" for="max_guests" class="form-label">Numero ospiti</label>
                             <input type="number" class="form-control" id="max_guests" name="max_guests"
                                 value="{{ old('max_guests', $apartment->max_guests) }}" min="1" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="rooms" class="form-label">Numero stanze</label>
+                            <label class="h5" for="rooms" class="form-label">Numero stanze</label>
                             <input type="number" class="form-control" id="rooms" name="rooms"
                                 value="{{ old('rooms', $apartment->rooms) }}" min="1" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="beds" class="form-label">Numero letti</label>
+                            <label class="h5" for="beds" class="form-label">Numero letti</label>
                             <input type="number" class="form-control" id="beds" name="beds"
                                 value="{{ old('beds', $apartment->beds) }}" min="1" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="baths" class="form-label">Numero bagni</label>
+                            <label class="h5" for="baths" class="form-label">Numero bagni</label>
                             <input type="number" class="form-control" id="baths" name="baths"
                                 value="{{ old('baths', $apartment->baths) }}" min="1" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="main_img" class="form-label">Immagine principale dell'appartamento</label>
-                            <input type="file" class="form-control" id="main_img" name="main_img">
-                            <img src="{{ $apartment->main_img }}" alt=""
-                                style="max-width: 200px; max-height: 200px;">
+                        <div class="mb-3 ">
+                            <label class="h5" for="main_img" class="form-label">Immagine principale dell'appartamento</label>
+                            <input type="file" class=" form-control" id="main_img" name="main_img">
+                            <div class=" text-center">
+                            <img class="mt-3" src="{{ $apartment->main_img }}" alt=""
+                                style="max-width: 300px; max-height: 200px;">
+                            </div>
+                           
                         </div>
 
-                        <div class="mb-3">
+                        <span class="h5">Seleziona i servizi:</span>
+                        <div class="row w-100  mb-3" >
+                           
                             @foreach ($services as $service)
-                                <div>
-                                    <input type="checkbox" name="services[]" value="{{ $service->id }}"
+                                <div class="col-4 py-3">
+                                    <input  type="checkbox" name="services[]" value="{{ $service->id }}"
                                         {{ in_array($service->id, old('services', $currentServices)) ? 'checked' : '' }}>
                                     <label>{{ $service->name }}</label>
                                 </div>
@@ -76,7 +81,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="address" class="form-label">Indirizzo dell'appartamento</label>
+                            <label class="h5 py-3" for="address" class="form-label">Indirizzo dell'appartamento</label>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="city" id="Milano" value="Milano"
                                     {{ old('city', $apartment->city) == 'Milano' ? 'checked' : '' }}>
@@ -98,7 +103,7 @@
                                 value="{{ old('longitude', $apartment->longitude) }}" required>
                         </div>
 
-                        <button type="submit" class="btn btn-success">Modifica</button>
+                        <button type="submit" class="my-2 btn my_btn">Modifica</button>
                     </form>
                 </div>
             </div>

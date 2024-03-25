@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mt-4">
-        <h1 class="text-center mb-5">Crea Nuovo Appartamento</h1>
+        <h1 class="h2 text-center mb-5">Crea Nuovo Appartamento</h1>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -20,57 +20,62 @@
                     <form action="{{ route('apartment.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="title" class="form-label">Titolo <span class="text-danger">*</span></label>
+                            <label for="title" class="h5 form-label">Titolo <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="title" name="title"
                                 value="{{ old('title') }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="description" class="form-label">Descrizione <span
+                            <label for="description" class="h5 form-label">Descrizione <span
                                     class="text-danger">*</span></label>
                             <textarea class="form-control" id="description" name="description" required>{{ old('description') }}</textarea>
                         </div>
 
                         <div class="mb-3">
-                            <label for="max_guests" class="form-label">Numero ospiti <span
+                            <label for="max_guests" class="h5 form-label">Numero ospiti <span
                                     class="text-danger">*</span></label>
                             <input type="number" class="form-control" id="max_guests" name="max_guests"
                                 value="{{ old('max_guests') }}" required min="1">
                         </div>
 
                         <div class="mb-3">
-                            <label for="rooms" class="form-label">Numero stanza <span
+                            <label for="rooms" class="h5 form-label">Numero stanza <span
                                     class="text-danger">*</span></label>
                             <input type="number" class="form-control" id="rooms" name="rooms"
                                 value="{{ old('rooms') }}" required min="1">
                         </div>
 
                         <div class="mb-3">
-                            <label for="beds" class="form-label">Letti <span class="text-danger">*</span></label>
+                            <label for="beds" class="h5 form-label">Letti <span class="text-danger">*</span></label>
                             <input type="number" class="form-control" id="beds" name="beds"
                                 value="{{ old('beds') }}" required min="1">
                         </div>
 
                         <div class="mb-3">
-                            <label for="baths" class="form-label">Bagni <span class="text-danger">*</span></label>
+                            <label for="baths" class="h5 form-label">Bagni <span class="text-danger">*</span></label>
                             <input type="number" class="form-control" id="baths" name="baths"
                                 value="{{ old('baths') }}" required min="1">
                         </div>
 
                         <div class="mb-3">
+                            <span class="h5">Seleziona i servizi:</span>
+                            <div class="row w-100  mb-3">
                             @foreach ($services as $service)
-                                <div>
+                                <div class="col-4 py-3">
                                     <input type="checkbox" name="services[]" value="{{ $service->id }}"
                                         @if (is_array(old('services')) && in_array($service->id, old('services'))) checked @endif>
                                     <label>{{ $service->name }}</label>
                                 </div>
                             @endforeach
+                            </div>
+                         
                         </div>
 
                         <div class="mb-3">
                             <label for="main_img" class="form-label">Immagine di copertina <span
-                                    class="text-danger">*</span></label>
-                            <input type="file" name="main_img">
+                                    class="text-danger">*</span>
+                                </label><br>
+                            <input class="my-3"  type="file" name="main_img">
                         </div>
 
                         <div class="mb-3">
@@ -89,7 +94,7 @@
                             <input type="text" id="longitude" name="longitude" value="{{ old('longitude') }}">
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Crea</button>
+                        <button type="submit" class="btn my_btn">Crea</button>
                     </form>
                 </div>
             </div>
