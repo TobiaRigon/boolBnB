@@ -1,21 +1,22 @@
 <template>
+     <!-- Messaggio di conferma -->
+     <div v-if="messageSent" class="container mt-3">
+      <div class="alert alert-success" role="alert">
+        Messaggio inviato con successo!
+        <button
+          @click="closeMessage"
+          type="button"
+          class="btn-close"
+          aria-label="Chiudi"
+        ></button>
+      </div>
+    </div>
   <!-- Form per inviare un messaggio al proprietario -->
-  <form @submit.prevent="sendMessage">
+  <form  @submit.prevent="sendMessage" v-if="!messageSent">
     <div class="mt-5">
       <h2 class="h3">Contatta il proprietario:</h2>
 
-      <!-- Messaggio di conferma -->
-      <div v-if="messageSent" class="container mt-3">
-        <div class="alert alert-success" role="alert">
-          Messaggio inviato con successo!
-          <button
-            @click="closeMessage"
-            type="button"
-            class="btn-close"
-            aria-label="Chiudi"
-          ></button>
-        </div>
-      </div>
+   
 
       <div class="mb-3">
         <label for="sender_name" class="form-label">Nome</label>
