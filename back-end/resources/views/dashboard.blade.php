@@ -18,7 +18,7 @@
     </div>
 
     <!-- i miei appartamenti -->
-   
+
     <h1 class="text-center my-3 h3">I miei appartamenti: {{ count($apartments) }}</h1>
 
     <div class="row justify-content-center">
@@ -51,7 +51,7 @@
                                         @method('DELETE')
                                         <button type="button" onclick="confirmDelete({{ $apartment->id }})" class="btn btn-danger">ELIMINA</button>
                                     </form>
-                                </div>  
+                                </div>
                             </div>
                         </div>
 
@@ -67,6 +67,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="pb-3">
+                            <a href="{{ route('apartments.statistics', ['id' => $apartment->id]) }}" class="btn btn-primary">Statistiche Visualizzazioni</a>
+                        </div>
                         @endif
                     </div>
                 </div>
@@ -79,7 +82,7 @@
 
 
 
-   
+
 
         <style scoped>
             a:hover{

@@ -28,7 +28,16 @@ class ApartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showStatistics($id)
+    {
+        $apartment = Apartment::findOrFail($id);
 
+        // Recupera il numero totale di visualizzazioni per l'appartamento
+        $totalViews = View::where('apartment_id', $id)->count();
+
+        // Passa i dati delle statistiche alla vista
+        return view('pages.statistics', compact('apartment', 'totalViews'));
+    }
 
     public function index()
     {
@@ -46,7 +55,7 @@ class ApartmentController extends Controller
         $messages = Message::where('apartment_id', $id)
                         ->orderBy('date', 'desc')
                         ->get();
-    
+
         return view('pages.messages', compact('apartment', 'messages'));
     }
 

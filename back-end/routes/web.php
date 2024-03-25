@@ -46,6 +46,9 @@ Route::post('/apply-sponsor', [SponsorController::class, 'applySponsor'])->name(
 
 
 
+
+
+
 // Gruppo di rotte che richiedono autenticazione
 Route::middleware('auth')->group(function () {
     // Gestione del profilo utente
@@ -66,6 +69,9 @@ Route::middleware('auth')->group(function () {
      // Visualizzazione dettagliata dei messaggi associati a un appartamento
      Route::get('/messages/{id}', [ApartmentController::class, 'showMessages'])->name('pages.messages');
      Route::get('/message/{id}', [MessageController::class, 'show'])->name('message.show');
+
+    // stats
+    Route::get('/apartments/{id}/statistics', [ApartmentController::class, 'showStatistics'])->name('apartments.statistics');
 
 });
 

@@ -26,7 +26,7 @@ class ViewTableSeeder extends Seeder
         return;
     }
 
-    for ($i = 0; $i < 10; $i++) {
+    for ($i = 0; $i < 4000; $i++) {
         // Fetch a random apartment ID
         $apartment_id = Apartment::inRandomOrder()->first()->id;
 
