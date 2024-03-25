@@ -89,6 +89,10 @@ export default {
         return imagePath;
       }
     },
+    formattedPath(apartment) {
+    const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, '-');
+    return `/apartments/${apartment.id}/${titleFormatted}`;
+  },
     filtering() {
       if (this.letti < 1) {
         this.letti = 1;
@@ -243,5 +247,8 @@ li {
 .filtri {
   width: 5%;
   margin-right: 20px;
+}
+.sponsored-apartment {
+  border: 2px solid #FFD700; /* Giallo Oro per sponsorizzazione */
 }
 </style>

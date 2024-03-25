@@ -328,10 +328,11 @@ export default {
               v-for="apartment in apartmentsInEvidence"
               :key="apartment.id"
             >
-              <router-link
-                class="card my-3"
-                :to="`/apartments/${apartment.id}/${makeSlug(apartment.title)}`"
-              >
+            <router-link
+        class="card my-3"
+        :class="{'sponsored-apartment': apartment.in_evidence === 1}"
+        :to="formattedPath(apartment)"
+      >
                 <div class="card-container">
                   <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
                   <img
