@@ -66,10 +66,6 @@
         ></button>
       </div>
       <div class="offcanvas-body">
-        <!-- Inserisci qui i tuoi filtri -->
-        <!-- Assicurati che i filtri siano separati dalla sezione dei risultati degli appartamenti -->
-        <!-- ... -->
-        <!-- Esempio di filtri -->
         <div class="container mt-3">
           <div class="row">
             <div
@@ -126,6 +122,9 @@
     <!-- Sezione per i risultati degli appartamenti -->
     <div class="container">
       <div class="row">
+        <div>
+          <h5>Appartamenti Trovati: {{ store.filteredApartments.length }}</h5>
+        </div>
         <div
           class="col-lg-3 col-md-6"
           v-for="apartment in store.filteredApartments"
@@ -217,8 +216,6 @@ export default {
       // Esegui il filtraggio solo se l'area è stata selezionata
       if (store.findApartment) {
         this.filtering();
-      } else {
-        console.log("Seleziona un'area prima di effettuare la ricerca");
       }
     },
     formattedPath(apartment) {
@@ -312,12 +309,10 @@ export default {
       .get("http://127.0.0.1:8000/api/apartmentApi/services")
       .then((res) => {
         store.services = res.data;
-        console.log("servizi:", store.services);
       })
       .catch((err) => {
         console.log(err);
       });
-    // ottieni elenco servizi
   },
 };
 </script>

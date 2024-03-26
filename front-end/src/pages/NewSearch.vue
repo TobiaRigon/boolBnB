@@ -183,7 +183,6 @@ export default {
       .get("http://127.0.0.1:8000/api/apartmentApi/services")
       .then((res) => {
         store.services = res.data;
-        console.log("servizi:", store.services);
       })
       .catch((err) => {
         console.log(err);
