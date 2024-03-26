@@ -1,22 +1,20 @@
 <template>
-     <!-- Messaggio di conferma -->
-     <div v-if="messageSent" class="container mt-3">
-      <div class="alert alert-success" role="alert">
-        Messaggio inviato con successo!
-        <button
-          @click="closeMessage"
-          type="button"
-          class="btn-close"
-          aria-label="Chiudi"
-        ></button>
-      </div>
+  <!-- Messaggio di conferma -->
+  <div v-if="messageSent" class="container mt-3">
+    <div class="alert alert-success" role="alert">
+      Messaggio inviato con successo!
+      <button
+        @click="closeMessage"
+        type="button"
+        class="btn-close"
+        aria-label="Chiudi"
+      ></button>
     </div>
+  </div>
   <!-- Form per inviare un messaggio al proprietario -->
-  <form  @submit.prevent="sendMessage" v-if="!messageSent">
+  <form @submit.prevent="sendMessage" v-if="!messageSent">
     <div class="mt-5">
       <h2 class="h3">Contatta il proprietario:</h2>
-
-   
 
       <div class="mb-3">
         <label for="sender_name" class="form-label">Nome</label>
@@ -124,8 +122,6 @@ export default {
   },
   methods: {
     sendMessage() {
-      console.log("submit with:", this.newMessage);
-
       axios
         .post(
           "http://localhost:8000/api/apartmentApi/messages",
@@ -165,7 +161,3 @@ export default {
   height: 100%;
 }
 </style>
-
-
-
-
