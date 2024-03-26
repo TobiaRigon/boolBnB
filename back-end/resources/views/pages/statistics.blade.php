@@ -14,9 +14,7 @@
             </h2>
         </div>
     </div>
-</div>
 
-<div class="col-12 col-lg-8 py-3 mb-5">
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Visualizzazioni Mensili</h5>
@@ -24,6 +22,8 @@
         </div>
     </div>
 </div>
+
+
 
 <script>
     var monthLabels = {!! json_encode($viewsByMonth->pluck('month')->map(function($month) {
