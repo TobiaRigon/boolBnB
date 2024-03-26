@@ -240,8 +240,4 @@ li {
   background-color: rgba(0, 0, 255, 0.1);
   border: 1px solid darkgrey;
 }
-.filtri {
-  width: 5%;
-  margin-right: 20px;
-}
 </style>

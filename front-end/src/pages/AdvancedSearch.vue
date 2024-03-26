@@ -376,7 +376,10 @@ li {
 .raggio {
   width: 30%;
 }
-
+.filtri {
+  width: 20%;
+  margin-right: 20px;
+}
 /* .kilometri {
   width: 70px;
 } */
