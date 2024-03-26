@@ -68,10 +68,6 @@
         ></button>
       </div>
       <div class="offcanvas-body">
-        <!-- Inserisci qui i tuoi filtri -->
-        <!-- Assicurati che i filtri siano separati dalla sezione dei risultati degli appartamenti -->
-        <!-- ... -->
-        <!-- Esempio di filtri -->
         <div class="container mt-3">
           <div class="row">
             <div
@@ -129,6 +125,9 @@
     <!-- Sezione per i risultati degli appartamenti -->
     <div class="container">
       <div class="row">
+        <div>
+          <h5>Appartamenti Trovati: {{ store.filteredApartments.length }}</h5>
+        </div>
         <div
           class="col-lg-3 col-md-6"
           v-for="apartment in store.filteredApartments"
@@ -136,15 +135,21 @@
         >
           <router-link
             class="card my-3"
-            :class="{'sponsored-apartment': apartment.in_evidence}"
+            :class="{ 'sponsored-apartment': apartment.in_evidence }"
             :to="formattedPath(apartment)"
           >
             <div class="card-container">
-              <img :src="getImageUrl(apartment.main_img)" class="card-img-top" alt="..." />
+              <img
+                :src="getImageUrl(apartment.main_img)"
+                class="card-img-top"
+                alt="..."
+              />
               <div class="card-body">
                 <h5 class="card-title">{{ apartment.title }}</h5>
                 <p class="card-text">{{ apartment.description }}</p>
-                <p class="card-text"><small>Distanza: {{ apartment.distance }} km</small></p>
+                <p class="card-text">
+                  <small>Distanza: {{ apartment.distance }} km</small>
+                </p>
               </div>
             </div>
           </router-link>
@@ -215,12 +220,18 @@ export default {
       }
     },
     getAllApartments() {
-      axios.get('http://127.0.0.1:8000/api/apartmentApi/apartments')
-        .then(response => {
-          this.store.filteredApartments = response.data.sort((a, b) => b.in_evidence - a.in_evidence);
+      axios
+        .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
+        .then((response) => {
+          this.store.filteredApartments = response.data.sort(
+            (a, b) => b.in_evidence - a.in_evidence
+          );
         })
-        .catch(error => {
-          console.error("Errore durante il recupero degli appartamenti:", error);
+        .catch((error) => {
+          console.error(
+            "Errore durante il recupero degli appartamenti:",
+            error
+          );
         });
     },
     formattedPath(apartment) {
@@ -316,12 +327,10 @@ export default {
       .get("http://127.0.0.1:8000/api/apartmentApi/services")
       .then((res) => {
         store.services = res.data;
-        console.log("servizi:", store.services);
       })
       .catch((err) => {
         console.log(err);
       });
-    // ottieni elenco servizi
   },
 };
 </script>
@@ -391,6 +400,13 @@ li {
 .raggio {
   width: 30%;
 }
+.filtri {
+  width: 20%;
+  margin-right: 20px;
+}
+/* .kilometri {
+  width: 70px;
+} */
 
 .card-text::-webkit-scrollbar {
   display: none; /* Hide scrollbar for Chrome, Safari and Opera */

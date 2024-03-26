@@ -122,8 +122,6 @@ export default {
   },
   methods: {
     sendMessage() {
-      console.log("submit with:", this.newMessage);
-
       axios
         .post(
           "http://localhost:8000/api/apartmentApi/messages",

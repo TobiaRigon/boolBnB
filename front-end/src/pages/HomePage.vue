@@ -35,7 +35,6 @@ export default {
       this.showAutoComplete = true;
       const keyApi = "brzK3He1s61mi6MQycw8qJXnuSAtFOfx";
       let tomTomApi = `https://api.tomtom.com/search/2/search/${store.findApartment}.json?key=${keyApi}`;
-      console.log(tomTomApi);
       axios
         .get(tomTomApi)
         .then((res) => {
@@ -49,8 +48,6 @@ export default {
       // Esegui il filtraggio solo se l'area è stata selezionata
       if (store.findApartment) {
         this.filtering();
-      } else {
-        console.log("Seleziona un'area prima di effettuare la ricerca");
       }
     },
     filtering() {
@@ -120,7 +117,6 @@ export default {
         .get("http://127.0.0.1:8000/api/apartments/in-evidence")
         .then((response) => {
           this.apartmentsInEvidence = response.data; // Salva gli appartamenti in evidenza nell'array separato
-          console.log("Appartamenti in evidenza:", this.apartmentsInEvidence); // Aggiungi questo console.log
         })
         .catch((error) => {
           console.error("Error fetching in-evidence apartments:", error);
@@ -170,28 +166,18 @@ export default {
   },
   // chiamata api al database
   mounted() {
-    // definisco variabile url
     let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
-    // se non è vuoto aggiungo quello che trovo nell'input
-    // Funzione per far partire la rotazione
-    // this.startBackgroundRotation();
-    // this.getApartments();
     this.getInEvidenceApartments();
 
     axios
       .get(searchUrl)
       .then((res) => {
         store.apartments = res.data;
-        console.log(store.apartments);
       })
       .catch((err) => {
         console.log(err);
       });
   },
-  // Funzione per stop Background
-  // beforeDestroy() {
-  //   this.stopBackgroundRotation();
-  // }
 };
 </script>
 
