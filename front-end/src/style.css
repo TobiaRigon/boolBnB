@@ -81,9 +81,30 @@ a:hover {
   color: white;
 }
 
-.sponsored-apartment {
-  border: 1px solid  #5cb2dd; /* Giallo Oro per sponsorizzazione */
-  box-shadow: 0 0 7px #5cb2dd; 
+
+.card {
+  overflow: visible !important; /* Imposta l'overflow su "visible" */
+}
+.card-container{
+  overflow: hidden; /* Imposta l'overflow su "visible" */
 }
 
+.sponsored-apartment {
+  border: 1px solid #5cb2dd; /* Giallo Oro per sponsorizzazione */
+  box-shadow: 0 0 7px #5cb2dd;
+  position: relative;
+  overflow: visible; /* Imposta l'overflow su "visible" */
+  
+}
+
+.sponsored-apartment::after {
+  content: "\1F451"; /* Codice Unicode per l'icona "&#128081;" */
+  font-size: 30px; /* Dimensioni dell'icona */
+  margin-right: 5px; /* Spazio tra l'icona e il contenuto dell'elemento */
+  position: absolute;
+  top: -32px;
+  right: -22px;
+  transform: rotate(28deg);
+  z-index: 500;
+}
 

@@ -243,9 +243,9 @@ export default {
       <div class="mt-4 container-fluid text-center">
         <h2 class="my-3 h2">Appartamenti in evidenza</h2>
         <div class="apartments-in-evidence">
-          <div class="row">
+          <div class="row pt-3">
             <div
-              class="col-lg-3 col-md-6"
+              class="col-lg-3 pt-3 col-md-6"
               v-for="apartment in apartmentsInEvidence"
               :key="apartment.id"
             >
