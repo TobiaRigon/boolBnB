@@ -136,28 +136,15 @@
         >
           <router-link
             class="card my-3"
-            :to="`/apartments/${apartment.id}/${apartment.title}`"
+            :class="{'sponsored-apartment': apartment.in_evidence}"
+            :to="formattedPath(apartment)"
           >
             <div class="card-container">
-              <img
-                :src="getImageUrl(apartment.main_img)"
-                class="card-img-top"
-                alt="..."
-              />
-
-              <h5 class="card-title p-2">{{ apartment.title }}</h5>
-              <p class="card-text p-2">{{ apartment.description }}</p>
-              <h6 class="card-text font-weight-bold p-2">
-                <i class="fa-solid fa-person-walking-arrow-right"></i>
-                {{ apartment.distance }} km
-              </h6>
-              <!-- Inserisci la distanza qui -->
-              <div class="d-flex justify-content-between">
-                <!-- <router-link
-                :to="'/apartments/' + apartment.id"
-                class="btn btn-primary m-2"
-                >APRI</router-link
-              > -->
+              <img :src="getImageUrl(apartment.main_img)" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">{{ apartment.title }}</h5>
+                <p class="card-text">{{ apartment.description }}</p>
+                <p class="card-text"><small>Distanza: {{ apartment.distance }} km</small></p>
               </div>
             </div>
           </router-link>
@@ -221,11 +208,20 @@ export default {
 
     search() {
       // Esegui il filtraggio solo se l'area è stata selezionata
-      if (store.findApartment) {
-        this.filtering();
+      if (!this.store.findApartment.trim()) {
+        this.getAllApartments();
       } else {
-        console.log("Seleziona un'area prima di effettuare la ricerca");
+        this.filtering();
       }
+    },
+    getAllApartments() {
+      axios.get('http://127.0.0.1:8000/api/apartmentApi/apartments')
+        .then(response => {
+          this.store.filteredApartments = response.data.sort((a, b) => b.in_evidence - a.in_evidence);
+        })
+        .catch(error => {
+          console.error("Errore durante il recupero degli appartamenti:", error);
+        });
     },
     formattedPath(apartment) {
       const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, "-");
@@ -314,6 +310,8 @@ export default {
     },
   },
   mounted() {
+    this.getAllApartments();
+
     axios
       .get("http://127.0.0.1:8000/api/apartmentApi/services")
       .then((res) => {
