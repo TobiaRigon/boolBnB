@@ -38,7 +38,7 @@
             datasets: [{
                 label: 'Visualizzazioni',
                 data: {!! json_encode($viewsByMonth->pluck('views')) !!},
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: ' #63beec',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
