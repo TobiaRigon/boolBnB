@@ -215,7 +215,7 @@
     </script>
 
 
-    <style>
+    <style scoped>
         #AutoComplete ul li:hover {
             background-color: rgba(0, 0, 255, 0.1);
             border: 1px solid darkgrey;

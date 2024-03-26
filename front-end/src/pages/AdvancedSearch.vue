@@ -1,6 +1,8 @@
 <template>
   <main>
-    <div class="container">
+    <div
+      class="container-fluid my_container d-flex flex-column align-items-center"
+    >
       <form class="form-inline my-2 gap-2 d-flex">
         <!-- Barra di ricerca -->
         <input
@@ -13,8 +15,8 @@
         />
         <button
           @click.prevent="search()"
-          class="btn btn-outline-success my-2 my-sm-0"
-          type="button"
+          class="btn my_btn my-2 my-sm-0"
+          type="button "
         >
           Cerca
         </button>
@@ -41,18 +43,18 @@
           </li>
         </ul>
       </div>
-    </div>
 
-    <!-- Bottone per aprire l'off-canvas per i filtri -->
-    <button
-      class="btn btn-primary"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#filtersSidebar"
-      aria-controls="filtersSidebar"
-    >
-      Filtri
-    </button>
+      <!-- Bottone per aprire l'off-canvas per i filtri -->
+      <button
+        class="my_btn btn my-3"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#filtersSidebar"
+        aria-controls="filtersSidebar"
+      >
+        Filtri
+      </button>
+    </div>
 
     <!-- Off-canvas per i filtri -->
     <div id="filtersSidebar" class="offcanvas offcanvas-start" tabindex="-1">
@@ -78,6 +80,7 @@
               class="ms-4 mb-1"
             >
               <input
+                class="my_checkbox"
                 type="checkbox"
                 v-model="servizio.selected"
                 @change="filtering(servizio.id)"
@@ -144,7 +147,10 @@
 
               <h5 class="card-title p-2">{{ apartment.title }}</h5>
               <p class="card-text p-2">{{ apartment.description }}</p>
-              <p class="card-text p-2">Distanza: {{ apartment.distance }} km</p>
+              <h6 class="card-text font-weight-bold p-2">
+                <i class="fa-solid fa-person-walking-arrow-right"></i>
+                {{ apartment.distance }} km
+              </h6>
               <!-- Inserisci la distanza qui -->
               <div class="d-flex justify-content-between">
                 <!-- <router-link
@@ -322,10 +328,17 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+a {
+  text-decoration: none;
+}
 .form-control {
   max-width: 50%;
   min-width: 700px;
+}
+
+.my_container {
+  margin: 0 auto;
 }
 
 .apartments-in-evidence {
@@ -356,7 +369,6 @@ img:hover {
 }
 .card-text {
   overflow-y: auto;
-  height: 50%;
 }
 
 .card-text::-webkit-scrollbar {
@@ -382,11 +394,25 @@ li {
   width: 30%;
 }
 
-/* .kilometri {
-  width: 70px;
-} */
-
 .card-text::-webkit-scrollbar {
   display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+.my_btn {
+  background-color: #63beec;
+  border-radius: 10px;
+  color: white;
+}
+
+.my_btn:hover {
+  background-color: #5cb2dd;
+  border-radius: 10px;
+  color: white;
+}
+.my_btn a {
+  color: white;
+}
+.my_btn a:hover {
+  color: white;
 }
 </style>
