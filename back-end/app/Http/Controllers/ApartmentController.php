@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreApartmentRequest;
 use App\Http\Requests\UpdateApartmentRequest;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 // importa modelli collegati
 use App\Models\Apartment;
@@ -29,15 +30,26 @@ class ApartmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showStatistics($id)
-    {
+{
+    try {
+        // Recupera l'appartamento corrispondente all'ID fornito
         $apartment = Apartment::findOrFail($id);
 
-        // Recupera il numero totale di visualizzazioni per l'appartamento
-        $totalViews = View::where('apartment_id', $id)->count();
+        // Recupera le visualizzazioni per l'appartamento corrispondente
+        $viewsByMonth = DB::table('views')
+                        ->select(DB::raw('MONTH(date) as month'), DB::raw('COUNT(*) as views'))
+                        ->where('apartment_id', $id)
+                        ->groupBy(DB::raw('MONTH(date)'))
+                        ->get();
 
-        // Passa i dati delle statistiche alla vista
-        return view('pages.statistics', compact('apartment', 'totalViews'));
+        $totalViews = $viewsByMonth->sum('views');
+
+        return view('pages.statistics', compact('apartment', 'totalViews', 'viewsByMonth'));
+    } catch (\Exception $e) {
+        // Gestione degli errori: ad esempio, puoi registrare l'errore o restituire una vista di errore
+        return back()->withError('Errore nel recupero delle statistiche: ' . $e->getMessage());
     }
+}
 
     public function index()
     {
