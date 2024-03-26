@@ -148,7 +148,10 @@
                 <h5 class="card-title">{{ apartment.title }}</h5>
                 <p class="card-text">{{ apartment.description }}</p>
                 <p class="card-text">
-                  <small>Distanza: {{ apartment.distance }} km</small>
+                  <small
+                    ><i class="fa-solid fa-person-walking-arrow-right"></i>
+                    {{ apartment.distance }} km</small
+                  >
                 </p>
               </div>
             </div>
