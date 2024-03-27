@@ -2,11 +2,14 @@
   <div>
     <div class="container-fluid">
       <div class="my_card card">
-        <img
-          :src="getImageUrl(apartment.main_img)"
-          class="card-img-top mb-3"
-          alt="Immagine dell'appartamento"
-        />
+        <div style="overflow: hidden">
+          <img
+            :src="getImageUrl(apartment.main_img)"
+            class="card-img-top mb-3"
+            alt="Immagine dell'appartamento"
+          />
+        </div>
+
         <div class="card-body">
           <div class="mb-3">
             <h5 class="pb-2 h2 card-title">{{ apartment.title }}</h5>
@@ -90,6 +93,12 @@ export default {
 </script>
 
 <style scoped>
+.card-img-top {
+  max-width: 100%;
+  max-height: 300px; /* Imposta l'altezza massima desiderata */
+  object-fit: cover; /* Imposta il comportamento di ridimensionamento dell'immagine */
+}
+
 .fas {
   color: #63beec;
 }
