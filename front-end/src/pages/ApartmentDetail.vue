@@ -27,6 +27,9 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  overflow: hidden;
+}
 .container-fluid {
   margin: 0 auto;
 }
