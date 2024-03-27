@@ -1,14 +1,20 @@
 <template>
   <!-- Messaggio di conferma -->
   <div v-if="messageSent" class="container mt-3">
-    <div class="alert alert-success" role="alert">
-      Messaggio inviato con successo!
+    <div
+      class="alert alert-success d-flex justify-content-between align-items-center"
+      role="alert"
+    >
+      <h5>Messaggio inviato con successo!</h5>
+
       <button
         @click="closeMessage"
         type="button"
-        class="btn-close"
+        class="btn my_btn"
         aria-label="Chiudi"
-      ></button>
+      >
+        Invia nuovo messaggio
+      </button>
     </div>
   </div>
   <!-- Form per inviare un messaggio al proprietario -->
