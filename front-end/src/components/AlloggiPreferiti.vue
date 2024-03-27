@@ -11,7 +11,6 @@
     :loop="true"
     :speed="1000"
     :effect="'slide'"
-    :swiper-options="swiperOptions"
     @swiper="onSwiper"
     @slideChange="onSlideChange"
   >
@@ -86,16 +85,8 @@ export default {
     SwiperSlide,
   },
   setup() {
-    const onSwiper = (swiper) => {
-      console.log(swiper);
-    };
-    const onSlideChange = () => {
-      console.log("slide change");
-    };
-
-    const swiperOptions = {
-      easing: "easeInOutQuad",
-    };
+    const onSwiper = (swiper) => {};
+    const onSlideChange = () => {};
 
     return {
       onSwiper,

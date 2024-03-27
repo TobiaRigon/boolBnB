@@ -196,12 +196,6 @@ export default {
           />
         </div>
       </div>
-
-      <div v-show="isScrolled">
-        <a href="#top">
-          <i class="fa-solid fa-arrow-up-long"></i>
-        </a>
-      </div>
       <!-- BANNER -->
       <Banner />
       <!-- Appartamenti in evidenza -->

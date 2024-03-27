@@ -17,7 +17,6 @@ export default {
         .get("http://127.0.0.1:8000/api/apartments/in-evidence")
         .then((response) => {
           this.apartmentsInEvidence = response.data;
-          console.log("Appartamenti in evidenza:", this.apartmentsInEvidence);
         })
         .catch((error) => {
           console.error(
