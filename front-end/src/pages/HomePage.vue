@@ -1,8 +1,13 @@
 <script>
 import axios from "axios";
 import { store } from "../store";
+import AlloggiPreferiti from "../components/AlloggiPreferiti.vue";
+
 export default {
   name: "HomePage",
+  components: {
+    AlloggiPreferiti,
+  },
   data() {
     return {
       store,
@@ -209,6 +214,7 @@ export default {
     <div class="container-fluid">
       <!-- Jumbo + ricerca -->
 
+      <AlloggiPreferiti />
       <div
         class="jumbotron d-flex align-items-center justify-content-center"
         id="top"
@@ -421,12 +427,18 @@ li {
   width: 30%;
 }
 
+.container-fluid {
+  position: relative;
+}
+
 .jumbotron {
   border-radius: 30px;
-  background-image: url("../assets/images/pexels-matteo-milan-18786201.jpg");
-  background-size: cover;
-  background-position: center;
   height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1; /* Assicura che il jumbotron sia sopra ogni altro contenuto */
 }
 
 h1 {
