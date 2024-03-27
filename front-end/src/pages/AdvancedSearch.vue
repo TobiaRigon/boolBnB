@@ -3,47 +3,14 @@
     <div
       class="container-fluid my_container d-flex flex-column align-items-center"
     >
-      <form class="form-inline my-2 gap-2 d-flex">
-        <!-- Barra di ricerca -->
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Cerca"
-          aria-label="Search"
-          v-model="store.findApartment"
-          @input="autoComplete"
-        />
-        <button
-          @click.prevent="search()"
-          class="btn my_btn my-2 my-sm-0"
-          type="button "
-        >
-          Cerca
-        </button>
-      </form>
-
-      <!-- Autocompletamento -->
-      <div
-        id="AutoComplete"
-        style="margin-top: 40px"
-        class="card position-absolute w-80 h-50 radius"
-        v-show="
-          showAutoComplete &&
-          AutoMenu.length > 0 &&
-          store.findApartment.trim() !== ''
-        "
-      >
-        <ul class="list" style="cursor: pointer">
-          <li
-            v-for="(item, index) in AutoMenu"
-            :key="index"
-            @click="selectItem(item)"
-          >
-            {{ item.address.freeformAddress }}
-          </li>
-        </ul>
-      </div>
-
+      <Searchbar
+        :store="store"
+        :autoComplete="autoComplete"
+        :search="search"
+        :selectItem="selectItem"
+        :showAutoComplete="showAutoComplete"
+        :AutoMenu="AutoMenu"
+      />
       <!-- Bottone per aprire l'off-canvas per i filtri -->
       <button
         class="my_btn btn my-3"
@@ -121,53 +88,26 @@
         </div>
       </div>
     </div>
-
     <!-- Sezione per i risultati degli appartamenti -->
-    <div class="container">
-      <div class="row">
-        <div>
-          <h5>Appartamenti Trovati: {{ store.filteredApartments.length }}</h5>
-        </div>
-        <div
-          class="col-lg-3 col-md-6"
-          v-for="apartment in store.filteredApartments"
-          :key="apartment.id"
-        >
-          <router-link
-            class="card my-3"
-            :class="{ 'sponsored-apartment': apartment.in_evidence }"
-            :to="formattedPath(apartment)"
-          >
-            <div class="card-container">
-              <img
-                :src="getImageUrl(apartment.main_img)"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body">
-                <h5 class="card-title">{{ apartment.title }}</h5>
-                <p class="card-text">{{ apartment.description }}</p>
-                <p class="card-text">
-                  <small
-                    ><i class="fa-solid fa-person-walking-arrow-right"></i>
-                    {{ apartment.distance }} km</small
-                  >
-                </p>
-              </div>
-            </div>
-          </router-link>
-        </div>
-      </div>
-    </div>
+    <ApartmentComponent
+      :store="store"
+      :formattedPath="formattedPath"
+      :getImageUrl="getImageUrl"
+    />
   </main>
 </template>
 
 <script>
 import axios from "axios";
 import { store } from "../store";
-
+import ApartmentComponent from "../components/ApartmentComponent.vue";
+import Searchbar from "../components/Searchbar.vue";
 export default {
   name: "search",
+  components: {
+    ApartmentComponent,
+    Searchbar,
+  },
   data() {
     return {
       store,
@@ -342,9 +282,6 @@ export default {
 </script>
 
 <style scoped>
-a {
-  text-decoration: none;
-}
 .form-control {
   max-width: 50%;
   min-width: 700px;
@@ -359,38 +296,6 @@ a {
   margin: 0 auto; /* Imposta i margini automatici per centrare il div */
 }
 
-img {
-  height: 180px;
-  width: 100%;
-  object-fit: cover;
-}
-img:hover {
-  transform: scale(1.1);
-  transition: 1.7s;
-}
-
-.card {
-  height: 500px;
-  overflow: hidden;
-}
-
-.card-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-.card-text {
-  overflow-y: auto;
-}
-
-.card-text::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
-}
-.card-text {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 li {
   list-style: none;
 }
@@ -409,13 +314,6 @@ li {
 .filtri {
   width: 20%;
   margin-right: 20px;
-}
-/* .kilometri {
-  width: 70px;
-} */
-
-.card-text::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
 }
 
 .my_btn {

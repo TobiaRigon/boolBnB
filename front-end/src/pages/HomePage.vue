@@ -1,21 +1,25 @@
 <script>
 import axios from "axios";
 import { store } from "../store";
+import Searchbar from "../components/Searchbar.vue";
+import Banner from "../components/Banner.vue";
+import SponsoredApartments from "../components/SponsoredApartments.vue";
 export default {
   name: "HomePage",
+  components: {
+    Searchbar,
+    Banner,
+    SponsoredApartments,
+  },
   data() {
     return {
       store,
-      // prende le informazioni dalla searchbar; è necessario per l'autocomplete
-      // findApartment: "",
       // oggetti che vediamo nell'autocomplete
       AutoMenu: [],
       //  località scelta dal menu autocomplete
       research: [],
       // serve per chiudere autocomplete quando clicco su un risultato
       showAutoComplete: true,
-      apartmentsInEvidence: [],
-
       // Metodo della foto in Home
       // backgroundImages: [
       //   "../assets/images/pexels-matteo-milan-18786201.jpg",
@@ -117,47 +121,6 @@ export default {
       store.lon = item.position.lon;
     },
 
-    getImageUrl(imagePath) {
-      // Controlla se il percorso dell'immagine sembra essere un URL completo
-      if (
-        imagePath &&
-        (imagePath.startsWith("http://") || imagePath.startsWith("https://"))
-      ) {
-        return imagePath;
-      }
-      // Altrimenti, costruisci il percorso completo utilizzando il percorso di base del server Laravel
-      const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
-      return `${baseUrl}/${imagePath}`;
-    },
-
-    getInEvidenceApartments() {
-      axios
-        .get("http://127.0.0.1:8000/api/apartments/in-evidence")
-        .then((response) => {
-          this.apartmentsInEvidence = response.data; // Salva gli appartamenti in evidenza nell'array separato
-        })
-        .catch((error) => {
-          console.error("Error fetching in-evidence apartments:", error);
-        });
-    },
-
-    getImageUrl(imagePath) {
-      // Controlla se il percorso dell'immagine sembra essere un URL completo
-      if (
-        imagePath &&
-        (imagePath.startsWith("http://") || imagePath.startsWith("https://"))
-      ) {
-        return imagePath;
-      }
-      // Altrimenti, costruisci il percorso completo utilizzando il percorso di base del server Laravel
-      const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
-      return `${baseUrl}/${imagePath}`;
-    },
-    formattedPath(apartment) {
-      const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, "-");
-      return `/apartments/${apartment.id}/${titleFormatted}`;
-    },
-
     calculateDistance(lat1, lon1, lat2, lon2) {
       const R = 6371; // Radius of the earth in km
 
@@ -186,8 +149,6 @@ export default {
   mounted() {
     // definisco variabile url
     let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
-    this.getInEvidenceApartments();
-
     axios
       .get(searchUrl)
       .then((res) => {
@@ -221,47 +182,14 @@ export default {
               </div>
             </div>
           </div>
-          <form class="form-inline my-2 gap-2 d-flex" @submit="handleSearch">
-            <input
-              class="form-control mr-sm-2"
-              type="search"
-              placeholder="Cerca"
-              aria-label="Search"
-              v-model="store.findApartment"
-              @input="autoComplete"
-            />
-            <router-link
-              :to="'/search/'"
-              @click="search()"
-              class="btn my_btn my-sm-0"
-              type="submit"
-            >
-              Trova
-            </router-link>
-
-            <!-- Inizio: Elemento per l'autocompletamento -->
-            <div
-              id="AutoComplete"
-              style="margin-top: 40px"
-              class="card position-absolute w-80 h-50 radius"
-              v-show="
-                showAutoComplete &&
-                AutoMenu.length > 0 &&
-                store.findApartment.trim() !== ''
-              "
-            >
-              <ul class="list" style="cursor: pointer">
-                <li
-                  v-for="(item, index) in AutoMenu"
-                  :key="index"
-                  @click="selectItem(item)"
-                >
-                  {{ item.address.freeformAddress }}
-                </li>
-              </ul>
-            </div>
-            <!-- Fine: Elemento per l'autocompletamento -->
-          </form>
+          <Searchbar
+            :store="store"
+            :autoComplete="autoComplete"
+            :search="search"
+            :selectItem="selectItem"
+            :showAutoComplete="showAutoComplete"
+            :AutoMenu="AutoMenu"
+          />
         </div>
       </div>
 
@@ -270,144 +198,19 @@ export default {
           <i class="fa-solid fa-arrow-up-long"></i>
         </a>
       </div>
-
-      <!-- Roba nuova -->
-
-      <div class="container text-center my-5">
-        <div class="row justify-content-center rounded bg-white shadow-lg">
-          <div class="col-md-4">
-            <div class="text-center p-4">
-              <i class="fa-solid fa-earth-americas fa-3x"></i>
-              <h5 class="font-weight-bold mt-4 mb-3">
-                Trova l'ispirazione per il tuo viaggio
-              </h5>
-              <p class="mb-4 text-muted">
-                Sfoglia case vacanza, chalet, case al mare, appartamenti,
-                condomini, case galleggianti, castelli, agriturismi e tutto il
-                resto.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="text-center p-4">
-              <i class="fa-solid fa-user-check fa-3x"></i>
-              <h5 class="mt-4 mb-3">Scopri milioni di offerte</h5>
-              <p class="mb-4 text-muted">
-                Trova e confronta offerte uniche da migliaia di partner fidati.
-                BoolBnB ha la più vasta selezione di case vacanza in tutto il
-                mondo.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="text-center p-4">
-              <i class="fa-solid fa-house fa-3x"></i>
-              <h5 class="mt-4 mb-3">Prenota l'alloggio perfetto</h5>
-              <p class="mb-4 text-muted">
-                Con BoolBnB è facile e veloce prenotare la sistemazione giusta
-                per qualsiasi viaggio, indipendentemente dal tuo budget.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <!-- BANNER -->
+      <Banner />
       <!-- Appartamenti in evidenza -->
-
-      <div class="mt-4 container-fluid text-center">
-        <h2 class="my-3 h2">Appartamenti in evidenza</h2>
-        <div class="apartments-in-evidence">
-          <div class="row pt-3">
-            <div
-              class="col-lg-3 pt-3 col-md-6"
-              v-for="apartment in apartmentsInEvidence"
-              :key="apartment.id"
-            >
-              <router-link
-                class="card my-3"
-                :class="{ 'sponsored-apartment': apartment.in_evidence === 1 }"
-                :to="formattedPath(apartment)"
-              >
-                <div class="card-container">
-                  <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
-                  <img
-                    :src="getImageUrl(apartment.main_img)"
-                    class="card-img-top"
-                    alt="Immagine dell'appartamento"
-                  />
-                  <h5 class="card-title h6 p-2">{{ apartment.title }}</h5>
-                  <p class="card-text p-2">{{ apartment.description }}</p>
-                  <div class="d-flex justify-content-between"></div>
-                </div>
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SponsoredApartments />
     </div>
   </main>
 </template>
 
 <style scoped>
-.form-control {
-  max-width: 100%; /* Larghezza massima al 100% */
-  width: 100%; /* Larghezza al 100% */
-  min-width: 200px; /* Larghezza minima */
-}
-
-a {
-  text-decoration: none;
-}
-
-.apartments-in-evidence {
-  width: 90%;
-  margin: 0 auto; /* Imposta i margini automatici per centrare il div */
-}
-
-img {
-  height: 180px;
-  width: 100%;
-  object-fit: cover;
-}
-img:hover {
-  transform: scale(1.1);
-  transition: 1.7s;
-}
-
-.card {
-  height: 500px;
-  overflow: hidden;
-}
-
-.card-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-.card-text {
-  overflow-y: auto;
-  height: 50%;
-}
-
-.card-text::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
-}
-.card-text {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 li {
   list-style: none;
 }
 
-.my_btn {
-  background-color: #63beec;
-  color: white;
-  font-weight: bold;
-}
 #AutoComplete {
   width: 50%;
   z-index: 999;
