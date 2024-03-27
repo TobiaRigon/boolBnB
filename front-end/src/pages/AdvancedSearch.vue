@@ -3,47 +3,14 @@
     <div
       class="container-fluid my_container d-flex flex-column align-items-center"
     >
-      <form class="form-inline my-2 gap-2 d-flex">
-        <!-- Barra di ricerca -->
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Cerca"
-          aria-label="Search"
-          v-model="store.findApartment"
-          @input="autoComplete"
-        />
-        <button
-          @click.prevent="search()"
-          class="btn my_btn my-2 my-sm-0"
-          type="button "
-        >
-          Cerca
-        </button>
-      </form>
-
-      <!-- Autocompletamento -->
-      <div
-        id="AutoComplete"
-        style="margin-top: 40px"
-        class="card position-absolute w-80 h-50 radius"
-        v-show="
-          showAutoComplete &&
-          AutoMenu.length > 0 &&
-          store.findApartment.trim() !== ''
-        "
-      >
-        <ul class="list" style="cursor: pointer">
-          <li
-            v-for="(item, index) in AutoMenu"
-            :key="index"
-            @click="selectItem(item)"
-          >
-            {{ item.address.freeformAddress }}
-          </li>
-        </ul>
-      </div>
-
+      <Searchbar
+        :store="store"
+        :autoComplete="autoComplete"
+        :search="search"
+        :selectItem="selectItem"
+        :showAutoComplete="showAutoComplete"
+        :AutoMenu="AutoMenu"
+      />
       <!-- Bottone per aprire l'off-canvas per i filtri -->
       <button
         class="my_btn btn my-3"
@@ -134,10 +101,12 @@
 import axios from "axios";
 import { store } from "../store";
 import ApartmentComponent from "../components/ApartmentComponent.vue";
+import Searchbar from "../components/Searchbar.vue";
 export default {
   name: "search",
   components: {
     ApartmentComponent,
+    Searchbar,
   },
   data() {
     return {
