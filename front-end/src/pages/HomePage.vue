@@ -1,8 +1,14 @@
 <script>
 import axios from "axios";
 import { store } from "../store";
+
+import FooterComponent from "../components/FooterComponent.vue";
+
 export default {
   name: "HomePage",
+  components: {
+    FooterComponent,
+  },
   data() {
     return {
       store,
@@ -347,6 +353,7 @@ export default {
         </div>
       </div>
     </div>
+    <footer />
   </main>
 </template>
 
