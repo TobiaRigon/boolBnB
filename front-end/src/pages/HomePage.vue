@@ -3,11 +3,13 @@ import axios from "axios";
 import { store } from "../store";
 import Searchbar from "../components/Searchbar.vue";
 import Banner from "../components/Banner.vue";
+import SponsoredApartments from "../components/SponsoredApartments.vue";
 export default {
   name: "HomePage",
   components: {
     Searchbar,
     Banner,
+    SponsoredApartments,
   },
   data() {
     return {
@@ -18,8 +20,6 @@ export default {
       research: [],
       // serve per chiudere autocomplete quando clicco su un risultato
       showAutoComplete: true,
-      apartmentsInEvidence: [],
-
       // Metodo della foto in Home
       // backgroundImages: [
       //   "../assets/images/pexels-matteo-milan-18786201.jpg",
@@ -134,17 +134,6 @@ export default {
       return `${baseUrl}/${imagePath}`;
     },
 
-    getInEvidenceApartments() {
-      axios
-        .get("http://127.0.0.1:8000/api/apartments/in-evidence")
-        .then((response) => {
-          this.apartmentsInEvidence = response.data; // Salva gli appartamenti in evidenza nell'array separato
-        })
-        .catch((error) => {
-          console.error("Error fetching in-evidence apartments:", error);
-        });
-    },
-
     getImageUrl(imagePath) {
       // Controlla se il percorso dell'immagine sembra essere un URL completo
       if (
@@ -190,8 +179,6 @@ export default {
   mounted() {
     // definisco variabile url
     let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
-    this.getInEvidenceApartments();
-
     axios
       .get(searchUrl)
       .then((res) => {
@@ -241,43 +228,15 @@ export default {
           <i class="fa-solid fa-arrow-up-long"></i>
         </a>
       </div>
-
       <!-- BANNER -->
-
       <Banner />
-
       <!-- Appartamenti in evidenza -->
-
-      <div class="mt-4 container-fluid text-center">
-        <h2 class="my-3 h2">Appartamenti in evidenza</h2>
-        <div class="apartments-in-evidence">
-          <div class="row pt-3">
-            <div
-              class="col-lg-3 pt-3 col-md-6"
-              v-for="apartment in apartmentsInEvidence"
-              :key="apartment.id"
-            >
-              <router-link
-                class="card my-3"
-                :class="{ 'sponsored-apartment': apartment.in_evidence === 1 }"
-                :to="formattedPath(apartment)"
-              >
-                <div class="card-container">
-                  <!-- Usa il metodo getImageUrl per ottenere il corretto percorso dell'immagine -->
-                  <img
-                    :src="getImageUrl(apartment.main_img)"
-                    class="card-img-top"
-                    alt="Immagine dell'appartamento"
-                  />
-                  <h5 class="card-title h6 p-2">{{ apartment.title }}</h5>
-                  <p class="card-text p-2">{{ apartment.description }}</p>
-                  <div class="d-flex justify-content-between"></div>
-                </div>
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SponsoredApartments
+        :apartmentsInEvidence="apartmentsInEvidence"
+        :formattedPath="formattedPath"
+        :getImageUrl="getImageUrl"
+        :getInEvidenceApartments="getInEvidenceApartments"
+      />
     </div>
   </main>
 </template>
@@ -302,29 +261,7 @@ img:hover {
   transition: 1.7s;
 }
 
-.card {
-  height: 500px;
-  overflow: hidden;
-}
 
-.card-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-.card-text {
-  overflow-y: auto;
-  height: 50%;
-}
-
-.card-text::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
-}
-.card-text {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 li {
   list-style: none;
 }
