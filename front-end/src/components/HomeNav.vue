@@ -39,6 +39,14 @@ export default {
   height: 50px;
 }
 
+/* Impostazioni globali per il testo */
+.nav-link {
+  font-family: "Poppins", sans-serif; /* Cambio del font principale */
+  font-size: 16px; /* Imposta la dimensione del carattere predefinita */
+  line-height: 1.5; /* Imposta l'altezza della riga predefinita */
+  color: #1c3a4a; /* Cambio del colore del testo principale */
+}
+
 @media (min-width: 991.98px) {
   .navbar-nav {
     align-items: center; /* Allinea gli elementi al centro quando il viewport è inferiore a lg */

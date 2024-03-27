@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
 
     // Modifica di un appartamento esistente
     Route::get('/apartment/edit/{id}/{title}', [ApartmentController::class, 'edit'])->name('apartments.edit');
-    Route::put('/apartment/edit/{id}/{title}', [ApartmentController::class, 'update'])->name('apartments.update');
+    Route::put('/apartment/{id}/{title}', [ApartmentController::class, 'update'])->name('apartments.update');
 
      // Visualizzazione dettagliata dei messaggi associati a un appartamento
      Route::get('/messages/{id}', [ApartmentController::class, 'showMessages'])->name('pages.messages');
