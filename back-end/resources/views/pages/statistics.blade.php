@@ -2,27 +2,25 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="col-12 col-lg-4 py-3 ps-0 mb-5">
-    <div class="card">
-        <div class="card-body statistics rounded p-3">
-            <h5 class="card-title my-4">
-                <i class="fa-solid fa-eye"></i>
-                Visualizzazioni
-            </h5>
-            <h2 class="card-subtitle  text-body-secondary mb-3 fw-bold">
-                {{ $totalViews }}
-            </h2>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Visualizzazioni Mensili</h5>
-            <canvas id="monthlyViewsChart" width="400" height="200"></canvas>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-body statistics rounded p-3 text-center">
+                    <h5 class="card-title my-4">
+                        <i class="fa-solid fa-eye"></i>
+                        Visualizzazioni
+                    </h5>
+                    <h2 class="card-subtitle  text-body-secondary mb-3 fw-bold">
+                        {{ $totalViews }}
+                    </h2>
+                    <h5 class="card-title">Visualizzazioni Mensili</h5>
+                    <canvas id="monthlyViewsChart" width="400" height="200"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 
 
 <script>
