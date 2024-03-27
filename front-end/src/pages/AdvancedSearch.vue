@@ -167,7 +167,7 @@ import axios from "axios";
 import { store } from "../store";
 
 export default {
-  name: "NewSearch",
+  name: "search",
   data() {
     return {
       store,
@@ -216,8 +216,9 @@ export default {
 
     search() {
       // Esegui il filtraggio solo se l'area è stata selezionata
-      if (!this.store.findApartment.trim()) {
+      if (!store.findApartment.trim()) {
         this.getAllApartments();
+        console.log(this.getAllApartments);
       } else {
         this.filtering();
       }
@@ -226,7 +227,7 @@ export default {
       axios
         .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
         .then((response) => {
-          this.store.filteredApartments = response.data.sort(
+          store.filteredApartments = response.data.sort(
             (a, b) => b.in_evidence - a.in_evidence
           );
         })
@@ -324,7 +325,9 @@ export default {
     },
   },
   mounted() {
-    this.getAllApartments();
+    if (store.filteredApartments.length === 0) {
+      this.getAllApartments();
+    }
 
     axios
       .get("http://127.0.0.1:8000/api/apartmentApi/services")
