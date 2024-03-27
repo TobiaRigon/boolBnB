@@ -111,9 +111,10 @@ export default {
   data() {
     return {
       store,
-      letti: "",
-      stanze: "",
+      findApartment: "",
       AutoMenu: [],
+      research: [],
+      appartamentiFiltrati: [],
       showAutoComplete: true,
     };
   },
@@ -161,21 +162,35 @@ export default {
       }
     },
     getAllApartments() {
-      if (store.filteredApartments === 0) {
-        axios
-          .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
-          .then((response) => {
-            store.filteredApartments = response.data.sort(
-              (a, b) => b.in_evidence - a.in_evidence
-            );
-          })
-          .catch((error) => {
-            console.error(
-              "Errore durante il recupero degli appartamenti:",
-              error
-            );
-          });
-      }
+      axios
+        .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
+        .then((response) => {
+          store.filteredApartments = response.data.sort(
+            (a, b) => b.in_evidence - a.in_evidence
+          );
+        })
+        .catch((error) => {
+          console.error(
+            "Errore durante il recupero degli appartamenti:",
+            error
+          );
+        });
+        
+      // if (store.filteredApartments === 0) {
+      //   axios
+      //     .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
+      //     .then((response) => {
+      //       store.filteredApartments = response.data.sort(
+      //         (a, b) => b.in_evidence - a.in_evidence
+      //       );
+      //     })
+      //     .catch((error) => {
+      //       console.error(
+      //         "Errore durante il recupero degli appartamenti:",
+      //         error
+      //       );
+      //     });
+      // }
     },
     formattedPath(apartment) {
       const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, "-");
@@ -260,7 +275,9 @@ export default {
     },
   },
   mounted() {
-    this.getAllApartments();
+    if (store.filteredApartments.length === 0) {
+      this.getAllApartments();
+    }
 
     axios
       .get("http://127.0.0.1:8000/api/apartmentApi/services")
