@@ -3,7 +3,6 @@ import axios from "axios";
 
 export default {
   name: "SponsoredApartments",
-  props: ["formattedPath", "getImageUrl"],
   data() {
     return {
       apartmentsInEvidence: [],
@@ -26,6 +25,23 @@ export default {
             error
           );
         });
+    },
+    getImageUrl(imagePath) {
+      // Controlla se il percorso dell'immagine sembra essere un URL completo
+      if (
+        imagePath &&
+        (imagePath.startsWith("http://") || imagePath.startsWith("https://"))
+      ) {
+        return imagePath;
+      }
+      // Altrimenti, costruisci il percorso completo utilizzando il percorso di base del server Laravel
+      const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
+      return `${baseUrl}/${imagePath}`;
+    },
+
+    formattedPath(apartment) {
+      const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, "-");
+      return `/apartments/${apartment.id}/${titleFormatted}`;
     },
   },
 };
@@ -65,6 +81,10 @@ export default {
 </template>
 
 <style scoped>
+.apartments-in-evidence {
+  width: 90%;
+  margin: 0 auto; /* Imposta i margini automatici per centrare il div */
+}
 .card {
   height: 500px;
   overflow: hidden;

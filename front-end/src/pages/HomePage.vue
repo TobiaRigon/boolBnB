@@ -121,36 +121,6 @@ export default {
       store.lon = item.position.lon;
     },
 
-    getImageUrl(imagePath) {
-      // Controlla se il percorso dell'immagine sembra essere un URL completo
-      if (
-        imagePath &&
-        (imagePath.startsWith("http://") || imagePath.startsWith("https://"))
-      ) {
-        return imagePath;
-      }
-      // Altrimenti, costruisci il percorso completo utilizzando il percorso di base del server Laravel
-      const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
-      return `${baseUrl}/${imagePath}`;
-    },
-
-    getImageUrl(imagePath) {
-      // Controlla se il percorso dell'immagine sembra essere un URL completo
-      if (
-        imagePath &&
-        (imagePath.startsWith("http://") || imagePath.startsWith("https://"))
-      ) {
-        return imagePath;
-      }
-      // Altrimenti, costruisci il percorso completo utilizzando il percorso di base del server Laravel
-      const baseUrl = "http://127.0.0.1:8000"; // Modifica con il tuo URL effettivo se diverso
-      return `${baseUrl}/${imagePath}`;
-    },
-    formattedPath(apartment) {
-      const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, "-");
-      return `/apartments/${apartment.id}/${titleFormatted}`;
-    },
-
     calculateDistance(lat1, lon1, lat2, lon2) {
       const R = 6371; // Radius of the earth in km
 
@@ -231,37 +201,12 @@ export default {
       <!-- BANNER -->
       <Banner />
       <!-- Appartamenti in evidenza -->
-      <SponsoredApartments
-        :apartmentsInEvidence="apartmentsInEvidence"
-        :formattedPath="formattedPath"
-        :getImageUrl="getImageUrl"
-        :getInEvidenceApartments="getInEvidenceApartments"
-      />
+      <SponsoredApartments />
     </div>
   </main>
 </template>
 
 <style scoped>
-a {
-  text-decoration: none;
-}
-
-.apartments-in-evidence {
-  width: 90%;
-  margin: 0 auto; /* Imposta i margini automatici per centrare il div */
-}
-
-img {
-  height: 180px;
-  width: 100%;
-  object-fit: cover;
-}
-img:hover {
-  transform: scale(1.1);
-  transition: 1.7s;
-}
-
-
 li {
   list-style: none;
 }
