@@ -16,7 +16,7 @@ export default {
       apartmentsInEvidence: [],
       
       // Inizializza la variabile per controllare se si è scrollati verso il basso
-      isScrolled: false,
+      // isScrolled: false,
 
       // Metodo della foto in Home
       // backgroundImages: [
@@ -29,14 +29,14 @@ export default {
   },
   methods: {
 
-    handleScroll() {
-                // Gestisce lo scrolling della finestra
-                if (window.scrollY > 100) { // Imposta un valore di soglia per lo scrolling
-                    this.isScrolled = true; // Se si è scrollati oltre la soglia, imposta isScrolled a true
-                } else {
-                    this.isScrolled = false; // Altrimenti, imposta isScrolled a false
-                }
-    },
+    // handleScroll() {
+    //             // Gestisce lo scrolling della finestra
+    //             if (window.scrollY > 100) { // Imposta un valore di soglia per lo scrolling
+    //                 this.isScrolled = true; // Se si è scrollati oltre la soglia, imposta isScrolled a true
+    //             } else {
+    //                 this.isScrolled = false; // Altrimenti, imposta isScrolled a false
+    //             }
+    // },
           
 
 
@@ -248,7 +248,7 @@ export default {
   // chiamata api al database
   mounted() {
 
-    window.addEventListener('scroll', this.handleScroll); // Aggiunge un event listener per lo scrolling della finestra
+    // window.addEventListener('scroll', this.handleScroll); // Aggiunge un event listener per lo scrolling della finestra
 
     // definisco variabile url
     let searchUrl = "http://127.0.0.1:8000/api/apartmentApi/search?search=";
@@ -272,10 +272,10 @@ export default {
       });
   },
 
-  beforeDestroy() {
-            window.removeEventListener('scroll', this.handleScroll); 
-            // Rimuove l'event listener prima della distruzione del componente
-  },
+  // beforeDestroy() {
+  //           window.removeEventListener('scroll', this.handleScroll); 
+  //           // Rimuove l'event listener prima della distruzione del componente
+  // },
 
 
   // Funzione per stop Background
