@@ -276,19 +276,18 @@ export default {
     },
   },
   mounted() {
-    if (store.filteredApartments.length === 0) {
-      this.getAllApartments();
-    }
+  // Chiamiamo la funzione filtering() per applicare i filtri quando il componente viene montato
+  this.filtering();
 
-    axios
-      .get("http://127.0.0.1:8000/api/apartmentApi/services")
-      .then((res) => {
-        store.services = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
+  axios
+    .get("http://127.0.0.1:8000/api/apartmentApi/services")
+    .then((res) => {
+      store.services = res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+},
 };
 </script>
 
