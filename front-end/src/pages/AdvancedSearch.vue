@@ -4,6 +4,7 @@
       class="container-fluid my_container d-flex flex-column align-items-center"
     >
       <Searchbar
+        class="searchbar"
         :store="store"
         :autoComplete="autoComplete"
         :search="search"
@@ -292,9 +293,9 @@ export default {
 </script>
 
 <style scoped>
-.form-control {
-  max-width: 50%;
-  min-width: 700px;
+.searchbar {
+  max-width: 80%;
+  min-width: 1290px;
 }
 
 .my_container {
