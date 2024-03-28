@@ -209,10 +209,6 @@ li {
   list-style: none;
 }
 
-#AutoComplete {
-  width: 50%;
-  z-index: 999;
-}
 
 #AutoComplete ul li:hover {
   background-color: rgba(0, 0, 255, 0.1);

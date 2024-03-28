@@ -57,6 +57,10 @@ export default {
 </template>
 
 <style scoped>
+#AutoComplete {
+  width: 50%;
+  z-index: 999;
+}
 .form-control {
   max-width: 100%; /* Larghezza massima al 100% */
   width: 100%; /* Larghezza al 100% */
