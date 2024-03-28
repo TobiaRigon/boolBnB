@@ -14,7 +14,7 @@
         <!-- Bottoni Sponsor + crea -->
     <div class="my-2">
         <a class="btn my-2 my_btn" href="{{ route('apartment.create') }}">NUOVO APPARTAMENTO</a>
-        <a class="btn my-2 my_btn" href="{{ route('sponsors.index') }}">Sponsorizza i tuoi appartamenti</a>
+        <a class="btn my-2 my_btn" href="{{ route('sponsors.index') }}">SPONSORIZZA I TUOI APPARTAMENTI</a>
     </div>
 
     <!-- i miei appartamenti -->
@@ -43,7 +43,7 @@
                                     <a href="{{ route('apartments.edit', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}" class="btn my_btn">MODIFICA</a>
                                 </div>
                                 <div class="col-4">
-                                    <a class="btn my_btn" href="{{ route('pages.messages', $apartment->id) }}">Messaggi</a>
+                                    <a class="btn my_btn" href="{{ route('pages.messages', $apartment->id) }}">MESSAGGI</a>
                                 </div>
                                 <div class="col-4">
                                     <form id="delete-form-{{ $apartment->id }}" action="{{ route('apartment.delete', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}" method="POST" style="display:inline;">
