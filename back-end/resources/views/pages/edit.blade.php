@@ -30,6 +30,23 @@
                         </div>
 
                         <div class="mb-3">
+                            <label class="h5 py-3" for="address" class="form-label">Indirizzo dell'appartamento</label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                value="{{ old('address', $apartment->address) }}" required>
+                        </div>
+
+                        <div class="mb-3 ">
+                            <label  for="main_img" class="h5 form-label">Immagine principale dell'appartamento</label>
+                            <br>
+                            <input type="file" class=" " id="main_img" name="main_img">
+                            <!-- <div class=" text-center">
+                            <img class="mt-3" src="{{ $apartment->main_img }}" alt=""
+                                style="max-width: 300px; max-height: 200px;">
+                            </div> -->
+                           
+                        </div>
+
+                        <div class="mb-3">
                             <label class="h5" for="description" class="form-label">Descrizione</label>
                             <textarea class="form-control" id="description" name="description" required>{{ old('description', $apartment->description) }}</textarea>
                         </div>
@@ -58,15 +75,7 @@
                                 value="{{ old('baths', $apartment->baths) }}" min="1" required>
                         </div>
 
-                        <div class="mb-3 ">
-                            <label class="h5" for="main_img" class="form-label">Immagine principale dell'appartamento</label>
-                            <input type="file" class=" form-control" id="main_img" name="main_img">
-                            <div class=" text-center">
-                            <img class="mt-3" src="{{ $apartment->main_img }}" alt=""
-                                style="max-width: 300px; max-height: 200px;">
-                            </div>
-                           
-                        </div>
+                       
 
                         <span class="h5">Seleziona i servizi:</span>
                         <div class="row w-100  mb-3" >
@@ -80,14 +89,7 @@
                             @endforeach
                         </div>
 
-                        <div class="mb-3">
-                            <label class="h5 py-3" for="address" class="form-label">Indirizzo dell'appartamento</label>
-                            
-                
-         
-                            <input type="text" class="form-control" id="address" name="address"
-                                value="{{ old('address', $apartment->address) }}" required>
-                        </div>
+                       
 
                         <div class="d-none">
                             <input type="text" id="latitude" name="latitude"
