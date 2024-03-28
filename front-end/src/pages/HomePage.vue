@@ -218,9 +218,6 @@ li {
   background-color: rgba(0, 0, 255, 0.1);
   border: 1px solid darkgrey;
 }
-.raggio {
-  width: 30%;
-}
 
 .container-fluid {
   position: relative;
@@ -240,22 +237,5 @@ h1 {
   color: white;
   font-size: 52px;
   font-weight: bold;
-}
-
-#sezione-ricerca {
-  padding: 20px;
-  border-radius: 20px;
-  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Aggiungi una transizione per un effetto più fluido */
-}
-
-#sezione-ricerca:hover {
-  background-color: rgba(
-    250,
-    235,
-    215,
-    0.7
-  ); /* Cambia leggermente il colore di sfondo */
-  transform: scale(1.02); /* Applica una leggera trasformazione di scala */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra sottile */
 }
 </style>
