@@ -56,8 +56,8 @@
           </div>
         </div> -->
 
-        <div class="col-md-5 offset-md-2 mt-5">
-
+        <div class="col-md-5 offset-md-3 mt-5">
+          
  <swiper
           :modules="modules"
           :slides-per-view="1"
@@ -69,6 +69,7 @@
           @slideChange="onSlideChange"
           
         >
+        
         <swiper-slide>
           <div class="card my-card">
             <!-- Immagine del profilo -->
@@ -78,11 +79,11 @@
               <!-- Nome e cognome -->
               <h5 class="card-title" style="color:#1c3a4a;">Domenico Forlano</h5>
               <!-- Professione -->
-              <p class="card-text" style="color:#1c3a4a;">Full Stack Web Developer</p>
+              <p class="card-text" style="color:#1c3a4a;">Jr Full Stack Web Developer</p>
               <!-- Profili social -->
               <ul class="list-inline">
                 <li class="list-inline-item"><a href="https://www.linkedin.com/in/domenico-forlano-4796bb1b4/"><i class="fa-brands fa-linkedin" style="color:#0077b5;"></i></a></li>
-                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-github"></i></a></li>
+                <li class="list-inline-item"><a href="https://github.com/Dome1992"><i class="fa-brands fa-github"></i></a></li>
               </ul>
             </div>
           </div>
@@ -98,11 +99,11 @@
               <!-- Nome e cognome -->
               <h5 class="card-title" style="color:#1c3a4a;">Tobia Rigon</h5>
               <!-- Professione -->
-              <p class="card-text" style="color:#1c3a4a;">Full Stack Web Developer</p>
+              <p class="card-text" style="color:#1c3a4a;">Jr Full Stack Web Developer</p>
               <!-- Profili social -->
               <ul class="list-inline">
                 <li class="list-inline-item"><a href="https://www.linkedin.com/in/tobia-rigon-ba0b051a2/"><i class="fa-brands fa-linkedin" style="color:#0077b5;"></i></a></li>
-                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-github"></i> </a></li>
+                <li class="list-inline-item"><a href="https://github.com/TobiaRigon"><i class="fa-brands fa-github"></i> </a></li>
               </ul>
             </div>
           </div>
@@ -117,11 +118,11 @@
               <!-- Nome e cognome -->
               <h5 class="card-title" style="color:#1c3a4a;">Giacomo Agave</h5>
               <!-- Professione -->
-              <p class="card-text" style="color:#1c3a4a;">Full Stack Web Developer</p>
+              <p class="card-text" style="color:#1c3a4a;">Jr Full Stack Web Developer</p>
               <!-- Profili social -->
               <ul class="list-inline">
                 <li class="list-inline-item"><a href="https://www.linkedin.com/in/giacomo-agave-01090b257/"><i class="fa-brands fa-linkedin" style="color:#0077b5;"></i></a></li>
-                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-github"></i> </a></li>
+                <li class="list-inline-item"><a href="https://github.com/Jack-170"><i class="fa-brands fa-github"></i> </a></li>
               </ul>
             </div>
           </div>
@@ -130,17 +131,17 @@
         <swiper-slide>
           <div class="card my-card">
             <!-- Immagine del profilo -->
-            <img src="../assets/images/FotoProfilo.jpeg" class="card-img-top" alt="Foto Profilo">
+            <img src="../assets/images/Gabr-DiRocco.jpg" class="card-img-top" alt="Foto Profilo">
 
             <div class="card-body my-card-body">
               <!-- Nome e cognome -->
               <h5 class="card-title" style="color:#1c3a4a;">Gabriele Di Rocco</h5>
               <!-- Professione -->
-              <p class="card-text" style="color:#1c3a4a;">Full Stack Web Developer</p>
+              <p class="card-text" style="color:#1c3a4a;">Jr Full Stack Web Developer</p>
               <!-- Profili social -->
               <ul class="list-inline">
                 <li class="list-inline-item"><a href="https://www.linkedin.com/in/gabriele-di-rocco-6858972b8/"><i class="fa-brands fa-linkedin" style="color:#0077b5;"></i></a></li>
-                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-github"></i> </a></li>
+                <li class="list-inline-item"><a href="https://github.com/Gdr0"><i class="fa-brands fa-github"></i> </a></li>
               </ul>
             </div>
           </div>
@@ -155,11 +156,11 @@
               <!-- Nome e cognome -->
               <h5 class="card-title" style="color:#1c3a4a;">Filippo Cafaro</h5>
               <!-- Professione -->
-              <p class="card-text" style="color:#1c3a4a;">Full Stack Web Developer</p>
+              <p class="card-text" style="color:#1c3a4a;">Jr Full Stack Web Developer</p>
               <!-- Profili social -->
               <ul class="list-inline">
                 <li class="list-inline-item"><a href="https://www.linkedin.com/in/filippo-cafaro-045aa0290/"><i class="fa-brands fa-linkedin" style="color:#0077b5;"></i></a></li>
-                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-github"></i> </a></li>
+                <li class="list-inline-item"><a href="https://github.com/FilippoDibe"><i class="fa-brands fa-github"></i> </a></li>
               </ul>
             </div>
           </div>
@@ -189,14 +190,29 @@
 .my-card {
   width: 300px; /* Larghezza desiderata */
   height: auto; /* Altezza automatica */
-  
+  overflow: hidden !important;
+  border-color: #1c8aff;
+ 
 }
+
 
 /* Stile della card-body */
 .my-card-body {
   background-color: #f8f9fa; /* Colore di sfondo */
   padding: 20px; /* Spaziatura interna */
   border-radius: 10px; /* Bordi arrotondati */
+}
+
+/* Stile per i link LinkedIn e GitHub */
+.my-card a i {
+  font-size: 22px;
+  transition: transform 0.3s ease; /* Aggiungiamo una transizione per l'effetto di ingrandimento */
+}
+
+/* Effetto hover per i link LinkedIn e GitHub */
+.my-card a i:hover {
+  transform: scale(1.3); /* Ingrandiamo il link del 20% al passaggio del mouse */
+  
 }
 
 i {
@@ -209,7 +225,7 @@ i {
 }
 .footer {
   background-color: #1c3a4a;
-  padding: 50px 0;
+  padding: 40px 0;
   
   font-family: 'Poppins', sans-serif; /* Cambio del font principale */
   font-size: 16px; /* Imposta la dimensione del carattere predefinita */
@@ -217,6 +233,8 @@ i {
   color: whitesmoke; /* Cambio del colore del testo principale */
 
 }
+
+
 
 a {
   color: whitesmoke; /* Colore predefinito per i link */
