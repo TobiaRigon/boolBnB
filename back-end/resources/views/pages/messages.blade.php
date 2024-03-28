@@ -35,14 +35,14 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <p><strong>From:</strong> {{ $message->sender_name }}
+                                            <p><strong>Da:</strong> {{ $message->sender_name }}
                                                 {{ $message->sender_surname }}</p>
                                             <p><strong>Email:</strong> {{ $message->sender_mail }}</p>
-                                            <p><strong>Date:</strong> {{ $message->date }}</p>
-                                            <p><strong>Message:</strong> {{ $message->sender_text }}</p>
+                                            <p><strong>Data:</strong> {{ $message->date->format('D-m-y H:i') }}</p>
+                                            <p><strong>Messaggio:</strong> {{ $message->sender_text }}</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn my_btn" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn my_btn" data-dismiss="modal">CHIUDI</button>
                                         </div>
                                     </div>
                                 </div>

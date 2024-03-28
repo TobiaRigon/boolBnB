@@ -26,6 +26,19 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="address" class="h5 form-label">Indirizzo dell'appartamento <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                value="{{ old('address') }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="main_img" class="h5 form-label">Immagine di copertina <span
+                                    class="text-danger">*</span>
+                                </label><br>
+                            <input class="my-3 "  type="file" name="main_img">
+                        </div>
+
+                        <div class="mb-3">
                             <label for="description" class="h5 form-label">Descrizione <span
                                     class="text-danger">*</span></label>
                             <textarea class="form-control" id="description" name="description" required>{{ old('description') }}</textarea>
@@ -69,19 +82,6 @@
                             @endforeach
                             </div>
                          
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="main_img" class="form-label">Immagine di copertina <span
-                                    class="text-danger">*</span>
-                                </label><br>
-                            <input class="my-3"  type="file" name="main_img">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Indirizzo dell'appartamento</label>
-                            <input type="text" class="form-control" id="address" name="address"
-                                value="{{ old('address') }}">
                         </div>
 
                         <div id="AutoComplete" class="card position-absolute w-100 radius d-none">
