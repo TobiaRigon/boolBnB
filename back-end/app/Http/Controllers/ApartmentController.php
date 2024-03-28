@@ -46,7 +46,7 @@ class ApartmentController extends Controller
         $messages = Message::where('apartment_id', $id)
                         ->orderBy('date', 'desc')
                         ->get();
-    
+
         return view('pages.messages', compact('apartment', 'messages'));
     }
 
@@ -218,7 +218,7 @@ class ApartmentController extends Controller
         $apartment->services()->detach();
     }
 
-    return redirect()->route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)])->with('success', 'Appartamento aggiornato con successo!');
+    return redirect()->route('dashboard', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)])->with('success', 'Appartamento aggiornato con successo!');
 }
 
     /**
