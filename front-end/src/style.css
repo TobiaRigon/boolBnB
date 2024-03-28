@@ -81,12 +81,12 @@ a:hover {
   color: white;
 }
 
-
+/* MOMENTANEAMENTE COMMENTATO */
 .card {
-  overflow: visible !important; /* Imposta l'overflow su "visible" */
+  overflow: visible !important; 
 }
 .card-container{
-  overflow: hidden; /* Imposta l'overflow su "visible" */
+  overflow: hidden; 
 }
 
 .sponsored-apartment {

@@ -201,6 +201,7 @@ export default {
       <!-- Appartamenti in evidenza -->
       <SponsoredApartments />
     </div>
+    <footer />
   </main>
 </template>
 
