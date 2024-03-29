@@ -32,7 +32,7 @@
                         <!-- immagine card -->
                         <img src="{{ asset($apartment->main_img) }}" class="card-img-top h-80" alt="...">
                         <h5 class="card-title">{{ $apartment->title }}</h5>
-                        <p class="card-text">{{ Str::limit($apartment->description) }}</p>
+                        <p class="card-text p-2">{{ Str::limit($apartment->description) }}</p>
 
 
                         <!-- tasti card -->
