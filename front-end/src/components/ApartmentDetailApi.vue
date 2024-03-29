@@ -107,5 +107,6 @@ export default {
   height: 100%;
   /* border-color: #63beec; */
   border: solid 2px #63beec;
+  overflow: hidden !important;
 }
 </style>

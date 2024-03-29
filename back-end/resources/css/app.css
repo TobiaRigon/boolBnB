@@ -76,13 +76,13 @@
 
   .my_btn{
     background-color: #63beec;
-    border-radius: 10px;
+    border-radius: 30px;
     color: white;
   }
   .my_btn:hover{
    
     background-color: #5cb2dd;
-    border-radius: 10px;
+    border-radius: 30px;
     color: white;
   }
   .my_btn a{
