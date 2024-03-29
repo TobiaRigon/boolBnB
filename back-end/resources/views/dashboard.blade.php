@@ -26,7 +26,7 @@
     <!-- Cards -->
         @foreach ($apartments as $apartment)
         <a href="{{ route('apartments.show', ['id' => $apartment->id, 'title' => Str::slug($apartment->title)]) }}">
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
                 <div class="card my_card my-3">
                     <div class="card-container text-center">
                         <!-- immagine card -->

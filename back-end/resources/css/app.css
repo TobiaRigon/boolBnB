@@ -32,18 +32,7 @@
   /* form:hover {
     box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
   } */
-  @keyframes pulse {
-    0% { border-color: #ccc; }
-    50% { border-color: #63beec; }
-    100% { border-color: #ccc; }
-  }
   
-  form:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
-    border-color: #ccc;
-    animation: pulse 2s infinite;
-    transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
-  }
 
   /* Imposta il font per gli elementi specifici */
   h1, h2, h3, h4, h5, h6 {
@@ -73,9 +62,14 @@
   }
 
   .card{
-    border-radius: 10px;
+    border-radius: 20px !important;
     box-shadow: none;
   }
+  .card-container{
+    border-radius: 20px;
+  }
+
+
   .card-img-top{
     border-radius: 10px;
   }

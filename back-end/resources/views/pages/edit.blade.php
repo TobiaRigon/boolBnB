@@ -35,6 +35,11 @@
                                 value="{{ old('address', $apartment->address) }}" required>
                         </div>
 
+                        <div id="AutoComplete" class="card p-2 position-absolute w-100 radius d-none">
+                            <ul class="list" style="cursor: pointer;">
+                            </ul>
+                        </div>
+
                         <div class="mb-3 ">
                             <label  for="main_img" class="h5 form-label">Immagine principale dell'appartamento</label>
                             <br>

@@ -27,7 +27,7 @@
                                         method="POST" class="apply-sponsor-form d-none"
                                         id="apply-sponsor-form-{{ $sponsor->id }}">
                                         @csrf
-                                        <select name="apartment_id" class="form-select mb-3">
+                                        <select name="apartment_id" class="form-select w-100 mb-3">
                                             <option value="">Seleziona un appartamento</option>
                                             @foreach ($userApartments as $apartment)
                                                 <option value="{{ $apartment->id }}">{{ $apartment->title }}</option>

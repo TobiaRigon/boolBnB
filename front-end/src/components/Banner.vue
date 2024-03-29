@@ -6,7 +6,7 @@ export default {
 
 <template>
   <div class="container text-center my-5">
-    <div class="row justify-content-center rounded bg-white shadow-lg">
+    <div class="row justify-content-center my_rounded bg-white shadow-lg">
       <div class="col-md-4">
         <div class="text-center p-4">
           <i class="fa-solid fa-earth-americas fa-3x"></i>
@@ -46,5 +46,7 @@ export default {
 </template>
 
 <style scoped>
-
+.my_rounded {
+  border-radius: 30px;
+}
 </style>

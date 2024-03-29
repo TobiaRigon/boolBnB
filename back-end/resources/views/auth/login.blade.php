@@ -65,7 +65,22 @@
 </form>
         </div>
 
+<style scoped>
 
+@keyframes pulse {
+    0% { border-color: #ccc; }
+    50% { border-color: #63beec; }
+    100% { border-color: #ccc; }
+  }
+  
+  form:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+    border-color: #ccc;
+    animation: pulse 2s infinite;
+    transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  }
+
+</style>
     
     
 </x-guest-layout>

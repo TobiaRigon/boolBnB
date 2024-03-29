@@ -30,6 +30,10 @@
                             <input type="text" class="form-control" id="address" name="address"
                                 value="{{ old('address') }}">
                         </div>
+                        <div id="AutoComplete" class="card p-2 position-absolute w-100 radius d-none">
+                            <ul class="list" style="cursor: pointer;">
+                            </ul>
+                        </div>
 
                         <div class="mb-3">
                             <label for="main_img" class="h5 form-label">Immagine di copertina <span
@@ -84,10 +88,7 @@
                          
                         </div>
 
-                        <div id="AutoComplete" class="card position-absolute w-100 radius d-none">
-                            <ul class="list" style="cursor: pointer;">
-                            </ul>
-                        </div>
+                        
 
                         <div class="d-none">
                             <input type="text" id="latitude" name="latitude" value="{{ old('latitude') }}">
@@ -195,6 +196,7 @@
         #AutoComplete ul li:hover {
             background-color: rgba(0, 0, 255, 0.1);
             border: 1px solid darkgrey;
+            
         }
 
         .btn-submit {
