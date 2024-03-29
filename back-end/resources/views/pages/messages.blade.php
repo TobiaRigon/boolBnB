@@ -24,30 +24,40 @@
                             </a>
 
                             <!-- Modale per i dettagli del messaggio -->
+                           
+
                             <div class="modal fade" id="messageModal{{ $message->id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="messageModalLabel{{ $message->id }}" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="messageModalLabel{{ $message->id }}">Dettagli
-                                                Messaggio</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p><strong>Da:</strong> {{ $message->sender_name }}
-                                                {{ $message->sender_surname }}</p>
-                                            <p><strong>Email:</strong> {{ $message->sender_mail }}</p>
-                                            <p><strong>Data:</strong> {{ $message->date->format('D-m-y H:i') }}</p>
-                                            <p><strong>Messaggio:</strong> {{ $message->sender_text }}</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn my_btn" data-dismiss="modal">CHIUDI</button>
-                                        </div>
-                                    </div>
-                                </div>
+                    aria-labelledby="messageModalLabel{{ $message->id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content rounded-lg shadow-sm bg-light"> <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title d-flex align-items-center">
+                            <i class="fas fa-envelope mr-2"></i> Dettagli Messaggio
+                            </h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body p-4">
+                            <div class="row">
+                            <div class="col-sm-3 text-center border-right border-light">
+                                <!-- <img src="{{ asset('images/avatar.png') }}" class="img-fluid rounded-circle mt-3 mb-2" alt="Avatar"> -->
+                                <p class="text-muted">{{ $message->sender_name }} {{ $message->sender_surname }}</p>
                             </div>
+                            <div class="col-sm-9">
+                                <p class="font-weight-bold mb-1">Dettagli messaggio:</p>
+                                <p><strong>Email:</strong> {{ $message->sender_mail }}</p>
+                                <p><strong>Data:</strong> {{ $message->date->format('D-m-y H:i') }}</p>
+                                <hr class="my-2">
+                                <p class="text-justify">{{ $message->sender_text }}</p> </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-white">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Chiudi</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
                         @endforeach
                     </ul>
                 </div>
@@ -85,7 +95,20 @@
                 margin-bottom: 10px;
                 transition: background-color 0.3s ease;
             }
-
+            /* Stile MODAL */
+            
+            /* .modal-header{
+                background-color:#1c3a4a;
+            }
+            .modal-footer{
+                background-color:#1c3a4a;
+            }
+            .modal-title{
+                color:white;
+            }
+            .close{
+                color:white;
+            } */
             a {
                 color: black;
                 text-decoration: none;
