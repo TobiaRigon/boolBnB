@@ -60,7 +60,7 @@
                                         <div class="details">
                                             <div class="data">
                                                 <p class="card-text text-center py-2">Scadenza della sponsorizzazione:
-                                                    {{ $sponsor->pivot->deadline }}</p>
+                                                    {{ date('d/m/Y H:i', strtotime($sponsor->pivot->deadline)) }}</p>
                                             </div>
                                         </div>
                                     @endforeach
