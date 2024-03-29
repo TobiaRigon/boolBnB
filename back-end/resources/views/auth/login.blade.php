@@ -8,7 +8,7 @@
 
 
 
-<form method="POST" action="{{ route('login') }}">
+<form method="POST" action="{{ route('login') }}" style="border: 2px solid #63beec; border-radius: 20px; padding:20px;">
     @csrf
 
 
@@ -65,6 +65,9 @@
 </form>
         </div>
 
+
     
     
 </x-guest-layout>
+
+
