@@ -45,7 +45,12 @@
             </div>
         </div>
     </div>
-
+    <div id="payment-confirmation" class="alert alert-success d-none" role="alert">
+        Pagamento avvenuto con successo!
+        <button type="button" class="close" aria-label="Close" onclick="closeConfirmationMessage();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="container mt-4">
         <div class="text-center">
             <h1 class="mb-5">I tuoi appartamenti sponsorizzati</h1>
@@ -76,6 +81,12 @@
     {{-- script per braintree --}}
     <script src="https://js.braintreegateway.com/web/dropin/1.31.0/js/dropin.min.js"></script>
     <script>
+        function closeConfirmationMessage() {
+            // Questa funzione aggiunge la classe 'd-none' per nascondere l'alert di conferma del pagamento.
+            // Viene attivata quando l'utente clicca sul pulsante di chiusura presente sull'alert di conferma del pagamento.
+            document.getElementById('payment-confirmation').classList.add('d-none');
+        }
+
         function showPaymentForm(sponsorId) {
             // Nasconde tutti i form di pagamento
             document.querySelectorAll('.apply-sponsor-form').forEach(function(form) {
@@ -117,6 +128,10 @@
                         nonceField.setAttribute('name', 'payment_method_nonce');
                         nonceField.setAttribute('value', payload.nonce);
                         formToShow.appendChild(nonceField);
+
+                        // Mostra il messaggio di conferma del pagamento.
+                        var confirmationMessage = document.getElementById('payment-confirmation');
+                        confirmationMessage.classList.remove('d-none');
 
                         // Disabilita il pulsante di invio e invia il modulo
                         submitButton.setAttribute('disabled', true);
