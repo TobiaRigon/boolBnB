@@ -18,7 +18,7 @@
     </div>
   </div>
   <!-- Form per inviare un messaggio al proprietario -->
-  <form @submit.prevent="sendMessage" v-if="!messageSent">
+  <form @submit.prevent="sendMessage" v-if="!messageSent" style="border: 2px solid #63beec; border-radius: 5px">
     <div class="mt-5">
       <h2 class="h3">Contatta il proprietario:</h2>
 
@@ -26,7 +26,7 @@
         <label for="sender_name" class="form-label">Nome</label>
         <input
           type="text"
-          class="form-control"
+          class="form-control "
           id="sender_name"
           v-model="newMessage.sender_name"
           required
@@ -37,7 +37,7 @@
         <label for="sender_surname" class="form-label">Cognome</label>
         <input
           type="text"
-          class="form-control"
+          class="form-control "
           id="sender_surname"
           v-model="newMessage.sender_surname"
           required
@@ -48,7 +48,7 @@
         <label for="sender_mail" class="form-label">Mail</label>
         <input
           type="text"
-          class="form-control"
+          class="form-control "
           id="sender_mail"
           v-model="newMessage.sender_mail"
           required
@@ -58,7 +58,7 @@
       <div class="mb-3">
         <label for="sender_text" class="form-label">Messaggio</label>
         <textarea
-          class="form-control"
+          class="form-control "
           id="sender_text"
           v-model="newMessage.sender_text"
           required
@@ -162,6 +162,17 @@ export default {
 </script>
 
 <style scoped>
+form{
+  
+  padding:20px;
+}
+
+.form-control {
+  max-width: unset !important; /* Rimuovi la larghezza massima impostata */
+  min-width: unset !important; /* Rimuovi la larghezza minima impostata */
+  width: 100%; /* Imposta la larghezza desiderata */
+}
+
 .my_btn {
   background-color: #63beec;
   border-radius: 10px;
@@ -183,5 +194,7 @@ export default {
 .my_card {
   max-width: 1000px;
   height: 100%;
+ 
+  
 }
 </style>
