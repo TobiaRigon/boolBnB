@@ -8,6 +8,7 @@
         <span class="text-sm text-gray-500">({{ count($messages) }} messaggi)</span>
     </x-slot>
     @section('content')
+    <main>
         <div class="container mt-4">
 
             <div class="row">
@@ -52,6 +53,7 @@
                 </div>
             </div>
         </div>
+    </main>
 
 
         <script>
@@ -65,8 +67,14 @@
 
 
         <style scoped>
+            main{
+                background-color:#1c3a4a;
+                border-radius:20px;
+                padding:10px;
+            }
             .card:hover {
-                border: 1px solid #63beec;
+                transform: scale(1.02); /* Aumento del 2% */
+                transition: transform 0.2s ease-in-out; /* Transizione di 0.2 secondi */
             }
 
             .message-preview {
@@ -90,12 +98,15 @@
 
             .message-preview:hover {
                 background-color: #cce5ff;
-                /* Cambia colore al passaggio del mouse */
+                
             }
 
             .message-preview p {
                 margin: 5px 0;
             }
+
+            
+
         </style>
     @endsection
 </x-app-layout>
