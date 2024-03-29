@@ -26,6 +26,15 @@
         <span class="active-filters-text mx-2 mt-3 mb-0">
           Filtri attivi: {{ activeFiltersCount }}
         </span>
+        <div class="active-filters-text mx-2 mt-3 mb-0">
+          <span
+            class="me-1"
+            v-for="(icon, index) in selectedServiceIcon"
+            :key="index"
+          >
+            <i :class="icon"></i>
+          </span>
+        </div>
       </div>
     </div>
 
@@ -123,6 +132,7 @@ export default {
       appartamentiFiltrati: [],
       showAutoComplete: true,
       activeFiltersCount: 0,
+      selectedServiceIcon: [],
     };
   },
   methods: {
@@ -215,7 +225,20 @@ export default {
       const selectedServiceIds = store.services
         .filter((servizio) => servizio.selected)
         .map((servizio) => servizio.id);
-
+      // nome servizi
+      // const serviceIcon = store.services
+      //   .filter((servizio) => servizio.selected)
+      //   .map((servizio) => servizio.icon);
+      // this.selectedServiceIcon = `<i :class="'fas ' + ${serviceIcon}"></i>`;
+      // console.log(serviceIcon);
+      const selectedServices = store.services.filter(
+        (servizio) => servizio.selected
+      );
+      const serviceIcons = selectedServices.map(
+        (servizio) => `'fas '  ${servizio.icon}`
+      );
+      this.selectedServiceIcon = serviceIcons;
+      console.log(this.selectedServiceIcon);
       // Costruisci l'oggetto dei parametri includendo tutti i filtri e la posizione
       const params = {
         letti: this.letti,
@@ -270,29 +293,27 @@ export default {
         this.activeFiltersCount++;
       }
     },
-      calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of the earth in km
+    calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Radius of the earth in km
 
-    const dLat = this.deg2rad(lat2 - lat1);
-    const dLon = this.deg2rad(lon2 - lon1);
+      const dLat = this.deg2rad(lat2 - lat1);
+      const dLon = this.deg2rad(lon2 - lon1);
 
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.deg2rad(lat1)) *
-        Math.cos(this.deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(this.deg2rad(lat1)) *
+          Math.cos(this.deg2rad(lat2)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    const distance = R * c;
+      const distance = R * c;
 
-    console.log("Distanza calcolata:", distance);
+      console.log("Distanza calcolata:", distance);
 
-    return distance;
-   
-  },
-
+      return distance;
+    },
   },
   mounted() {
     // Chiamiamo la funzione filtering() per applicare i filtri quando il componente viene montato
