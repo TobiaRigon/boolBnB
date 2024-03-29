@@ -18,7 +18,7 @@
     </div>
   </div>
   <!-- Form per inviare un messaggio al proprietario -->
-  <form @submit.prevent="sendMessage" v-if="!messageSent" style="border: 2px solid #63beec; border-radius: 5px">
+  <form @submit.prevent="sendMessage" v-if="!messageSent" style="border: 2px solid #63beec; border-radius: 20px">
     <div class="mt-5">
       <h2 class="h3">Contatta il proprietario:</h2>
 
@@ -162,15 +162,15 @@ export default {
 </script>
 
 <style scoped>
-form{
-  
+/* form{
+ 
   padding:20px;
 }
 
 .form-control {
-  max-width: unset !important; /* Rimuovi la larghezza massima impostata */
-  min-width: unset !important; /* Rimuovi la larghezza minima impostata */
-  width: 100%; /* Imposta la larghezza desiderata */
+  max-width: unset !important; 
+  min-width: unset !important; 
+  width: 100%; 
 }
 
 .my_btn {
@@ -195,6 +195,52 @@ form{
   max-width: 1000px;
   height: 100%;
  
-  
+} */
+
+form {
+  padding: 20px;
+  box-shadow: 0 0 7px #5cb2dd;
+  border-radius: 5px; /* Angoli arrotondati per il modulo */
 }
+
+.form-control {
+  max-width: unset !important;
+  min-width: unset !important;
+  width: 100%;
+  border: 1px solid #ccc; /* Bordo sottile per i campi di input */
+  background-color: #fff; /* Colore di sfondo chiaro per i campi di input */
+  padding: 10px;
+  border-radius: 5px; /* Angoli arrotondati per i campi di input */
+}
+
+.my_btn {
+  background-color: #63beec;
+  border: none; /* Rimuovi il bordo dal pulsante */
+  border-radius: 10px;
+  color: white;
+  padding: 10px 20px;
+  transition: all 0.3s ease-in-out; /* Transizione fluida al passaggio del mouse */
+}
+
+.my_btn:hover {
+  background-color: #4caf50; /* Tonalità verde al passaggio del mouse con sfumatura */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* Ombra sottile al passaggio del mouse */
+}
+
+.my_btn a {
+  color: white;
+}
+
+.my_btn a:hover {
+  color: white;
+}
+
+.my_card {
+  max-width: 1000px;
+  height: 100%;
+  background-color: #fff; /* Colore di sfondo bianco per la scheda */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombra della casella sottile per la scheda */
+  border-radius: 5px; /* Angoli arrotondati per la scheda */
+}
+
 </style>
