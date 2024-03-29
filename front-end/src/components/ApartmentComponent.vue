@@ -2,6 +2,13 @@
 export default {
   name: "ApartmentComponent",
   props: ["store", "formattedPath", "getImageUrl"],
+  computed: {
+    sortedApartments() {
+      // Supponendo che `in_evidence` sia un booleano o un numero (0 o 1)
+      // che indica se l'appartamento è sponsorizzato
+      return this.store.filteredApartments.sort((a, b) => b.in_evidence - a.in_evidence);
+    }
+  }
 };
 </script>
 
@@ -9,11 +16,11 @@ export default {
   <div class="container">
     <div class="row">
       <div>
-        <h5>Appartamenti Trovati: {{ store.filteredApartments.length }}</h5>
+        <h5>Appartamenti Trovati: {{ sortedApartments.length }}</h5>
       </div>
       <div
         class="col-lg-3 col-md-6"
-        v-for="apartment in store.filteredApartments"
+        v-for="apartment in sortedApartments"
         :key="apartment.id"
       >
         <router-link
@@ -31,10 +38,7 @@ export default {
               <h5 class="card-title">{{ apartment.title }}</h5>
               <p class="card-text">{{ apartment.description }}</p>
               <p class="card-text">
-                <small
-                  ><i class="fa-solid fa-person-walking-arrow-right"></i>
-                  {{ apartment.distance }} km</small
-                >
+                <small><i class="fa-solid fa-person-walking-arrow-right"></i> {{ apartment.distance }} km</small>
               </p>
             </div>
           </div>
@@ -43,6 +47,7 @@ export default {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .card {
