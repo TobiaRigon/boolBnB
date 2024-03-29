@@ -1,17 +1,3 @@
-<script>
-export default {
-  name: "ApartmentComponent",
-  props: ["store", "formattedPath", "getImageUrl"],
-  computed: {
-    sortedApartments() {
-      // Supponendo che `in_evidence` sia un booleano o un numero (0 o 1)
-      // che indica se l'appartamento è sponsorizzato
-      return this.store.filteredApartments.sort((a, b) => b.in_evidence - a.in_evidence);
-    }
-  }
-};
-</script>
-
 <template>
   <div class="container">
     <div class="row">
@@ -38,7 +24,7 @@ export default {
               <h5 class="card-title">{{ apartment.title }}</h5>
               <p class="card-text">{{ apartment.description }}</p>
               <p class="card-text">
-                <small><i class="fa-solid fa-person-walking-arrow-right"></i> {{ apartment.distance }} km</small>
+                <small v-if="apartment.distance !== undefined && !isNaN(apartment.distance)"><i class="fa-solid fa-person-walking-arrow-right"></i> {{ formatDistance(apartment.distance) }} km</small>
               </p>
             </div>
           </div>
@@ -48,6 +34,25 @@ export default {
   </div>
 </template>
 
+<script>
+export default {
+  name: "ApartmentComponent",
+  props: ["store", "formattedPath", "getImageUrl"],
+  computed: {
+    sortedApartments() {
+      return this.store.filteredApartments.sort((a, b) => b.in_evidence - a.in_evidence);
+    }
+  },
+  methods: {
+    formatDistance(distance) {
+      if (distance === undefined || isNaN(distance)) {
+        return ''; // Restituisci una stringa vuota se la distanza non è definita o non è un numero
+      }
+      return parseFloat(distance).toFixed(1);
+    }
+  }
+};
+</script>
 
 <style scoped>
 .card {

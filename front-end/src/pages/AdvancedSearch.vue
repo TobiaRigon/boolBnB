@@ -234,15 +234,15 @@ export default {
         })
         .then((res) => {
           // Calcola la distanza per ciascun appartamento nella risposta
-          res.data.forEach((apartment) => {
-            const distance = this.calculateDistance(
-              apartment.latitude,
-              apartment.longitude,
-              store.lat,
-              store.lon
-            );
-            apartment.distance = distance;
-          });
+          // res.data.forEach((apartment) => {
+          //   const distance = this.calculateDistance(
+          //     apartment.latitude,
+          //     apartment.longitude,
+          //     store.lat,
+          //     store.lon
+          //   );
+          //   apartment.distance = distance;
+          // });
 
           store.filteredApartments = res.data;
           // Gestisci la risposta qui
@@ -270,29 +270,29 @@ export default {
         this.activeFiltersCount++;
       }
     },
-    calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371; // Radius of the earth in km
+      calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the earth in km
 
-      const dLat = this.deg2rad(lat2 - lat1);
-      const dLon = this.deg2rad(lon2 - lon1);
+    const dLat = this.deg2rad(lat2 - lat1);
+    const dLon = this.deg2rad(lon2 - lon1);
 
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(this.deg2rad(lat1)) *
-          Math.cos(this.deg2rad(lat2)) *
-          Math.sin(dLon / 2) *
-          Math.sin(dLon / 2);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(lat1)) *
+        Math.cos(this.deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
 
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-      const distance = Math.ceil(R * c); // Round up to the nearest integer
+    const distance = R * c;
 
-      return distance;
-    },
+    console.log("Distanza calcolata:", distance);
 
-    deg2rad(deg) {
-      return deg * (Math.PI / 180);
-    },
+    return distance;
+   
+  },
+
   },
   mounted() {
     // Chiamiamo la funzione filtering() per applicare i filtri quando il componente viene montato
