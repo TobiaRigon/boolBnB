@@ -95,7 +95,8 @@ class ApiController extends Controller
         }
     
         // Esegui la query e ottieni gli appartamenti filtrati
-        $filteredApartments = $query->get();
+        $filteredApartments = $query->with('services')->get();
+
         
         // Restituisci in JSON i risultati del filtraggio
         return response()->json($filteredApartments);
