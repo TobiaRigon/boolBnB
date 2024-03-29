@@ -12,16 +12,21 @@
         :showAutoComplete="showAutoComplete"
         :AutoMenu="AutoMenu"
       />
-      <!-- Bottone per aprire l'off-canvas per i filtri -->
-      <button
-        class="my_btn btn my-3"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#filtersSidebar"
-        aria-controls="filtersSidebar"
-      >
-        Filtri
-      </button>
+      <div>
+        <!-- Bottone per aprire l'off-canvas per i filtri -->
+        <button
+          class="my_btn btn my-3"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#filtersSidebar"
+          aria-controls="filtersSidebar"
+        >
+          Filtri
+        </button>
+        <span class="active-filters-text mx-2 mt-3 mb-0">
+          Filtri attivi: {{ activeFiltersCount }}
+        </span>
+      </div>
     </div>
 
     <!-- Off-canvas per i filtri -->
@@ -117,6 +122,7 @@ export default {
       research: [],
       appartamentiFiltrati: [],
       showAutoComplete: true,
+      activeFiltersCount: 0,
     };
   },
   methods: {
@@ -250,6 +256,19 @@ export default {
         });
       store.findApartment = "";
       this.showAutoComplete = true;
+
+      // Calcola il numero di filtri attivi
+      this.activeFiltersCount = store.services.filter(
+        (servizio) => servizio.selected
+      ).length;
+
+      // Aggiungi il conteggio dei filtri per stanze e letti
+      if (this.letti) {
+        this.activeFiltersCount++;
+      }
+      if (this.stanze) {
+        this.activeFiltersCount++;
+      }
     },
     calculateDistance(lat1, lon1, lat2, lon2) {
       const R = 6371; // Radius of the earth in km
@@ -276,18 +295,18 @@ export default {
     },
   },
   mounted() {
-  // Chiamiamo la funzione filtering() per applicare i filtri quando il componente viene montato
-  this.filtering();
+    // Chiamiamo la funzione filtering() per applicare i filtri quando il componente viene montato
+    this.filtering();
 
-  axios
-    .get("http://127.0.0.1:8000/api/apartmentApi/services")
-    .then((res) => {
-      store.services = res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-},
+    axios
+      .get("http://127.0.0.1:8000/api/apartmentApi/services")
+      .then((res) => {
+        store.services = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 };
 </script>
 
