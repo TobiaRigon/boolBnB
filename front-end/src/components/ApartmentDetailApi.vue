@@ -108,5 +108,6 @@ export default {
   /* border-color: #63beec; */
   border: solid 2px #63beec;
   overflow: hidden !important;
+  box-shadow: 0 0 7px #5cb2dd;
 }
 </style>
