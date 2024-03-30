@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('apartment_id')->constrained('apartments')->onDelete('cascade');
         });
           // relazione 1 a molti views / apartment
-          Schema::table('views', function (Blueprint $table){
+          Schema::table('statistics', function (Blueprint $table){
             $table->foreignId('apartment_id')->constrained('apartments')->onDelete('cascade');
         });
            // relazione 1 a molti messages / apartment
@@ -70,7 +70,7 @@ return new class extends Migration
         });
          // relazione 1 a molti views / apartment
 
-         Schema::table('views', function (Blueprint $table){
+         Schema::table('statistics', function (Blueprint $table){
             $table->dropForeign(['apartment_id']);
             $table->dropColumn('apartment_id');
         });
