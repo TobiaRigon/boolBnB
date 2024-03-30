@@ -18,29 +18,33 @@ class StatisticTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        // Check if there are any apartments available
-        $apartmentsCount = Apartment::count();
 
-        if ($apartmentsCount === 0) {
-            // Handle the case where there are no apartments
-            // You can choose to throw an exception, log a message, or handle it in any way you prefer
-            return;
-        }
+        $apartments = Apartment::all();
 
-        for ($i = 0; $i < 5000; $i++) {
-            // Fetch a random apartment ID
-            $apartment_id = Apartment::inRandomOrder()->first()->id;
+        foreach ($apartments as $apartment) {
 
-            // Generate statistic data
-            $statistic = [
-                "apartment_id" => $apartment_id,
-                "ip_address" => $faker->ipv4(),
-                "date" => $faker->dateTimeBetween('-4 months', '-1 days')->format('Y-m-d H:i:s'),
-                "created_at" => $faker->dateTimeBetween('-4 months', '-1 days')
-            ];
+            $totalStatistics = rand(100, 500);
 
-            // Create statistic record
-            Statistic::create($statistic);
+            for ($month = 1; $month <= 12; $month++) {
+
+                $statisticsForMonth = rand(0, 50);
+
+                $statisticsForMonth = min($statisticsForMonth, $totalStatistics);
+
+                $totalStatistics -= $statisticsForMonth;
+
+                for ($i = 0; $i < $statisticsForMonth; $i++) {
+
+                    $statistic = [
+                        "apartment_id" => $apartment->id,
+                        "ip_address" => $faker->ipv4(),
+                        "date" => $faker->dateTimeBetween("-$month months", "-$month months")->format('Y-m-d H:i:s'),
+                        "created_at" => $faker->dateTimeBetween("-$month months", "-$month months")
+                    ];
+
+                    Statistic::create($statistic);
+                }
+            }
         }
     }
 }
