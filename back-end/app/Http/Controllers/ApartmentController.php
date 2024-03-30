@@ -53,10 +53,26 @@ class ApartmentController extends Controller
     public function statistics()
     {
         $user = auth()->user();
-        $apartments = $user->apartments; // Ottieni gli appartamenti dell'utente
-        // Restituisci la vista delle statistiche degli appartamenti dell'utente
-        return view('pages.statistics', compact('apartments'));
+        $apartments = $user->apartments;
+
+        // Calcola le visualizzazioni mensili per ogni appartamento
+        $monthlyViews = [];
+        foreach ($apartments as $apartment) {
+            foreach ($apartment->statistics as $statistic) {
+                $month = date('F', strtotime($statistic->date));
+                $monthlyViews[$month] = isset($monthlyViews[$month]) ? $monthlyViews[$month] + 1 : 1;
+            }
+        }
+
+        // Ordina i dati mensili per mese
+        ksort($monthlyViews);
+
+        $monthlyLabels = array_keys($monthlyViews);
+        $monthlyData = array_values($monthlyViews);
+
+        return view('pages.statistics', compact('apartments', 'monthlyLabels', 'monthlyData'));
     }
+
 
     /**
      * Show the form for creating a new resource.
