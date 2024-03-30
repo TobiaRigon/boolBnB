@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests\StoreApartmentRequest;
 use App\Http\Requests\UpdateApartmentRequest;
@@ -51,27 +52,30 @@ class ApartmentController extends Controller
     }
 
     public function statistics()
-    {
-        $user = auth()->user();
-        $apartments = $user->apartments;
+{
+    $user = auth()->user();
+    $apartments = $user->apartments;
 
-        // Calcola le visualizzazioni mensili per ogni appartamento
-        $monthlyViews = [];
-        foreach ($apartments as $apartment) {
-            foreach ($apartment->statistics as $statistic) {
-                $month = date('F', strtotime($statistic->date));
-                $monthlyViews[$month] = isset($monthlyViews[$month]) ? $monthlyViews[$month] + 1 : 1;
-            }
+    // Array associativo per tenere traccia delle visualizzazioni mensili per ogni appartamento
+    $monthlyViews = [];
+
+    // Calcola le visualizzazioni mensili per ogni appartamento
+    foreach ($apartments as $apartment) {
+        // Ottieni le statistiche mensili raggruppate per mese per questo appartamento
+        $monthlyStatistics = $apartment->statistics()
+            ->select(DB::raw('YEAR(date) as year'), DB::raw('MONTH(date) as month'), DB::raw('COUNT(*) as views'))
+            ->groupBy('year', 'month')
+            ->get();
+
+        // Itera sulle statistiche mensili e aggiungi le visualizzazioni per ogni mese all'array $monthlyViews
+        foreach ($monthlyStatistics as $statistic) {
+            $yearMonth = date('F Y', mktime(0, 0, 0, $statistic->month, 1, $statistic->year)); // Formatta il mese e l'anno
+            $monthlyViews[$apartment->id][$yearMonth] = $statistic->views;
         }
-
-        // Ordina i dati mensili per mese
-        ksort($monthlyViews);
-
-        $monthlyLabels = array_keys($monthlyViews);
-        $monthlyData = array_values($monthlyViews);
-
-        return view('pages.statistics', compact('apartments', 'monthlyLabels', 'monthlyData'));
     }
+
+    return view('pages.statistics', compact('apartments', 'monthlyViews'));
+}
 
 
     /**
