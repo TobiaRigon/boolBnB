@@ -50,6 +50,14 @@ class ApartmentController extends Controller
         return view('pages.messages', compact('apartment', 'messages'));
     }
 
+    public function statistics()
+    {
+        $user = auth()->user();
+        $apartments = $user->apartments; // Ottieni gli appartamenti dell'utente
+        // Restituisci la vista delle statistiche degli appartamenti dell'utente
+        return view('pages.statistics', compact('apartments'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

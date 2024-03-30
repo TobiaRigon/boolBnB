@@ -67,6 +67,10 @@ Route::middleware('auth')->group(function () {
      Route::get('/messages/{id}', [ApartmentController::class, 'showMessages'])->name('pages.messages');
      Route::get('/message/{id}', [MessageController::class, 'show'])->name('message.show');
 
+    // visualizzazione stats
+    Route::get('/statistics', [ApartmentController::class, 'statistics'])->name('dashboard.statistics');
+
+
 });
 
 require __DIR__.'/auth.php';
