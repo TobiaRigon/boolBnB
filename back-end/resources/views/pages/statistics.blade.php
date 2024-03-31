@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body">
                         @if ($apartment->statistics->count() > 0)
-                            <p>Numero totale di visite: {{ $apartment->statistics->count() }}</p>
+                            <p>Numero totale di visite: {{ $apartment->statistics->count() }} <i class="fa-solid fa-eye"></i></p>
                             <canvas id="monthlyViewsChart_{{ $apartment->id }}" width="400" height="200"></canvas>
                         @else
                             <p>Nessuna statistica disponibile</p>
