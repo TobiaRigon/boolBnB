@@ -1,6 +1,8 @@
 <template>
   <main>
-    <div class="container-fluid my_container d-flex flex-column align-items-center">
+    <div
+      class="container-fluid my_container d-flex flex-column align-items-center"
+    >
       <Searchbar
         class="searchbar"
         :store="store"
@@ -24,6 +26,15 @@
         <span class="active-filters-text mx-2 mt-3 mb-0">
           Filtri attivi: {{ activeFiltersCount }}
         </span>
+        <span class="active-filters-text mx-2 mt-3 mb-0">
+          <span
+            class="me-2"
+            v-for="(icon, index) in selectedServiceIcons"
+            :key="index"
+          >
+            <i :class="icon"></i>
+          </span>
+        </span>
       </div>
     </div>
 
@@ -41,7 +52,7 @@
       <div class="offcanvas-body">
         <!-- Pulsante per visualizzare i servizi -->
         <button class="my_btn btn my-3" @click="showServices">Servizi</button>
-        
+
         <!-- Contenitore per i servizi -->
         <div v-if="showServicesContent">
           <div class="container mt-3">
@@ -62,7 +73,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Altri filtri come il range e input per letti e stanze -->
         <div class="container mt-5">
           <div class="row">
@@ -76,7 +87,9 @@
                 v-model="store.radius"
                 @input="filtering()"
               />
-              <span class="input-group-text kilometri">{{ store.radius }} km</span>
+              <span class="input-group-text kilometri"
+                >{{ store.radius }} km</span
+              >
             </div>
             <div class="my-3">
               <span class="me-2">Letti</span>
@@ -98,7 +111,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Sezione per i risultati degli appartamenti -->
     <ApartmentComponent
       :store="store"
@@ -130,6 +143,7 @@ export default {
       showAutoComplete: true,
       activeFiltersCount: 0,
       showServicesContent: false, // Per controllare la visibilità dei servizi
+      selectedServiceIcons: [],
     };
   },
   methods: {
@@ -202,6 +216,15 @@ export default {
         .filter((servizio) => servizio.selected)
         .map((servizio) => servizio.id);
 
+      const selectedServices = store.services.filter(
+        (servizio) => servizio.selected
+      );
+      const serviceIcons = selectedServices.map(
+        (servizio) => `fas ${servizio.icon}`
+      );
+      this.selectedServiceIcons = serviceIcons;
+      console.log(this.selectedServiceIcons);
+
       const params = {
         letti: this.letti,
         stanze: this.stanze,
@@ -263,7 +286,7 @@ export default {
     // Metodo per mostrare/nascondere i servizi
     showServices() {
       this.showServicesContent = !this.showServicesContent;
-    }
+    },
   },
   mounted() {
     this.filtering();
@@ -292,7 +315,7 @@ export default {
 
 .apartments-in-evidence {
   width: 90%;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 li {
