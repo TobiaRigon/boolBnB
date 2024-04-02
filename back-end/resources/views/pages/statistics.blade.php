@@ -54,4 +54,10 @@
     @endif
 @endforeach
 
+<style>
+    .fa-solid.fa-eye{
+        color: #63beec;
+    }
+</style>
+
 @endsection
