@@ -11,22 +11,11 @@ export default {
         <div class="text-center p-4">
           <i class="fa-solid fa-earth-americas fa-3x"></i>
           <h5 class="font-weight-bold mt-4 mb-3">
-            Trova l'ispirazione per il tuo viaggio
+            Trova i migliori appartamenti in affitto
           </h5>
           <p class="mb-4 text-muted">
-            Sfoglia case vacanza, chalet, case al mare, appartamenti, condomini,
-            case galleggianti, castelli, agriturismi e tutto il resto.
-          </p>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="text-center p-4">
-          <i class="fa-solid fa-user-check fa-3x"></i>
-          <h5 class="mt-4 mb-3">Scopri milioni di offerte</h5>
-          <p class="mb-4 text-muted">
-            Trova e confronta offerte uniche da migliaia di partner fidati.
-            BoolBnB ha la più vasta selezione di case vacanza in tutto il mondo.
+            Utilizza la nostra ricerca geografica e i filtri avanzati per
+            trovare l'appartamento perfetto per le tue esigenze di affitto.
           </p>
         </div>
       </div>
@@ -34,10 +23,24 @@ export default {
       <div class="col-md-4">
         <div class="text-center p-4">
           <i class="fa-solid fa-house fa-3x"></i>
-          <h5 class="mt-4 mb-3">Prenota l'alloggio perfetto</h5>
+
+          <h5 class="mt-4 mb-3">
+            Fatti ispirare dagli appartamenti consigliati
+          </h5>
           <p class="mb-4 text-muted">
-            Con BoolBnB è facile e veloce prenotare la sistemazione giusta per
-            qualsiasi viaggio, indipendentemente dal tuo budget.
+            Sfoglia le nostre selezioni curate di appartamenti in affitto e
+            lasciati ispirare per il tuo prossimo soggiorno.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="text-center p-4">
+          <i class="fa-solid fa-user-check fa-3x"></i>
+          <h5 class="mt-4 mb-3">Contatta direttamente il proprietario</h5>
+          <p class="mb-4 text-muted">
+            Contatta direttamente i proprietari degli appartamenti senza
+            mediazioni, rendendo il processo di affitto diretto e trasparente.
           </p>
         </div>
       </div>
