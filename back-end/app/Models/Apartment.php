@@ -20,9 +20,9 @@ class Apartment extends Model
         {
             return $this -> hasMany(Gallery::class);
         }
-    public function views ()
+    public function statistics()
         {
-            return $this -> hasMany(View::class);
+            return $this -> hasMany(Statistic::class);
         }
     public function messages ()
         {

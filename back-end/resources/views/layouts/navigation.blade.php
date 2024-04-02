@@ -1,14 +1,14 @@
 <nav x-data="{ open: false }" class="navbar navbar-expand-lg  ">
     <!-- Primary Navigation Menu -->
     <div class="container-fluid pt-3 align-items-start">
-        
+
     <ul class="navbar-nav mr-auto " >
                  <li class="nav-item">
                     <a class="navbar-brand" href="http://localhost:5173/#/">
                     <!-- Logo -->
                     <svg class="logo" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 x="0px" y="0px" viewBox="0 0 100 82.3" style="enable-background:new 0 0 100 82.3;" xml:space="preserve">
-                            
+
                         <style type="text/css">
                             .st0{fill:#64BEEC;}
                             .st1{fill:#1D3A4A;}
@@ -88,7 +88,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                 </li>
-                
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('dashboard.statistics') }}">Statistiche Appartamenti</a>
+                </li>
+
             </ul>
             <ul class="navbar-nav ml-auto ">
                 @auth

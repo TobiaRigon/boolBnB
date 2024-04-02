@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             ApartmentTableSeeder::class,
             GalleryTableSeeder::class,
             MessageTableSeeder::class,
-            ViewTableSeeder::class,
+            StatisticTableSeeder::class,
 
             ServiceTableSeeder::class,
             ApartmentServiceTableSeeder::class,
