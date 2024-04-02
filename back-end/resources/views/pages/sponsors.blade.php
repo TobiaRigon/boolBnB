@@ -20,7 +20,7 @@
                                         </div>
                                     </div>
                                     <!-- Button per mostrare il form di pagamento -->
-                                    <button class="btn btn-primary btn-block mt-3"
+                                    <button class="btn  btn-block mt-3"
                                         onclick="showPaymentForm({{ $sponsor->id }})">Sponsorizza</button>
                                     <!-- Form per la selezione dell'appartamento e il pagamento Braintree (inizialmente nascosto) -->
                                     <form action="{{ route('applySponsor', ['sponsor_id' => $sponsor->id]) }}"
@@ -35,7 +35,7 @@
                                         </select>
                                         <!-- Contenitore per il form di pagamento Braintree -->
                                         <div id="dropin-container-{{ $sponsor->id }}"></div>
-                                        <button type="submit" class="btn btn-primary btn-block mt-3">Paga</button>
+                                        <button type="submit" class="btn  btn-block mt-3">Paga</button>
                                     </form>
                                 </div>
                             </div>
@@ -153,23 +153,20 @@
             }
 
             .card-title {
-                color: #007bff;
+                color: #63beec;
             }
 
-            .bronze {
-                background-color: #cd7f32;
-                /* colore bronzo */
+            .btn {
+                color: #ffffff; /* Testo bianco */
+                background-color: #63beec; /* Colore di sfondo */
+                border-color: #63beec; /* Colore del bordo */
             }
 
-            .silver {
-                background-color: #c0c0c0;
-                /* colore argento */
+            .btn-custom-color:hover {
+                background-color: #5aa8d8; /* Cambia il colore di sfondo al passaggio del mouse */
+                border-color: #5aa8d8; /* Cambia il colore del bordo al passaggio del mouse */
             }
 
-            .gold {
-                background-color: #ffd700;
-                /* colore oro */
-            }
         }
     </style>
 @endsection
