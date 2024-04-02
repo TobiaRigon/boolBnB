@@ -210,7 +210,6 @@ li {
   list-style: none;
 }
 
-
 #AutoComplete ul li:hover {
   background-color: rgba(0, 0, 255, 0.1);
   border: 1px solid darkgrey;
@@ -232,7 +231,7 @@ li {
 
 h1 {
   color: white;
-  font-size: 52px;
+  font-size: 48px;
   font-weight: bold;
 }
 </style>
