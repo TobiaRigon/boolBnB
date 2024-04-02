@@ -1,8 +1,6 @@
 <template>
   <main>
-    <div
-      class="container-fluid my_container d-flex flex-column align-items-center"
-    >
+    <div class="container-fluid my_container d-flex flex-column align-items-center">
       <Searchbar
         class="searchbar"
         :store="store"
@@ -13,7 +11,7 @@
         :AutoMenu="AutoMenu"
       />
       <div>
-        <!-- Bottone per aprire l'off-canvas per i filtri -->
+        <!-- Pulsante per aprire l'off-canvas per i filtri -->
         <button
           class="my_btn btn my-3"
           type="button"
@@ -26,15 +24,6 @@
         <span class="active-filters-text mx-2 mt-3 mb-0">
           Filtri attivi: {{ activeFiltersCount }}
         </span>
-        <div class="active-filters-text mx-2 mt-3 mb-0">
-          <span
-            class="me-1"
-            v-for="(icon, index) in selectedServiceIcon"
-            :key="index"
-          >
-            <i :class="icon"></i>
-          </span>
-        </div>
       </div>
     </div>
 
@@ -50,23 +39,31 @@
         ></button>
       </div>
       <div class="offcanvas-body">
-        <div class="container mt-3">
-          <div class="row">
-            <div
-              v-for="servizio in store.services"
-              :key="servizio.id"
-              class="ms-4 mb-1"
-            >
-              <input
-                class="my_checkbox"
-                type="checkbox"
-                v-model="servizio.selected"
-                @change="filtering(servizio.id)"
-              />
-              <label class="ms-2">{{ servizio.name }}</label>
+        <!-- Pulsante per visualizzare i servizi -->
+        <button class="my_btn btn my-3" @click="showServices">Servizi</button>
+        
+        <!-- Contenitore per i servizi -->
+        <div v-if="showServicesContent">
+          <div class="container mt-3">
+            <div class="row">
+              <div
+                v-for="servizio in store.services"
+                :key="servizio.id"
+                class="ms-4 mb-1"
+              >
+                <input
+                  class="my_checkbox"
+                  type="checkbox"
+                  v-model="servizio.selected"
+                  @change="filtering(servizio.id)"
+                />
+                <label class="ms-2">{{ servizio.name }}</label>
+              </div>
             </div>
           </div>
         </div>
+        
+        <!-- Altri filtri come il range e input per letti e stanze -->
         <div class="container mt-5">
           <div class="row">
             <div class="input-group mb-3">
@@ -79,9 +76,7 @@
                 v-model="store.radius"
                 @input="filtering()"
               />
-              <span class="input-group-text kilometri"
-                >{{ store.radius }} km</span
-              >
+              <span class="input-group-text kilometri">{{ store.radius }} km</span>
             </div>
             <div class="my-3">
               <span class="me-2">Letti</span>
@@ -103,6 +98,7 @@
         </div>
       </div>
     </div>
+    
     <!-- Sezione per i risultati degli appartamenti -->
     <ApartmentComponent
       :store="store"
@@ -117,6 +113,7 @@ import axios from "axios";
 import { store } from "../store";
 import ApartmentComponent from "../components/ApartmentComponent.vue";
 import Searchbar from "../components/Searchbar.vue";
+
 export default {
   name: "search",
   components: {
@@ -132,7 +129,7 @@ export default {
       appartamentiFiltrati: [],
       showAutoComplete: true,
       activeFiltersCount: 0,
-      selectedServiceIcon: [],
+      showServicesContent: false, // Per controllare la visibilità dei servizi
     };
   },
   methods: {
@@ -151,13 +148,10 @@ export default {
         });
     },
     getImageUrl(imagePath) {
-      // Verifica se il percorso restituito dal backend include il prefisso "storage"
       if (imagePath.startsWith("storage")) {
-        // Costruisci il percorso completo utilizzando il percorso di base del server Laravel
-        const baseUrl = "http://127.0.0.1:8000"; // Sostituisci con il tuo URL effettivo se diverso
+        const baseUrl = "http://127.0.0.1:8000";
         return `${baseUrl}/${imagePath}`;
       } else {
-        // Se il percorso non include "storage", restituisci direttamente il percorso
         return imagePath;
       }
     },
@@ -170,7 +164,6 @@ export default {
     },
 
     search() {
-      // Esegui il filtraggio solo se l'area è stata selezionata
       if (!store.findApartment.trim()) {
         this.getAllApartments();
         console.log(this.getAllApartments);
@@ -192,22 +185,6 @@ export default {
             error
           );
         });
-
-      // if (store.filteredApartments === 0) {
-      //   axios
-      //     .get("http://127.0.0.1:8000/api/apartmentApi/apartments")
-      //     .then((response) => {
-      //       store.filteredApartments = response.data.sort(
-      //         (a, b) => b.in_evidence - a.in_evidence
-      //       );
-      //     })
-      //     .catch((error) => {
-      //       console.error(
-      //         "Errore durante il recupero degli appartamenti:",
-      //         error
-      //       );
-      //     });
-      // }
     },
     formattedPath(apartment) {
       const titleFormatted = apartment.title.toLowerCase().replace(/\s+/g, "-");
@@ -221,54 +198,25 @@ export default {
         this.stanze = 1;
       }
 
-      // Ottieni i filtri selezionati
       const selectedServiceIds = store.services
         .filter((servizio) => servizio.selected)
         .map((servizio) => servizio.id);
-      // nome servizi
-      // const serviceIcon = store.services
-      //   .filter((servizio) => servizio.selected)
-      //   .map((servizio) => servizio.icon);
-      // this.selectedServiceIcon = `<i :class="'fas ' + ${serviceIcon}"></i>`;
-      // console.log(serviceIcon);
-      const selectedServices = store.services.filter(
-        (servizio) => servizio.selected
-      );
-      const serviceIcons = selectedServices.map(
-        (servizio) => `'fas '  ${servizio.icon}`
-      );
-      this.selectedServiceIcon = serviceIcons;
-      console.log(this.selectedServiceIcon);
-      // Costruisci l'oggetto dei parametri includendo tutti i filtri e la posizione
+
       const params = {
         letti: this.letti,
         stanze: this.stanze,
         servizi: selectedServiceIds,
-        lat: store.lat, // Latitudine
-        lon: store.lon, // Longitudine
-        raggio: store.radius, // Raggio
-        // Aggiungi qui eventuali altri filtri
+        lat: store.lat,
+        lon: store.lon,
+        raggio: store.radius,
       };
 
-      // Effettua la chiamata API includendo tutti i filtri
       axios
         .get("http://127.0.0.1:8000/api/apartmentApi/filter", {
           params: params,
         })
         .then((res) => {
-          // Calcola la distanza per ciascun appartamento nella risposta
-          // res.data.forEach((apartment) => {
-          //   const distance = this.calculateDistance(
-          //     apartment.latitude,
-          //     apartment.longitude,
-          //     store.lat,
-          //     store.lon
-          //   );
-          //   apartment.distance = distance;
-          // });
-
           store.filteredApartments = res.data;
-          // Gestisci la risposta qui
           console.log("filtrati", res.data);
         })
         .catch((error) => {
@@ -280,12 +228,10 @@ export default {
       store.findApartment = "";
       this.showAutoComplete = true;
 
-      // Calcola il numero di filtri attivi
       this.activeFiltersCount = store.services.filter(
         (servizio) => servizio.selected
       ).length;
 
-      // Aggiungi il conteggio dei filtri per stanze e letti
       if (this.letti) {
         this.activeFiltersCount++;
       }
@@ -294,7 +240,7 @@ export default {
       }
     },
     calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371; // Radius of the earth in km
+      const R = 6371;
 
       const dLat = this.deg2rad(lat2 - lat1);
       const dLon = this.deg2rad(lon2 - lon1);
@@ -314,9 +260,12 @@ export default {
 
       return distance;
     },
+    // Metodo per mostrare/nascondere i servizi
+    showServices() {
+      this.showServicesContent = !this.showServicesContent;
+    }
   },
   mounted() {
-    // Chiamiamo la funzione filtering() per applicare i filtri quando il componente viene montato
     this.filtering();
 
     axios
@@ -343,12 +292,13 @@ export default {
 
 .apartments-in-evidence {
   width: 90%;
-  margin: 0 auto; /* Imposta i margini automatici per centrare il div */
+  margin: 0 auto; 
 }
 
 li {
   list-style: none;
 }
+
 #AutoComplete {
   width: 50%;
   z-index: 999;
@@ -358,9 +308,11 @@ li {
   background-color: rgba(0, 0, 255, 0.1);
   border: 1px solid darkgrey;
 }
+
 .raggio {
   width: 30%;
 }
+
 .filtri {
   width: 20%;
   margin-right: 20px;
@@ -377,9 +329,11 @@ li {
   border-radius: 10px;
   color: white;
 }
+
 .my_btn a {
   color: white;
 }
+
 .my_btn a:hover {
   color: white;
 }
